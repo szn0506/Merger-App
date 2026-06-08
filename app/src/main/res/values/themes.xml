@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">>
+
+    <style name="AppTheme"
+        parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/md_theme_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_onPrimaryContainer</item>
+
+        <item name="colorSecondary">@color/md_theme_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_onSecondaryContainer</item>
+
+        <item name="colorTertiary">@color/md_theme_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_onTertiaryContainer</item>
+
+        <item name="colorError">@color/md_theme_error</item>
+        <item name="colorOnError">@color/md_theme_onError</item>
+        <item name="colorErrorContainer">@color/md_theme_errorContainer</item>
+        <item name="colorOnErrorContainer">@color/md_theme_onErrorContainer</item>
+
+            <item name="android:colorBackground">@color/md_theme_background</item>
+        <item name="colorOnBackground">@color/md_theme_onBackground</item>
+
+        <item name="colorSurface">@color/md_theme_surface</item>
+        <item name="colorOnSurface">@color/md_theme_onSurface</item>
+
+        <item name="colorSurfaceVariant">@color/md_theme_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_onSurfaceVariant</item>
+
+        <item name="colorOutline">@color/md_theme_outline</item>
+        <item name="colorOutlineVariant">@color/md_theme_outlineVariant</item>
+
+        <item name="colorSurfaceInverse">@color/md_theme_inverseSurface</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_inverseOnSurface</item>
+
+        <item name="colorPrimaryInverse">@color/md_theme_inversePrimary</item>
+
+        <item name="android:statusBarColor">@color/md_theme_background</item>
+
+    </style>
+
+    <style name="AppTheme.Dynamic"
+        parent="Theme.Material3.DynamicColors.DayNight.NoActionBar" />
+
+    <style name="CustomExpandedTitle"
+        parent="TextAppearance.Material3.TitleLarge">
+
+        <item name="android:textSize">34sp</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="CustomCollapsedTitle"
+        parent="TextAppearance.Material3.TitleMedium">
+
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+
+    </style>
+    <style name="MyPopupMenu"
+        parent="Widget.Material3.PopupMenu">
+
+        <item name="android:popupBackground">@drawable/bg_popup</item>
+
+    </style>
+    <style name="Shape.RoundedTop" parent="">
+        <item name="cornerSizeTopLeft">20dp</item>
+        <item name="cornerSizeTopRight">20dp</item>
+        <item name="cornerSizeBottomLeft">4dp</item>
+        <item name="cornerSizeBottomRight">4dp</item>
+    </style>
+
+    <style name="Shape.RoundedBottom" parent="">
+        <item name="cornerSizeTopLeft">4dp</item>
+        <item name="cornerSizeTopRight">4dp</item>
+        <item name="cornerSizeBottomLeft">20dp</item>
+        <item name="cornerSizeBottomRight">20dp</item>
+    </style>
+
+    <style name="Widget.Card.RoundedTop" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/Shape.RoundedTop</item>
+        <item name="cardBackgroundColor">?attr/colorSurfaceVariant</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="Widget.Card.FlatMiddle" parent="Widget.MaterialComponents.CardView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="cardCornerRadius">4dp</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="cardBackgroundColor">?attr/colorSurfaceVariant</item>
+    </style>
+    <style name="Widget.Card.RoundedMiddle" parent="Widget.MaterialComponents.CardView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="cardCornerRadius">20dp</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="cardBackgroundColor">?attr/colorSurfaceVariant</item>
+    </style>
+    <style name="Widget.Card.RoundedBottom" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/Shape.RoundedBottom</item>
+        <item name="cardBackgroundColor">?attr/colorSurfaceVariant</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="contentPaddingTop">-4dp</item>
+        <item name="contentPaddingBottom">-8dp</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="AppTheme.Dynamic.PureBlack" parent="AppTheme.Dynamic">
+        <item name="android:colorBackground">#000000</item>
+        <item name="android:windowBackground">#000000</item>
+        <item name="android:statusBarColor">#000000</item>
+    </style>
+    <style name="AppTheme.PureBlack" parent="AppTheme">
+        <item name="android:colorBackground">#000000</item>
+        <item name="android:windowBackground">#000000</item>
+    </style>
+</resources>

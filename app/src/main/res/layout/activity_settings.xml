@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillViewport="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/android:colorBackground">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="?attr/android:colorBackground"
+        app:elevation="0dp"
+        style="@style/Widget.Material3.AppBarLayout">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:title="@string/setting_header"
+            app:expandedTitleMarginStart="24dp"
+            app:expandedTitleMarginBottom="40dp"
+            app:collapsedTitleGravity="center"
+            app:expandedTitleGravity="bottom|start"
+            app:titleCollapseMode="scale"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:expandedTitleTextAppearance="@style/CustomExpandedTitle"
+            app:collapsedTitleTextAppearance="@style/CustomCollapsedTitle"
+            app:expandedTitleTextColor="?attr/colorOnSurface"
+            app:collapsedTitleTextColor="?attr/colorOnSurface"
+            app:contentScrim="?attr/android:colorBackground"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:backgroundTint="@android:color/transparent"
+                app:layout_collapseMode="pin"
+                app:contentInsetStart="0dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStartWithNavigation="0dp"/>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="35dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="General"
+                android:padding="14dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorSecondary" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layout_language"
+                android:clickable="true"
+                android:visibility="gone"
+                android:focusable="true"
+                android:layout_marginBottom="3dp"
+                style="@style/Widget.Card.RoundedTop">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_settings"
+                        app:tint="?attr/colorOnSurface" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Language"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:textColor="?attr/colorOnSurface"/>
+
+                        <TextView
+                            android:id="@+id/text_current_language"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="English"
+                            android:textSize="14sp"
+                            android:textColor="?attr/colorOnSurfaceVariant"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_theme"
+                style="@style/Widget.Card.RoundedTop"
+                android:clickable="true"
+                android:layout_marginBottom="3dp"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_theme"
+                        app:tint="?attr/colorOnSurface" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/theme_mode"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:textColor="?attr/colorOnSurface"/>
+
+                        <TextView
+                            android:id="@+id/text_current_theme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/theme_system"
+                            android:textSize="14sp"
+                            android:textColor="?attr/colorOnSurfaceVariant"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Material You Menu -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Card.FlatMiddle">
+                <com.szn.merger.CustomSwitchItem
+                    android:id="@+id/MaterialYou"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:itemTitle="@string/material_you_switch"
+                    app:itemIcon="@drawable/ic_material_you" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Pure Black Menu -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Card.RoundedBottom">
+                <com.szn.merger.CustomSwitchItem
+                    android:id="@+id/PureBlack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:itemTitle="@string/pure_black_switch"
+                    app:itemIcon="@drawable/ic_pure_black" />
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/automation_subheader"
+                android:padding="16dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorSecondary" />
+
+            <!-- Merge Engine: Auto Detect -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Card.RoundedTop"
+                android:layout_marginBottom="3dp">
+                <com.szn.merger.CustomSwitchItem
+                    android:id="@+id/AutoDetect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:itemIcon="@drawable/ic_auto_detect"
+                    app:itemTitle="@string/auto_detect_switch" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Auto Installation Menu -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Card.RoundedBottom">
+                <com.szn.merger.CustomSwitchItem
+                    android:id="@+id/AutoInstallation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:itemTitle="@string/auto_install_switch"
+                    app:itemIcon="@drawable/ic_install"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Logging Style Menu -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layout_logging"
+                android:clickable="true"
+                android:visibility="gone"
+                android:focusable="true"
+                style="@style/Widget.Card.RoundedBottom">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@android:drawable/ic_menu_manage"
+                        app:tint="?attr/colorOnSurface" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Logging Style"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:textColor="?attr/colorOnSurface"/>
+
+                        <TextView
+                            android:id="@+id/text_current_logging"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Simple"
+                            android:textSize="14sp"
+                            android:textColor="?attr/colorOnSurfaceVariant"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/signing_subheader"
+                android:padding="14dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorSecondary" />
+
+            <!-- Sign After Merge Menu -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Card.RoundedMiddle">
+                <com.szn.merger.CustomSwitchItem
+                    android:id="@+id/sign_after_merge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:itemTitle="@string/signing_switch"
+                    app:itemIcon="@drawable/ic_sign"/>
+            </com.google.android.material.card.MaterialCardView>
+            <!-- Generate Keystore -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/generate_keystore"
+                android:clickable="true"
+                android:visibility="gone"
+                android:focusable="true"
+                style="@style/Widget.Card.RoundedBottom">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@android:drawable/ic_menu_manage"
+                        app:tint="?attr/colorOnSurface" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Generate Keystore"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:textColor="?attr/colorOnSurface"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/built_by"
+                android:gravity="center"
+                android:textSize="13sp"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:alpha="0.6"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

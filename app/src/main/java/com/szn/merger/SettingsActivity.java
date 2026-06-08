@@ -1,0 +1,121 @@
+package com.szn.merger;
+
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.card.MaterialCardView;
+import com.szn.merger.Helper.AutoDevice;
+import com.szn.merger.Helper.AutoInstalation;
+import com.szn.merger.Helper.Signing;
+
+public class SettingsActivity extends AppCompatActivity {
+
+    private MaterialCardView languageButton;
+    private MaterialCardView themeCard;
+
+    private TextView currentTheme;
+    private TextView currentLang;
+    private CustomSwitchItem autoDetect;
+
+    private CustomSwitchItem autoInstall;
+    private CustomSwitchItem autoSign;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.register(this);
+        ThemeManager.applyTheme(this);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings);
+
+        initViews();
+        setupListeners();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AutoInstalation.onResume(this, autoInstall);
+    }
+
+    private void initViews() {
+        languageButton = findViewById(R.id.layout_language);
+        themeCard = findViewById(R.id.card_theme);
+        currentLang = findViewById(R.id.text_current_language);
+        currentTheme = findViewById(R.id.text_current_theme);
+        autoDetect = findViewById(R.id.AutoDetect);
+        autoInstall = findViewById(R.id.AutoInstallation);
+        autoSign = findViewById(R.id.sign_after_merge);
+
+        // 1. Inflate both Switch components from XML
+        CustomSwitchItem materialYou = findViewById(R.id.MaterialYou);
+        CustomSwitchItem pureBlack = findViewById(R.id.PureBlack);
+
+        // 2. Connect both switches to their manager to keep them synchronized and prevent conflicts
+        ThemeManager.setupMaterialYouSwitch(this, materialYou);
+        ThemeManager.setupPureBlackSwitch(this, pureBlack);
+
+        // THE KEY POINT HERE: All popup logic bound to the card is handled inside this single line
+        ThemeManager.setupThemePopup(this, themeCard, currentTheme);
+    }
+
+    private void setupListeners() {
+        languageButton.setOnClickListener(v -> showLanguageSheet());
+        AutoDevice.setupAutoDetectSwitch(this, autoDetect);
+        AutoInstalation.setupAutoDetectSwitch(this, autoInstall);
+        Signing.setupAutoSign(this, PrefsManager.getInstance(this), autoSign);
+
+        // The click logic for themeCard is automatically handled inside ThemeManager.setupThemePopup()
+        // Therefore, there is no need to bind or declare it here again.
+    }
+
+
+    // PLACEHOLDER FOR LANGUAGE FEATURE
+    private void showLanguageSheet() {
+        View view = getLayoutInflater().inflate(R.layout.lang_sheet, null);
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+
+        EditText searchLang = view.findViewById(R.id.search_lang);
+        RadioGroup radioGroup = view.findViewById(R.id.radioGroupLang);
+
+        searchLang.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                filterLanguages(radioGroup, s.toString());
+            }
+        });
+
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton selected = view.findViewById(checkedId);
+            if (selected != null) {
+                currentLang.setText(selected.getText());
+                dialog.dismiss();
+            }
+        });
+
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    private void filterLanguages(RadioGroup group, String query) {
+        String lowerQuery = query.toLowerCase().trim();
+        for (int i = 0; i < group.getChildCount(); i++) {
+            View child = group.getChildAt(i);
+            if (child instanceof RadioButton) {
+                RadioButton rb = (RadioButton) child;
+                boolean isMatch = rb.getText().toString().toLowerCase().contains(lowerQuery);
+                rb.setVisibility(isMatch ? View.VISIBLE : View.GONE);
+            }
+        }
+    }
+}

@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Merger</string>
+    <string name="theme_system">System (Default)</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+
+    <string name="app_header">Merge App</string>
+    <string name="paste_path">Paste the path here</string>
+    <string name="merge_button">Merge</string>
+    <string name="extract_from_apps_installed">Extract from Apps</string>
+    <string name="logs_hint">Logs will appears here...</string>
+    <string name="select_app">Select App</string>
+    <string name="search_app">Search App...</string>
+    <string name="confirm_app">Confirm</string>
+    <string name="cancel_app">Cancel</string>
+    <string name="setting_header">Settings</string>
+    <string name="general_subheader">General</string>
+    <string name="automation_subheader">Automation</string>
+    <string name="signing_subheader">Signing</string>
+    <string name="theme_mode">Theme Mode</string>
+    <string name="material_you_switch">Material You</string>
+    <string name="pure_black_switch">Pure Black</string>
+    <string name="auto_detect_switch">Auto Detect</string>
+    <string name="auto_install_switch">Auto Install</string>
+    <string name="signing_switch">Sign After Merge</string>
+    <string name="built_by">Built with 🤍 by szn</string>
+</resources>

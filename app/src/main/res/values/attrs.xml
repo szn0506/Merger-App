@@ -1,0 +1,24 @@
+<resources>
+
+    <!-- define ONCE -->
+    <attr name="itemTitle" format="string"/>
+    <attr name="itemDesc" format="string"/>
+    <attr name="itemIcon" format="reference"/>
+
+    <declare-styleable name="CustomSwitchItem">
+        <attr name="itemTitle"/>
+        <attr name="itemDesc"/>
+        <attr name="itemIcon"/>
+    </declare-styleable>
+
+    <declare-styleable name="CustomDropdownItem">
+        <attr name="list" format="string"/>
+        <attr name="prefKey" format="string"/>
+        <attr name="itemDefaultText" format="string"/>
+        <!-- reuse, bukan define ulang -->
+        <attr name="itemTitle"/>
+        <attr name="itemDesc"/>
+        <attr name="itemIcon"/>
+    </declare-styleable>
+
+</resources>

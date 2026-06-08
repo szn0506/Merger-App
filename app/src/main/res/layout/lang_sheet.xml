@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="0dp"> <!-- Set to 0dp; handle has its own padding -->
+
+    <!-- THE OFFICIAL ROUNDED HANDLE COMPONENT -->
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:id="@+id/drag_handle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Language"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnSurface"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:cardBackgroundColor="?attr/colorSurfaceVariant">
+
+        <EditText
+            android:id="@+id/search_lang"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="Search Language..."
+            android:paddingHorizontal="16dp"
+            android:textSize="14dp"
+            android:maxLines="1"
+            android:inputType="text"
+            android:textColorHint="?attr/colorOnSurfaceVariant"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <RadioGroup
+        android:id="@+id/radioGroupLang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <RadioButton
+            android:text="System"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:text="Indonesia"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:text="English"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RadioGroup>
+</LinearLayout>
