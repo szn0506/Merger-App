@@ -1,4 +1,4 @@
-package com.szn.merger;
+package com.szn.merger.Utils.AutoDevice;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
