@@ -1,5 +1,6 @@
 package com.szn.merger;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,9 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
-import com.szn.merger.Helper.AutoDevice;
 import com.szn.merger.Helper.AutoInstalation;
 import com.szn.merger.Helper.Signing;
+import com.szn.merger.Utils.AutoDevice.AutoDeviceActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -24,7 +25,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private TextView currentTheme;
     private TextView currentLang;
-    private CustomSwitchItem autoDetect;
+    private MaterialCardView autoDetect;
 
     private CustomSwitchItem autoInstall;
     private CustomSwitchItem autoSign;
@@ -51,7 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
         themeCard = findViewById(R.id.card_theme);
         currentLang = findViewById(R.id.text_current_language);
         currentTheme = findViewById(R.id.text_current_theme);
-        autoDetect = findViewById(R.id.AutoDetect);
+        autoDetect = findViewById(R.id.AutoDevice);
         autoInstall = findViewById(R.id.AutoInstallation);
         autoSign = findViewById(R.id.sign_after_merge);
 
@@ -69,7 +70,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setupListeners() {
         languageButton.setOnClickListener(v -> showLanguageSheet());
-        AutoDevice.setupAutoDetectSwitch(this, autoDetect);
+        autoDetect.setOnClickListener(v -> startActivity(new Intent(this, AutoDeviceActivity.class)));
+        //AutoDevice.setupAutoDetectSwitch(this, autoDetect);
         AutoInstalation.setupAutoDetectSwitch(this, autoInstall);
         Signing.setupAutoSign(this, PrefsManager.getInstance(this), autoSign);
 

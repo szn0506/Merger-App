@@ -11,7 +11,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/transparent"
         app:navigationIcon="@drawable/ic_back"
-        app:title="Auto Detect"
+        app:title="@string/title_auto_detect"
         app:titleCentered="true"
         app:titleTextAppearance="@style/CustomCollapsedTitle"
         app:layout_constraintTop_toTopOf="parent"
@@ -37,55 +37,57 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Automatically adjust the app based on your device settings."
+                android:text="@string/desc_auto_detect"
                 android:textSize="15sp"
                 android:paddingStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="20dp"/>
+
             <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.Card.RoundedMiddle">
                 <com.szn.merger.CustomSwitchItem
                     android:id="@+id/AutoDetect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:itemTitle="Auto Detect"
+                    app:itemTitle="@string/title_auto_detect"
                     app:itemIcon="@drawable/ic_auto_detect" />
             </com.google.android.material.card.MaterialCardView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="Detection Rules"
+                android:text="@string/header_detection_rules"
                 android:textStyle="bold"
                 android:textSize="22sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Choose what to detect and how each setting should be applied."
+                android:text="@string/desc_detection_rules"
                 android:textSize="14sp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"/>
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 style="@style/Widget.Card.RoundedMiddle">
                 <com.szn.merger.CustomSwitchItem
                     android:id="@+id/AutoConfig"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:itemTitle="Auto Configuration"
+                    app:itemTitle="@string/title_auto_config"
                     app:itemIcon="@drawable/ic_auto_detect" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/ABI"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_marginTop="6dp"
                 style="@style/Widget.Card.RoundedMiddle">
 
                 <LinearLayout
+                    android:id="@+id/ABI"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
@@ -108,13 +110,13 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ABI"
+                            android:text="@string/label_abi"
                             android:textStyle="bold"
                             android:textSize="17sp"/>
-
                     </LinearLayout>
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/gotoABI"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         style="@style/Widget.Material3.CardView.Outlined">
@@ -128,9 +130,11 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/ABImode_placeholder"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="From device"/>
+                                android:text="@string/mode_from_device"
+                                android:textSize="14sp"/>
 
                             <ImageView
                                 android:layout_width="20dp"
@@ -140,21 +144,18 @@
                                 app:tint="?attr/colorOnSurface"
                                 android:scaleX="-1"/>
                         </LinearLayout>
-
                     </com.google.android.material.card.MaterialCardView>
-
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/DPI"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_marginTop="6dp"
                 style="@style/Widget.Card.RoundedMiddle">
 
                 <LinearLayout
+                    android:id="@+id/DPI"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
@@ -177,12 +178,13 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="DPI"
+                            android:text="@string/label_dpi"
                             android:textStyle="bold"
                             android:textSize="17sp"/>
                     </LinearLayout>
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/gotoDPI"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         style="@style/Widget.Material3.CardView.Outlined">
@@ -196,9 +198,11 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/DPImode_placeholder"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="From device"/>
+                                android:textSize="14sp"
+                                android:text="@string/mode_from_device"/>
 
                             <ImageView
                                 android:layout_width="20dp"
@@ -208,21 +212,18 @@
                                 app:tint="?attr/colorOnSurface"
                                 android:scaleX="-1"/>
                         </LinearLayout>
-
                     </com.google.android.material.card.MaterialCardView>
-
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/LANGUAGE"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_marginTop="6dp"
                 style="@style/Widget.Card.RoundedMiddle">
 
                 <LinearLayout
+                    android:id="@+id/LANGUAGE"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
@@ -245,13 +246,13 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Language"
+                            android:text="@string/label_language"
                             android:textStyle="bold"
                             android:textSize="17sp"/>
-
                     </LinearLayout>
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/gotoLANGUAGE"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         style="@style/Widget.Material3.CardView.Outlined">
@@ -263,10 +264,13 @@
                             android:paddingStart="16dp"
                             android:paddingEnd="12dp"
                             android:orientation="horizontal">
+
                             <TextView
+                                android:id="@+id/LANGUAGEmode_placeholder"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="From device"/>
+                                android:text="@string/mode_from_device"
+                                android:textSize="14sp"/>
 
                             <ImageView
                                 android:layout_width="20dp"
@@ -305,11 +309,9 @@
                         android:layout_weight="1"
                         android:layout_marginStart="12dp"
                         android:justificationMode="inter_word"
-                        android:text="Auto Configuration uses the rules above to automatically select APK splits. Disable it to choose APK splits manually during merging. Only rules set to From device or Custom will be applied."
+                        android:text="@string/info_auto_config"
                         android:textSize="13sp"/>
-
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -318,8 +320,13 @@
         android:id="@+id/btnSave"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:layout_margin="20dp"
-        android:text="Save Changes"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="4dp"
+
+        android:text="@string/btn_save_changes"
         app:cornerRadius="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

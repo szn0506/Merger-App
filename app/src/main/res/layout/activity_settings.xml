@@ -198,14 +198,39 @@
 
             <!-- Merge Engine: Auto Detect -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/AutoDevice"
                 style="@style/Widget.Card.RoundedTop"
                 android:layout_marginBottom="3dp">
-                <com.szn.merger.CustomSwitchItem
-                    android:id="@+id/AutoDetect"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:itemIcon="@drawable/ic_auto_detect"
-                    app:itemTitle="@string/auto_detect_switch" />
+                    android:padding="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_auto_detect"
+                        app:tint="?attr/colorOnSurface" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/auto_detect_switch"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:textColor="?attr/colorOnSurface"/>
+                    </LinearLayout>
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Auto Installation Menu -->
