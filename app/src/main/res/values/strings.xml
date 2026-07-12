@@ -24,4 +24,122 @@
     <string name="auto_install_switch">Auto Install</string>
     <string name="signing_switch">Sign After Merge</string>
     <string name="built_by">Built with 🤍 by szn</string>
+    <string name="select_mode">Select Mode</string>
+    <string name="mode_disabled">Disabled</string>
+    <string name="mode_from_device">From Device</string>
+    <string name="mode_custom">Custom</string>
+    <string name="search_language_hint">Search Language…</string>
+    <string name="title_auto_detect">Auto Detect</string>
+    <string name="desc_auto_detect">Automatically adjust the app based on your device settings.</string>
+    <string name="header_detection_rules">Detection Rules</string>
+    <string name="desc_detection_rules">Choose what to detect and how each setting should be applied.</string>
+    <string name="title_auto_config">Auto Configuration</string>
+    <string name="label_abi">ABI</string>
+    <string name="label_dpi">DPI</string>
+    <string name="label_language">Language</string>
+    <string name="info_auto_config">Auto Configuration uses the rules above to automatically select APK splits. Disable it to choose APK splits manually during merging. Only rules set to From device or Custom will be applied.</string>
+    <string name="btn_save_changes">Save Changes</string>
+
+    <string name="select_picker">Select %1$s</string>
+    <string name="search_picker">Search %1$s</string>
+    <string name="custom_mode">Custom : %1$s</string>
+
+    <!-- ABI -->
+    <string-array name="abi_list">
+        <item>armeabi-v7a</item>
+        <item>arm64-v8a</item>
+        <item>x86</item>
+        <item>x86_64</item>
+    </string-array>
+
+    <!-- DPI -->
+    <string-array name="dpi_list">
+        <item>ldpi</item>
+        <item>mdpi</item>
+        <item>tvdpi</item>
+        <item>hdpi</item>
+        <item>xhdpi</item>
+        <item>xxhdpi</item>
+        <item>xxxhdpi</item>
+        <item>nodpi</item>
+        <item>anydpi</item>
+    </string-array>
+
+    <!-- Language -->
+    <string-array name="language_list">
+        <item>af</item>
+        <item>am</item>
+        <item>ar</item>
+        <item>as</item>
+        <item>az</item>
+        <item>be</item>
+        <item>bg</item>
+        <item>bn</item>
+        <item>bs</item>
+        <item>ca</item>
+        <item>cs</item>
+        <item>da</item>
+        <item>de</item>
+        <item>el</item>
+        <item>en</item>
+        <item>es</item>
+        <item>et</item>
+        <item>eu</item>
+        <item>fa</item>
+        <item>fi</item>
+        <item>fr</item>
+        <item>gl</item>
+        <item>gu</item>
+        <item>he</item>
+        <item>hi</item>
+        <item>hr</item>
+        <item>hu</item>
+        <item>hy</item>
+        <item>id</item>
+        <item>is</item>
+        <item>it</item>
+        <item>ja</item>
+        <item>ka</item>
+        <item>kk</item>
+        <item>km</item>
+        <item>kn</item>
+        <item>ko</item>
+        <item>ky</item>
+        <item>lo</item>
+        <item>lt</item>
+        <item>lv</item>
+        <item>mk</item>
+        <item>ml</item>
+        <item>mn</item>
+        <item>mr</item>
+        <item>ms</item>
+        <item>my</item>
+        <item>nb</item>
+        <item>ne</item>
+        <item>nl</item>
+        <item>or</item>
+        <item>pa</item>
+        <item>pl</item>
+        <item>pt</item>
+        <item>ro</item>
+        <item>ru</item>
+        <item>si</item>
+        <item>sk</item>
+        <item>sl</item>
+        <item>sq</item>
+        <item>sr</item>
+        <item>sv</item>
+        <item>sw</item>
+        <item>ta</item>
+        <item>te</item>
+        <item>th</item>
+        <item>tl</item>
+        <item>tr</item>
+        <item>uk</item>
+        <item>ur</item>
+        <item>uz</item>
+        <item>vi</item>
+        <item>zh</item>
+        <item>zu</item>
+    </string-array>
 </resources>
