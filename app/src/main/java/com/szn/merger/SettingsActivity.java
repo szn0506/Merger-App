@@ -14,9 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
-import com.szn.merger.Helper.AutoInstalation;
 import com.szn.merger.Helper.Signing;
 import com.szn.merger.Utils.AutoDevice.AutoDeviceActivity;
+import com.szn.merger.Utils.AutoInstall.AutoInstallActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -26,8 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView currentTheme;
     private TextView currentLang;
     private MaterialCardView autoDetect;
-
-    private CustomSwitchItem autoInstall;
+    private MaterialCardView autoInstall;
     private CustomSwitchItem autoSign;
 
     @Override
@@ -41,19 +40,13 @@ public class SettingsActivity extends AppCompatActivity {
         setupListeners();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        AutoInstalation.onResume(this, autoInstall);
-    }
-
     private void initViews() {
         languageButton = findViewById(R.id.layout_language);
         themeCard = findViewById(R.id.card_theme);
         currentLang = findViewById(R.id.text_current_language);
         currentTheme = findViewById(R.id.text_current_theme);
         autoDetect = findViewById(R.id.AutoDevice);
-        autoInstall = findViewById(R.id.AutoInstallation);
+        autoInstall = findViewById(R.id.AutoInstall);
         autoSign = findViewById(R.id.sign_after_merge);
 
         // 1. Inflate both Switch components from XML
@@ -72,7 +65,7 @@ public class SettingsActivity extends AppCompatActivity {
         languageButton.setOnClickListener(v -> showLanguageSheet());
         autoDetect.setOnClickListener(v -> startActivity(new Intent(this, AutoDeviceActivity.class)));
         //AutoDevice.setupAutoDetectSwitch(this, autoDetect);
-        AutoInstalation.setupAutoDetectSwitch(this, autoInstall);
+        autoInstall.setOnClickListener(view -> startActivity(new Intent(this, AutoInstallActivity.class)));
         Signing.setupAutoSign(this, PrefsManager.getInstance(this), autoSign);
 
         // The click logic for themeCard is automatically handled inside ThemeManager.setupThemePopup()

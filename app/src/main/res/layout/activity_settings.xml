@@ -233,15 +233,40 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Auto Installation Menu -->
             <com.google.android.material.card.MaterialCardView
-                style="@style/Widget.Card.RoundedBottom">
-                <com.szn.merger.CustomSwitchItem
-                    android:id="@+id/AutoInstallation"
+                android:id="@+id/AutoInstall"
+                style="@style/Widget.Card.RoundedBottom"
+                android:layout_marginBottom="3dp">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:itemTitle="@string/auto_install_switch"
-                    app:itemIcon="@drawable/ic_install"/>
+                    android:padding="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_install"
+                        app:tint="?attr/colorOnSurface" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/auto_install_switch"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:textColor="?attr/colorOnSurface"/>
+                    </LinearLayout>
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Logging Style Menu -->
