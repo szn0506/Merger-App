@@ -1,4 +1,4 @@
-package com.szn.merger.Adapter;
+package com.szn.merger.Utils;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
