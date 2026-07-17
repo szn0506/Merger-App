@@ -101,7 +101,7 @@
         <item name="strokeWidth">0dp</item>
         <item name="cardBackgroundColor">?attr/colorSurfaceVariant</item>
     </style>
-    <style name="Widget.Card.RoundedMiddle" parent="Widget.MaterialComponents.CardView">
+    <style name="Widget.Card.RoundedMiddle" parent="Widget.Material3.CardView.Filled">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">3dp</item>
@@ -109,7 +109,7 @@
         <item name="strokeWidth">0dp</item>
         <item name="cardBackgroundColor">?attr/colorSurfaceVariant</item>
     </style>
-    <style name="Widget.Card.RoundedBottom" parent="Widget.MaterialComponents.CardView">
+    <style name="Widget.Card.RoundedBottom" parent="Widget.Material3.CardView.Filled">
         <item name="shapeAppearanceOverlay">@style/Shape.RoundedBottom</item>
         <item name="cardBackgroundColor">?attr/colorSurfaceVariant</item>
         <item name="strokeWidth">0dp</item>

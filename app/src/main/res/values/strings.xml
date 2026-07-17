@@ -142,4 +142,18 @@
         <item>zh</item>
         <item>zu</item>
     </string-array>
+    <!-- Auto Install -->
+    <string name="title_auto_install">Auto Install</string>
+    <string name="desc_auto_install">Automatically install the merged APK after the merge process is completed.</string>
+
+    <string name="header_installation_options">Installation Options</string>
+    <string name="desc_installation_options">Choose what happens before and after installation.</string>
+
+    <string name="switch_enable_auto_install">Enable Auto Install</string>
+    <string name="switch_remove_existing_app">Remove Existing App</string>
+    <string name="switch_delete_output_apk">Delete Output APK</string>
+
+    <string name="info_auto_install">Auto Install requires permission to install applications from unknown sources. Remove Existing App will uninstall the current version before installation, while Delete Output APK removes the merged APK only after a successful installation.</string>
+    <string name="select_splits">Select Splits</string>
+    <string name="select_splits_subtitle">Choose which splits to merge</string>
 </resources>

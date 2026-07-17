@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 
+import com.szn.merger.Utils.Utils;
+
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements

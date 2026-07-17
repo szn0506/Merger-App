@@ -18,11 +18,11 @@ public class CustomSwitchItem extends LinearLayout {
     public CustomSwitchItem(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        LayoutInflater.from(context)
-                .inflate(R.layout.switch_item, this, true);
+        LayoutInflater.from(context).inflate(R.layout.switch_item, this, true);
 
         TextView titleView = findViewById(R.id.txt_title);
         ImageView iconView = findViewById(R.id.img_icon);
+
 
         switchButton = findViewById(R.id.switch_action);
 
@@ -56,6 +56,17 @@ public class CustomSwitchItem extends LinearLayout {
         });
     }
 
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+
+        switchButton.setEnabled(enabled);
+
+        setClickable(enabled);
+        setFocusable(enabled);
+
+        setAlpha(enabled ? 1f : 0.5f);
+    }
     public void setChecked(boolean checked) {
         switchButton.setChecked(checked);
     }

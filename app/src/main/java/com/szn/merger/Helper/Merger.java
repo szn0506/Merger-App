@@ -15,6 +15,7 @@
  */
 package com.szn.merger.Helper;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.reandroid.apk.ApkBundle;
@@ -37,6 +38,7 @@ import com.reandroid.arsc.value.Entry;
 import com.reandroid.arsc.value.ResValue;
 import com.reandroid.arsc.value.ValueType;
 import com.reandroid.utils.HexUtil;
+import com.szn.merger.Utils.AutoDevice.AutoDeviceManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +50,7 @@ import java.util.function.Predicate;
 
 
 public class Merger extends CommandExecutor<MergerOptions> {
+    public static String packageName;
 
     private final Context mContext; //  CONTEXT
     private List<String> allEntries = new ArrayList<>();
@@ -59,6 +62,7 @@ public class Merger extends CommandExecutor<MergerOptions> {
 
     @Override
     public void runCommand() throws IOException {
+
         MergerOptions options = getOptions();
         delete(options.outputFile);
         File dir = options.inputFile;
@@ -81,6 +85,7 @@ public class Merger extends CommandExecutor<MergerOptions> {
             }
         }
         ApkModule mergedModule = bundle.mergeModules(options.validateModules);
+        packageName = mergedModule.getAndroidManifest().getPackageName();
         if (options.resDirName != null) {
             logMessage("Renaming resources root dir: " + options.resDirName);
             mergedModule.setResourcesRootDir(options.resDirName);
@@ -123,9 +128,12 @@ public class Merger extends CommandExecutor<MergerOptions> {
         while (iterator.hasNext()) {
             allEntries.add(iterator.next().getName().toLowerCase());
         }
+
+        AutoDeviceManager.showSplitsPicker((Activity) mContext, allEntries);
+
         // replace the call to custom one
         Predicate<ArchiveEntry> filter =
-                entry -> AutoDevice.shouldExtract(
+                entry -> AutoDeviceManager.shouldExtract(
                         mContext,
                         entry.getName(),
                         allEntries

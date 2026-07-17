@@ -12,9 +12,10 @@ import android.widget.TextView;
 import androidx.core.widget.NestedScrollView;
 
 import com.reandroid.apkeditor.merge.MergerOptions;
-import com.szn.merger.Helper.AutoInstalation;
 import com.szn.merger.Helper.Merger;
 import com.szn.merger.Helper.Signing;
+import com.szn.merger.Utils.AutoInstall.AutoInstallManager;
+import com.szn.merger.Utils.Utils;
 
 import java.io.File;
 
@@ -99,7 +100,7 @@ public class MergeTaskManager {
                 StringBuilder logBuffer = new StringBuilder();
                 activity.runOnUiThread(() -> logText.setText(""));
 
-                Merger merger = new Merger(activity.getApplicationContext(), options) {
+                Merger merger = new Merger(activity, options) {
                     @Override
                     public void logMessage(String msg) {
                         // FOR UI LOG UPDATE PURPOSES ONLY
@@ -139,12 +140,12 @@ public class MergeTaskManager {
                 // 3. Run the heavy signing process on this background thread
                 PrefsManager prefs = PrefsManager.getInstance(activity);
                 File finalOutput = Signing.checkAutoSign(activity, prefs, output);
-
+                String packageName = Merger.packageName;
                 // 4. Once signing is complete, trigger the installation on the UI Thread
                 activity.runOnUiThread(() -> {
                     scrollCard.postDelayed(() -> {
                         Utils.toast(activity, "Success: " + finalOutput.getName());
-                        AutoInstalation.installApkFile(activity, finalOutput);
+                        AutoInstallManager.setupCall(activity, finalOutput, packageName);
                     }, 300);
                 });
 

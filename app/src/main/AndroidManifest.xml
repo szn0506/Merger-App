@@ -36,6 +36,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity android:name=".Utils.AutoDevice.AutoDeviceActivity"/>
+        <activity android:name=".Utils.AutoInstall.AutoInstallActivity"/>
+
         <activity android:name=".SettingsActivity"/>
 
         <activity
