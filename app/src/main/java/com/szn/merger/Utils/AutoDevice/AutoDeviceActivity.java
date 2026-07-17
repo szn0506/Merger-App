@@ -15,10 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.radiobutton.MaterialRadioButton;
-import com.szn.merger.Adapter.RadioAdapter;
 import com.szn.merger.CustomSwitchItem;
 import com.szn.merger.R;
 import com.szn.merger.ThemeManager;
+import com.szn.merger.Utils.RadioAdapter;
+import com.szn.merger.Utils.Utils;
 
 import java.util.Arrays;
 

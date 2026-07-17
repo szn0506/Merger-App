@@ -1,16 +1,28 @@
 package com.szn.merger.Utils.AutoDevice;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.view.View;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
 import com.szn.merger.PrefsManager;
+import com.szn.merger.R;
+import com.szn.merger.Utils.CheckBoxAdapter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
 
 public class AutoDeviceManager {
+    private static final List<String> selectedSplits = new ArrayList<>();
     public static final int ABI = 0;
     public static final int DPI = 1;
     public static final int LANGUAGE = 2;
@@ -73,7 +85,67 @@ public class AutoDeviceManager {
         }
         return false;
     }
+    public static List<String> listSplits(List<String> allEntries) {
+        List<String> splits = new ArrayList<>();
+
+        for (String entry : allEntries) {
+            if (entry.toLowerCase(Locale.ROOT).endsWith(".apk")) {
+                splits.add(entry);
+            }
+        }
+
+        return splits;
+    }
+
+    public static void showSplitsPicker(Activity activity, List<String> allEntries) {
+        selectedSplits.clear();
+
+        if (isAutoConfigEnabled(activity)) {
+            return;
+        }
+        List<String> splits = listSplits(allEntries);
+        CountDownLatch latch = new CountDownLatch(1);
+
+        activity.runOnUiThread(() -> {
+
+            View view = activity.getLayoutInflater()
+                    .inflate(R.layout.dialog_select_split, null);
+
+            RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+            MaterialButton button = view.findViewById(R.id.btnOk);
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+
+            CheckBoxAdapter adapter = new CheckBoxAdapter(splits, null);
+            recyclerView.setAdapter(adapter);
+
+            AlertDialog dialog = new AlertDialog.Builder(activity)
+                    .setView(view)
+                    .setCancelable(false)
+                    .create();
+
+            button.setOnClickListener(v -> {
+                selectedSplits.clear();
+                selectedSplits.addAll(adapter.getCheckedItems());
+
+                dialog.dismiss();
+                latch.countDown();
+            });
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialog.show();
+        });
+
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
     public static boolean shouldExtract(Context context, String entryName, List<String> allEntries) {
+
+        if (!selectedSplits.isEmpty() && !selectedSplits.contains(entryName.toLowerCase(Locale.ROOT))) {
+            return false;
+        }
         List<String> ARCH_FILTERS = Arrays.asList("v7a", "v8a", "x86", "arm");
         List<String> DPI_FILTERS = Arrays.asList("ldpi", "mdpi", "tvdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi", "nodpi", "anydpi");
         List<String> BASE_FILTERS = Arrays.asList("base", "master", "com");
