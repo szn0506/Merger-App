@@ -14,6 +14,7 @@ import com.google.android.material.materialswitch.MaterialSwitch;
 public class CustomSwitchItem extends LinearLayout {
 
     private final MaterialSwitch switchButton;
+    private LinearLayout root;
 
     public CustomSwitchItem(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -25,7 +26,8 @@ public class CustomSwitchItem extends LinearLayout {
 
 
         switchButton = findViewById(R.id.switch_action);
-
+        root = findViewById(R.id.root);
+        root.setOnClickListener(v -> switchButton.performClick());
         TypedArray array = context.obtainStyledAttributes(
                 attrs,
                 R.styleable.CustomSwitchItem

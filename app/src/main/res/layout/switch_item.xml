@@ -6,14 +6,13 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="8dp"
         android:paddingHorizontal="16dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:clickable="true"
-        android:focusable="true"
         android:foreground="?attr/selectableItemBackground">
 
         <ImageView
