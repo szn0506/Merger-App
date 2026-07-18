@@ -13,8 +13,8 @@ import androidx.core.widget.NestedScrollView;
 
 import com.reandroid.apkeditor.merge.MergerOptions;
 import com.szn.merger.Helper.Merger;
-import com.szn.merger.Helper.Signing;
 import com.szn.merger.Utils.AutoInstall.AutoInstallManager;
+import com.szn.merger.Utils.Signing.SigningManager;
 import com.szn.merger.Utils.Utils;
 
 import java.io.File;
@@ -138,8 +138,7 @@ public class MergeTaskManager {
                 });
 
                 // 3. Run the heavy signing process on this background thread
-                PrefsManager prefs = PrefsManager.getInstance(activity);
-                File finalOutput = Signing.checkAutoSign(activity, prefs, output);
+                File finalOutput = SigningManager.signApk(activity, output);
                 String packageName = Merger.packageName;
                 // 4. Once signing is complete, trigger the installation on the UI Thread
                 activity.runOnUiThread(() -> {
