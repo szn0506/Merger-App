@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -20,6 +21,7 @@ public class SigningActivity extends AppCompatActivity {
     private MaterialCardView signSchemes;
     private static MaterialCheckBox V1, V2, V3, V4;
     private TextView currentSchemes;
+    private MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class SigningActivity extends AppCompatActivity {
         signSwitch = findViewById(R.id.SignSwitch);
         signSchemes = findViewById(R.id.signSchemes);
         currentSchemes = findViewById(R.id.currentSchemes);
+        toolbar = findViewById(R.id.toolbar);
     }
     private void setupListener() {
         signSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -45,7 +48,7 @@ public class SigningActivity extends AppCompatActivity {
         signSchemes.setOnClickListener(v -> {
             showBottomSheet();
         });
-
+        toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
     }
     private void showBottomSheet() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);

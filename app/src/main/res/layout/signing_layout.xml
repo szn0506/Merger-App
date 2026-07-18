@@ -11,6 +11,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/transparent"
         app:navigationIcon="@drawable/ic_back"
+        app:navigationIconTint="?attr/colorOnSurface"
         app:title="@string/title_signing"
         app:titleCentered="true"
         app:titleTextAppearance="@style/CustomCollapsedTitle"
