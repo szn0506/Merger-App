@@ -83,7 +83,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="18dp">
+                    android:padding="16dp">
 
                     <ImageView
                         android:layout_width="24dp"
@@ -103,13 +103,14 @@
                             android:layout_height="wrap_content"
                             android:text="@string/title_signing_schemes"
                             android:textStyle="bold"
-                            android:textSize="17sp"/>
+                            android:textSize="16sp"/>
 
                         <TextView
+                            android:id="@+id/currentSchemes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/desc_signing_schemes"
-                            android:textSize="13sp"/>
+                            android:textSize="12sp"/>
 
                     </LinearLayout>
 
