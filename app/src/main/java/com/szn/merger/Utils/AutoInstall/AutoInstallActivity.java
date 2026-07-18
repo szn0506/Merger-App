@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.szn.merger.CustomSwitchItem;
 import com.szn.merger.R;
 import com.szn.merger.ThemeManager;
@@ -11,6 +12,7 @@ import com.szn.merger.ThemeManager;
 public class AutoInstallActivity extends AppCompatActivity {
 
     CustomSwitchItem autoInstall, uninstallApp, deleteAfterInstall;
+    MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class AutoInstallActivity extends AppCompatActivity {
         autoInstall = findViewById(R.id.enableAutoInstall);
         uninstallApp = findViewById(R.id.uninstallApp);
         deleteAfterInstall = findViewById(R.id.deleteAfter);
+        toolbar = findViewById(R.id.toolbar);
     }
 
     private void setupListener() {
@@ -51,6 +54,9 @@ public class AutoInstallActivity extends AppCompatActivity {
         });
         deleteAfterInstall.setOnCheckedChangeListener((buttonView, isChecked) -> {
             AutoInstallManager.setDeleteAfterEnabled(this, isChecked);
+        });
+        toolbar.setNavigationOnClickListener(v -> {
+            getOnBackPressedDispatcher().onBackPressed();
         });
     }
 

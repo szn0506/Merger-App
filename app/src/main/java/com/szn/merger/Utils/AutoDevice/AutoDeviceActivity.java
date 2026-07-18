@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.radiobutton.MaterialRadioButton;
@@ -29,7 +30,7 @@ public class AutoDeviceActivity extends AppCompatActivity {
     TextView title, ABIMode, DPIMode, LANGUAGEMode;
     EditText textOnSearch;
     ImageButton backButton;
-
+    MaterialToolbar toolbar;
     View universalPage, customPage;
     public static int currentCaller;
     MaterialRadioButton disabledRadio, fromDeviceRadio, customRadio;
@@ -64,11 +65,14 @@ public class AutoDeviceActivity extends AppCompatActivity {
         ABIMode = findViewById(R.id.ABImode_placeholder);
         DPIMode = findViewById(R.id.DPImode_placeholder);
         LANGUAGEMode = findViewById(R.id.LANGUAGEmode_placeholder);
+        toolbar = findViewById(R.id.toolbar);
     }
     private void loadState() {
         autoDetect.setChecked(AutoDeviceManager.isAutoDetectEnabled(this));
         autoConfig.setChecked(AutoDeviceManager.isAutoConfigEnabled(this));
-
+        toolbar.setNavigationOnClickListener(v -> {
+            getOnBackPressedDispatcher().onBackPressed();
+        });
         restorePlaceholder(AutoDeviceManager.ABI, ABIMode);
         restorePlaceholder(AutoDeviceManager.DPI, DPIMode);
         restorePlaceholder(AutoDeviceManager.LANGUAGE, LANGUAGEMode);
