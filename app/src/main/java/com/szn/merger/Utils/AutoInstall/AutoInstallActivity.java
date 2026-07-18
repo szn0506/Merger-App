@@ -22,6 +22,7 @@ public class AutoInstallActivity extends AppCompatActivity {
         setContentView(R.layout.auto_install_layout);
         initView();
         setupListener();
+        loadState();
     }
     @Override
     protected void onResume() {
@@ -64,5 +65,10 @@ public class AutoInstallActivity extends AppCompatActivity {
         boolean isAutoInstall = AutoInstallManager.isAutoInstallEnabled(this);
         uninstallApp.setEnabled(isAutoInstall);
         deleteAfterInstall.setEnabled(isAutoInstall);
+    }
+    private void loadState() {
+        autoInstall.setChecked(AutoInstallManager.isAutoInstallEnabled(this));
+        uninstallApp.setChecked(AutoInstallManager.isUninstallApp(this));
+        deleteAfterInstall.setChecked(AutoInstallManager.isUninstallApp(this));
     }
 }
