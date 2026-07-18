@@ -38,7 +38,7 @@
 
         <activity android:name=".Utils.AutoDevice.AutoDeviceActivity"/>
         <activity android:name=".Utils.AutoInstall.AutoInstallActivity"/>
-
+        <activity android:name=".Utils.Signing.SigningActivity"/>
         <activity android:name=".SettingsActivity"/>
 
         <activity

@@ -14,9 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
-import com.szn.merger.Helper.Signing;
 import com.szn.merger.Utils.AutoDevice.AutoDeviceActivity;
 import com.szn.merger.Utils.AutoInstall.AutoInstallActivity;
+import com.szn.merger.Utils.Signing.SigningActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -27,7 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView currentLang;
     private MaterialCardView autoDetect;
     private MaterialCardView autoInstall;
-    private CustomSwitchItem autoSign;
+    private MaterialCardView sign;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class SettingsActivity extends AppCompatActivity {
         currentTheme = findViewById(R.id.text_current_theme);
         autoDetect = findViewById(R.id.AutoDevice);
         autoInstall = findViewById(R.id.AutoInstall);
-        autoSign = findViewById(R.id.sign_after_merge);
+        sign = findViewById(R.id.Signing);
 
         // 1. Inflate both Switch components from XML
         CustomSwitchItem materialYou = findViewById(R.id.MaterialYou);
@@ -66,10 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
         autoDetect.setOnClickListener(v -> startActivity(new Intent(this, AutoDeviceActivity.class)));
         //AutoDevice.setupAutoDetectSwitch(this, autoDetect);
         autoInstall.setOnClickListener(view -> startActivity(new Intent(this, AutoInstallActivity.class)));
-        Signing.setupAutoSign(this, PrefsManager.getInstance(this), autoSign);
-
-        // The click logic for themeCard is automatically handled inside ThemeManager.setupThemePopup()
-        // Therefore, there is no need to bind or declare it here again.
+        sign.setOnClickListener(view -> startActivity(new Intent(this, SigningActivity.class)));
     }
 
 
