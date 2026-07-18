@@ -355,7 +355,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/auto_detect_switch"
+                            android:text="@string/sign_switch"
                             android:textStyle="bold"
                             android:textSize="16sp"
                             android:textColor="?attr/colorOnSurface"/>
