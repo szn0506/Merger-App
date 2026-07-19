@@ -129,4 +129,10 @@
         <item name="android:colorBackground">#000000</item>
         <item name="android:windowBackground">#000000</item>
     </style>
+    <style name="Widget.Merger.TextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+    </style>
 </resources>

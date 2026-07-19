@@ -186,4 +186,30 @@
     <string name="scheme_v4_title">V4 (APK Signature Scheme v4)</string>
     <string name="scheme_v4_desc">Optimized for incremental installation.</string>
     <string name="done">Done</string>
+    <string name="title_generate_keystore">Generate Keystore</string>
+    <string name="desc_generate_keystore">Create a new keystore to sign merged APKs.</string>
+
+    <string name="keystore_name">Keystore Name</string>
+    <string name="hint_keystore_name">my-release</string>
+
+    <string name="alias">Alias</string>
+    <string name="hint_alias">release</string>
+
+    <string name="password">Password</string>
+    <string name="hint_password">Create a password</string>
+
+    <string name="confirm_password">Confirm Password</string>
+    <string name="hint_confirm_password">Repeat your password</string>
+
+    <string name="btn_generate">Generate</string>
+    <string name="title_import_keystore">Import Keystore</string>
+    <string name="desc_import_keystore">Select an existing keystore to sign merged APKs.</string>
+
+    <string name="select_keystore_file">Select Keystore File</string>
+    <string name="select_keystore_file_desc">Supports .jks and .keystore files</string>
+
+    <string name="keystore_password">Keystore Password</string>
+    <string name="hint_keystore_password">Enter your password</string>
+
+    <string name="btn_import">Import</string>
 </resources>
