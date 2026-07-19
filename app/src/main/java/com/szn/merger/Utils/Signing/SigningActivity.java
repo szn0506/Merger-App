@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -16,12 +18,17 @@ import com.szn.merger.CustomSwitchItem;
 import com.szn.merger.R;
 import com.szn.merger.ThemeManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SigningActivity extends AppCompatActivity {
     private CustomSwitchItem signSwitch;
     private MaterialCardView signSchemes;
     private static MaterialCheckBox V1, V2, V3, V4;
     private TextView currentSchemes;
     private MaterialToolbar toolbar;
+    private RecyclerView keystoreRecycler;
+    private KeystoreAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,7 @@ public class SigningActivity extends AppCompatActivity {
         setContentView(R.layout.signing_layout);
         initView();
         setupListener();
+        setupRecycler();
         loadState();
         updatePlaceholder();
     }
@@ -40,6 +48,7 @@ public class SigningActivity extends AppCompatActivity {
         signSchemes = findViewById(R.id.signSchemes);
         currentSchemes = findViewById(R.id.currentSchemes);
         toolbar = findViewById(R.id.toolbar);
+        keystoreRecycler = findViewById(R.id.keystoreRecycler);
     }
     private void setupListener() {
         signSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -49,6 +58,18 @@ public class SigningActivity extends AppCompatActivity {
             showBottomSheet();
         });
         toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+    }
+    private void setupRecycler() {
+        List<KeystoreAdapter.Item> items = new ArrayList<>();
+
+        items.add(new KeystoreAdapter.Item("Default Debug", "debug.keystore"));
+        items.add(new KeystoreAdapter.Item("Release", "release.jks"));
+        items.add(new KeystoreAdapter.Item("Play Store", "play.jks"));
+
+        adapter = new KeystoreAdapter(this, items);
+
+        keystoreRecycler.setLayoutManager(new LinearLayoutManager(this));
+        keystoreRecycler.setAdapter(adapter);
     }
     private void showBottomSheet() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
