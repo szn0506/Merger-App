@@ -69,6 +69,6 @@ public class AutoInstallActivity extends AppCompatActivity {
     private void loadState() {
         autoInstall.setChecked(AutoInstallManager.isAutoInstallEnabled(this));
         uninstallApp.setChecked(AutoInstallManager.isUninstallApp(this));
-        deleteAfterInstall.setChecked(AutoInstallManager.isUninstallApp(this));
+        deleteAfterInstall.setChecked(AutoInstallManager.isDeleteAfterEnabled(this));
     }
 }
