@@ -16,23 +16,13 @@ import java.util.List;
 
 public class KeystoreAdapter extends RecyclerView.Adapter<KeystoreAdapter.ViewHolder> {
 
-    public static class Item {
-
-        public final String title;
-        public final String fileName;
-
-        public Item(String title, String fileName) {
-            this.title = title;
-            this.fileName = fileName;
-        }
-    }
 
     private final Context context;
-    private final List<Item> items;
+    private List<KeystoreManager.Item> items;
 
     private int selectedPosition = 0;
 
-    public KeystoreAdapter(Context context, List<Item> items) {
+    public KeystoreAdapter(Context context, List<KeystoreManager.Item> items) {
         this.context = context;
         this.items = items;
     }
@@ -47,9 +37,9 @@ public class KeystoreAdapter extends RecyclerView.Adapter<KeystoreAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Item item = items.get(position);
+        KeystoreManager.Item item = items.get(position);
 
-        holder.title.setText(item.title);
+        holder.title.setText(item.name);
         holder.fileName.setText(item.fileName);
         holder.radio.setChecked(position == selectedPosition);
 
@@ -69,8 +59,16 @@ public class KeystoreAdapter extends RecyclerView.Adapter<KeystoreAdapter.ViewHo
     public int getItemCount() {
         return items.size();
     }
+    public void reload(
+            List<KeystoreManager.Item> items
+    ) {
 
-    public Item getSelectedItem() {
+        this.items.clear();
+        this.items.addAll(items);
+
+        notifyDataSetChanged();
+    }
+    public KeystoreManager.Item getSelectedItem() {
         return items.get(selectedPosition);
     }
 
