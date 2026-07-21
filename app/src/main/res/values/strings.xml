@@ -166,9 +166,6 @@
     <string name="title_keystore">Keystore</string>
     <string name="desc_keystore">Generate a new keystore or import an existing one.</string>
 
-    <string name="btn_generate">Generate</string>
-    <string name="btn_import">Import</string>
-
     <string name="info_keystore">The selected keystore will be used to sign merged APKs. APKs must be signed before installation unless you are using a rooted device with signature verification disabled.</string>
     <!-- Signing Schemes Bottom Sheet -->
     <string name="title_signing_schemes_dialog">Signing Schemes</string>
