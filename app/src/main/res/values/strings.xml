@@ -203,7 +203,7 @@
     <string name="desc_import_keystore">Select an existing keystore to sign merged APKs.</string>
 
     <string name="select_keystore_file">Select Keystore File</string>
-    <string name="select_keystore_file_desc">Supports .jks and .keystore files</string>
+    <string name="select_keystore_file_desc">Supports .pkcs files</string>
 
     <string name="keystore_password">Keystore Password</string>
     <string name="hint_keystore_password">Enter your password</string>
