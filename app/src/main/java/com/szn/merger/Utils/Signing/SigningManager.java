@@ -16,6 +16,7 @@ import java.util.Collections;
 
 public class SigningManager {
     private static File ksFile;
+
     private static String DEFAULT_ALIAS = "androiddebugkey";
     private static final String KEYSTORE_TYPE = "PKCS12";
     private static final char[] PASSWORD = "android".toCharArray();

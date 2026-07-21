@@ -143,6 +143,7 @@ public class MergeTaskManager {
                 // 4. Once signing is complete, trigger the installation on the UI Thread
                 activity.runOnUiThread(() -> {
                     scrollCard.postDelayed(() -> {
+
                         Utils.toast(activity, "Success: " + finalOutput.getName());
                         AutoInstallManager.setupCall(activity, finalOutput, packageName);
                     }, 300);
