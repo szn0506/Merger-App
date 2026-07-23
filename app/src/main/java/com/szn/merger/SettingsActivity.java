@@ -16,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
 import com.szn.merger.Utils.AutoDevice.AutoDeviceActivity;
 import com.szn.merger.Utils.AutoInstall.AutoInstallActivity;
+import com.szn.merger.Utils.Processing.ProcessingActivity;
 import com.szn.merger.Utils.Signing.SigningActivity;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -25,9 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private TextView currentTheme;
     private TextView currentLang;
-    private MaterialCardView autoDetect;
-    private MaterialCardView autoInstall;
-    private MaterialCardView sign;
+    private MaterialCardView autoDetect, autoInstall, sign, process;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +47,7 @@ public class SettingsActivity extends AppCompatActivity {
         autoDetect = findViewById(R.id.AutoDevice);
         autoInstall = findViewById(R.id.AutoInstall);
         sign = findViewById(R.id.Signing);
+        process = findViewById(R.id.Process);
 
         // 1. Inflate both Switch components from XML
         CustomSwitchItem materialYou = findViewById(R.id.MaterialYou);
@@ -64,9 +64,9 @@ public class SettingsActivity extends AppCompatActivity {
     private void setupListeners() {
         languageButton.setOnClickListener(v -> showLanguageSheet());
         autoDetect.setOnClickListener(v -> startActivity(new Intent(this, AutoDeviceActivity.class)));
-        //AutoDevice.setupAutoDetectSwitch(this, autoDetect);
         autoInstall.setOnClickListener(view -> startActivity(new Intent(this, AutoInstallActivity.class)));
         sign.setOnClickListener(view -> startActivity(new Intent(this, SigningActivity.class)));
+        process.setOnClickListener(view -> startActivity(new Intent(this, ProcessingActivity.class)));
     }
 
 

@@ -190,7 +190,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/automation_subheader"
+                android:text="Features"
                 android:padding="16dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -235,7 +235,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/AutoInstall"
-                style="@style/Widget.Card.RoundedBottom"
+                style="@style/Widget.Card.FlatMiddle"
                 android:layout_marginBottom="3dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -269,67 +269,9 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Logging Style Menu -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/layout_logging"
-                android:clickable="true"
-                android:visibility="gone"
-                android:focusable="true"
-                style="@style/Widget.Card.RoundedBottom">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@android:drawable/ic_menu_manage"
-                        app:tint="?attr/colorOnSurface" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Logging Style"
-                            android:textStyle="bold"
-                            android:textSize="18sp"
-                            android:textColor="?attr/colorOnSurface"/>
-
-                        <TextView
-                            android:id="@+id/text_current_logging"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="Simple"
-                            android:textSize="14sp"
-                            android:textColor="?attr/colorOnSurfaceVariant"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/signing_subheader"
-                android:padding="14dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="?attr/colorSecondary" />
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/Signing"
-                style="@style/Widget.Card.RoundedMiddle"
+                style="@style/Widget.Card.FlatMiddle"
                 android:layout_marginBottom="3dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -363,25 +305,22 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Generate Keystore -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/generate_keystore"
-                android:clickable="true"
-                android:visibility="gone"
-                android:focusable="true"
-                style="@style/Widget.Card.RoundedBottom">
+                android:id="@+id/Process"
+                style="@style/Widget.Card.RoundedBottom"
+                android:layout_marginBottom="3dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="16dp"
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@android:drawable/ic_menu_manage"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_setting"
                         app:tint="?attr/colorOnSurface" />
 
                     <LinearLayout
@@ -395,10 +334,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Generate Keystore"
+                            android:text="Process"
                             android:textStyle="bold"
-                            android:textSize="18sp"
-                            android:textColor="?attr/colorOnSurface"/>
+                            android:textSize="16sp"
+                            android:textColor="?attr/colorOnSurface" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
