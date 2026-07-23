@@ -209,4 +209,73 @@
     <string name="hint_keystore_password">Enter your password</string>
 
     <string name="btn_import">Import</string>
+    <string name="selected_count">%1$d/%2$d selected</string>
+    <string name="select_all">Select All</string>
+    <string name="title_output_directory">Output Directory</string>
+    <string name="desc_output_directory">Enter the folder where merged APKs will be saved.</string>
+    <string name="title_suffix_name">Suffix Name</string>
+    <string name="desc_suffix_name">Enter a suffix to append to merged APK filenames.</string>
+    <string name="btn_save">Save</string>
+
+
+    <string name="processing">Processing</string>
+    <string name="desc_processing">Configure processing options before merging.</string>
+
+    <string name="output_directory">Output Directory</string>
+    <string name="output_directory_default">storage/0/emulated/Download</string>
+
+    <string name="file_name_prefix_suffix">Prefix &amp; Suffix</string>
+    <string name="file_name_prefix_suffix_default">None</string>
+
+    <string name="append_timestamps">Append timestamp</string>
+    <string name="append_version_name">Append version name</string>
+
+    <string name="compression_level">Compression Level</string>
+    <string name="compression_level_default">Default</string>
+
+    <string name="log_type">Log Level</string>
+    <string name="log_type_default">Normal</string>
+
+    <string name="info_processing">These options control how the merged APK is generated and processed.</string>
+
+        <!-- Output file name format -->
+
+        <string name="output_name_format_title">File Name Format</string>
+
+        <string name="output_name_format_subtitle">
+        Customize the name of your merged APK using a prefix and suffix. The app name is added automatically.
+    </string>
+
+        <string name="output_prefix_hint">Prefix</string>
+
+        <string name="output_prefix_helper">
+        Text added before the app name
+    </string>
+
+        <string name="output_app_name_hint">App Name</string>
+
+        <string name="output_suffix_hint">Suffix</string>
+
+        <string name="output_suffix_helper">
+        Text added after the app name
+    </string>
+
+        <string name="output_preview_label">Preview</string>
+
+        <string name="output_preview_default">MyApp.apk</string>
+    <string name="compression_level_desc">Select a compression level for the output file.</string>
+
+    <string-array name="compression_levels">
+        <item>Level 1</item>
+        <item>Level 2</item>
+        <item>Level 3</item>
+        <item>Level 4</item>
+        <item>Level 5</item>
+        <item>Level 6</item>
+        <item>Level 7</item>
+        <item>Level 8</item>
+        <item>Level 9</item>
+    </string-array>
+    <string name="log_type_default">Default</string>
+    <string name="log_type_simple">Simple</string>
 </resources>
