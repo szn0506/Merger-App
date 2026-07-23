@@ -234,7 +234,6 @@
     <string name="compression_level_default">Default</string>
 
     <string name="log_type">Log Level</string>
-    <string name="log_type_default">Normal</string>
 
     <string name="info_processing">These options control how the merged APK is generated and processed.</string>
 
@@ -278,4 +277,6 @@
     </string-array>
     <string name="log_type_default">Default</string>
     <string name="log_type_simple">Simple</string>
+    <string name="signing_schemes">Signing Schemes</string>
+    <string name="signing_desc">Choose which schemes to apply on signing progress</string>
 </resources>
