@@ -70,6 +70,14 @@ public class RadioAdapter extends RecyclerView.Adapter<RadioAdapter.ViewHolder> 
             }
         });
     }
+
+    public String getSelectedValue() {
+        if (selectedPosition == -1) {
+            return null;
+        }
+
+        return items.get(selectedPosition);
+    }
     public void filter(String keyword) {
 
         items.clear();
