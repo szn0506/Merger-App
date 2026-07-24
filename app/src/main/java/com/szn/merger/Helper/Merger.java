@@ -39,6 +39,7 @@ import com.reandroid.arsc.value.ResValue;
 import com.reandroid.arsc.value.ValueType;
 import com.reandroid.commons.utils.log.Logger;
 import com.reandroid.utils.HexUtil;
+import com.szn.merger.Utils.AutoDevice.AutoDeviceActivity;
 import com.szn.merger.Utils.AutoDevice.AutoDeviceManager;
 import com.szn.merger.Utils.Processing.ProcessingManager;
 
@@ -325,7 +326,7 @@ public class Merger extends CommandExecutor<MergerOptions> {
             allEntries.add(iterator.next().getName().toLowerCase());
         }
 
-        AutoDeviceManager.showSplitsPicker((Activity) mContext, allEntries);
+        AutoDeviceActivity.showSplitsPicker((Activity) mContext, allEntries);
 
         // replace the call to custom one
         Predicate<ArchiveEntry> filter =
