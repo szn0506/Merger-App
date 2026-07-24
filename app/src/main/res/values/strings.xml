@@ -224,7 +224,7 @@
     <string name="output_directory">Output Directory</string>
     <string name="output_directory_default">storage/0/emulated/Download</string>
 
-    <string name="file_name_prefix_suffix">Prefix &amp; Suffix</string>
+    <string name="file_name_prefix_suffix">Format Name</string>
     <string name="file_name_prefix_suffix_default">None</string>
 
     <string name="append_timestamps">Append timestamp</string>
@@ -242,7 +242,7 @@
         <string name="output_name_format_title">File Name Format</string>
 
         <string name="output_name_format_subtitle">
-        Customize the name of your merged APK using a prefix and suffix. The app name is added automatically.
+        Customize the name of your merged APK using a prefix and suffix.
     </string>
 
         <string name="output_prefix_hint">Prefix</string>
