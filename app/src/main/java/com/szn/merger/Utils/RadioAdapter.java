@@ -78,6 +78,16 @@ public class RadioAdapter extends RecyclerView.Adapter<RadioAdapter.ViewHolder> 
 
         return items.get(selectedPosition);
     }
+
+    public void setSelectedValue(String value) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).replaceAll("\\D+", "").equals(value)) {
+                selectedPosition = i;
+                notifyDataSetChanged();
+                return;
+            }
+        }
+    }
     public void filter(String keyword) {
 
         items.clear();

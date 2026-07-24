@@ -173,7 +173,6 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_compression_level"
                 android:layout_width="match_parent"

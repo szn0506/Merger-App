@@ -40,9 +40,9 @@ public class ProcessingActivity extends AppCompatActivity {
         setupListener();
     }
     private void initViews() {
-        outputDir = findViewById(R.id.outputDirectory);
+        outputDir = findViewById(R.id.card_output_directory);
         prefixSuffix = findViewById(R.id.card_file_name_prefix_suffix);
-        compressionLevel = findViewById(R.id.compressionLevel);
+        compressionLevel = findViewById(R.id.card_compression_level);
         logType = findViewById(R.id.card_log_type);
         timestamp = findViewById(R.id.switch_append_timestamp);
         version = findViewById(R.id.switch_append_version_name);
@@ -70,7 +70,7 @@ public class ProcessingActivity extends AppCompatActivity {
         version.setChecked(ProcessingManager.isAppendVersionEnabled(this));
         currentPath.setText(ProcessingManager.getDirPath(this));
         currentFormatName.setText(ProcessingManager.getFormatName(this));
-        currentCompressionLevel.setText(ProcessingManager.getCompressionLevel(this));
+        currentCompressionLevel.setText(String.valueOf(ProcessingManager.getCompressionLevel(this)));
         currentLogType.setText(ProcessingManager.getLogType(this));
     }
     private void showLogTypeDropdown() {
@@ -92,7 +92,6 @@ public class ProcessingActivity extends AppCompatActivity {
 
     private void showCompressionLevelDialog() {
         View view = this.getLayoutInflater().inflate(R.layout.compression_level_dialog, null);
-
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         MaterialButton cancel = view.findViewById(R.id.buttonCancel);
         MaterialButton confirm = view.findViewById(R.id.buttonConfirm);
@@ -102,18 +101,23 @@ public class ProcessingActivity extends AppCompatActivity {
                 .create();
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.show();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         RadioAdapter adapter = new RadioAdapter(Arrays.asList(getResources().getStringArray(R.array.compression_levels)), (position, value) -> {
 
         });
         recyclerView.setAdapter(adapter);
+        adapter.setSelectedValue(String.valueOf(ProcessingManager.getCompressionLevel(this)));
         dialog.show();
 
         cancel.setOnClickListener( v -> dialog.dismiss());
         confirm.setOnClickListener( v-> {
-            ProcessingManager.saveCompressionLevel(this, adapter.getSelectedValue());
-            currentCompressionLevel.setText(adapter.getSelectedValue());
+            String selectedValue = adapter.getSelectedValue();
+            int compressionLevel = Integer.parseInt(
+                    selectedValue.replaceAll("\\D+", "")
+            );
+            ProcessingManager.saveCompressionLevel(this, compressionLevel);
+            currentCompressionLevel.setText(String.valueOf(compressionLevel));
+            dialog.dismiss();
         });
     }
 
@@ -121,23 +125,27 @@ public class ProcessingActivity extends AppCompatActivity {
         View view = this.getLayoutInflater().inflate(R.layout.output_path_dialog, null);
 
         TextInputEditText input = view.findViewById(R.id.input);
-        String path = input.getText().toString().trim();
-
         MaterialButton btnConfirm = view.findViewById(R.id.buttonConfirm);
         MaterialButton btnCancel = view.findViewById(R.id.buttonCancel);
-
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(view)
                 .create();
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        input.setText(ProcessingManager.getDirPath(this));
         dialog.show();
 
         btnCancel.setOnClickListener(v -> dialog.dismiss());
         btnConfirm.setOnClickListener(v -> {
+            String path = input.getText().toString().trim();
+            if (path.isEmpty()) {
+                dialog.dismiss();
+                return;
+            }
             ProcessingManager.saveDirPath(this, path);
             currentPath.setText(path);
+            input.setText(path);
             dialog.dismiss();
         });
     }
@@ -154,16 +162,43 @@ public class ProcessingActivity extends AppCompatActivity {
                 .create();
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        String savedPrefix = ProcessingManager.getPrefix(this);
+        String savedSuffix = ProcessingManager.getSuffix(this);
+
+        if (savedPrefix != null && !savedPrefix.equals("_") && !savedPrefix.isEmpty()) {
+            prefix.setText(savedPrefix);
+        }
+
+        if (savedSuffix != null && !savedSuffix.equals("_") && !savedSuffix.isEmpty()) {
+            suffix.setText(savedSuffix.replace("_.apk", ""));
+        }
         dialog.show();
 
         cancel.setOnClickListener( v -> dialog.dismiss());
-        confirm.setOnClickListener( v -> {
+        confirm.setOnClickListener(v -> {
             String prefixText = prefix.getText().toString().trim();
             String suffixText = suffix.getText().toString().trim();
-            String result = prefixText + "MyApp" + suffixText;
+
+            if (prefixText.equals("_")) prefixText = "";
+            if (suffixText.equals("_")) suffixText = "";
+
+            String basename = "MyApp";
+
+            if (!prefixText.isEmpty()) {
+                basename = prefixText + "_" + basename;
+            }
+
+            if (!suffixText.isEmpty()) {
+                basename = basename + "_" + suffixText;
+            }
+
+            String result = basename + ".apk";
+
             ProcessingManager.saveFormatName(this, result);
-            currentFormatName.setText(result);
+
+            currentFormatName.setText(result.isEmpty() ? "None" : result);
+
             dialog.dismiss();
-        });
+        });;
     }
 }
