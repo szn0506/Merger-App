@@ -129,7 +129,7 @@ public class SigningManager {
                 throw new Exception("PrivateKey or Certificate not found inside debug.keystore!");
             }
 
-            File signedApk = new File(mergedApk.getParent(), mergedApk.getName().replace(".apk", "_signed.apk"));
+            File tempSigned = new File(mergedApk.getParent(), ".temp_signed.apk");
 
             // Signer Configuration
             ApkSigner.SignerConfig signerConfig =
@@ -141,7 +141,7 @@ public class SigningManager {
 
             ApkSigner signer = new ApkSigner.Builder(Collections.singletonList(signerConfig))
                     .setInputApk(mergedApk)
-                    .setOutputApk(signedApk)
+                    .setOutputApk(tempSigned)
                     .setV1SigningEnabled(isV1Enabled(context))
                     .setV2SigningEnabled(isV2Enabled(context))
                     .setV3SigningEnabled(isV3Enabled(context))
@@ -151,12 +151,15 @@ public class SigningManager {
             // Execute the signing process (This process takes a few seconds depending on the APK size)
             signer.sign();
 
-            // Delete the original raw file only if the signing process succeeds completely without errors
-            if (mergedApk.exists()) {
-                mergedApk.delete();
+            if (tempSigned.exists() && tempSigned.length() > 0) {
+                if (mergedApk.exists()) {
+                    mergedApk.delete();
+                }
+                tempSigned.renameTo(mergedApk);
             }
 
-            return signedApk;
+            // 3. BALIKIN FILE YANG SAMA PERSIS DENGAN PARAMETER!
+            return mergedApk;
 
         } catch (Exception e) {
             e.printStackTrace();

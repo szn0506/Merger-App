@@ -37,8 +37,10 @@ import com.reandroid.arsc.model.ResourceEntry;
 import com.reandroid.arsc.value.Entry;
 import com.reandroid.arsc.value.ResValue;
 import com.reandroid.arsc.value.ValueType;
+import com.reandroid.commons.utils.log.Logger;
 import com.reandroid.utils.HexUtil;
 import com.szn.merger.Utils.AutoDevice.AutoDeviceManager;
+import com.szn.merger.Utils.Processing.ProcessingManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,67 +52,261 @@ import java.util.function.Predicate;
 
 
 public class Merger extends CommandExecutor<MergerOptions> {
-    public static String packageName;
 
+    public static final String LOG_DEFAULT = "Default";
+    public static final String LOG_SIMPLE = "Simple";
+    public static String packageName;
+    public static String versionName;
+    private final String logMode;
     private final Context mContext; //  CONTEXT
     private List<String> allEntries = new ArrayList<>();
 
-    public Merger(Context context, MergerOptions options){
+    public Merger(Context context, MergerOptions options, String logMode) {
         super(options, "[MERGE] ");
         this.mContext = context;
+        this.logMode = logMode;
+        Logger.i("LOG MODE = [" + logMode + "]");
+        Logger.i(LOG_DEFAULT.equals(logMode) + "");
+        Logger.i(LOG_SIMPLE.equals(logMode) + "");
+        Logger.i("LOG MODE = [" + logMode + "]");
+    }
+
+    @Override
+    public void logMessage(String message) {
+        System.out.println("LOG NOW: " + message);
+
+        if (LOG_DEFAULT.equals(logMode)) {
+            super.logMessage(message);
+            onLog(message);
+        }
+    }
+
+    private void simpleLog(String message) {
+        if (LOG_SIMPLE.equals(logMode)) {
+            super.logMessage(message);
+            onLog(message);
+        }
+    }
+    private boolean isSimpleLog() {
+        return LOG_SIMPLE.equals(logMode);
     }
 
     @Override
     public void runCommand() throws IOException {
 
         MergerOptions options = getOptions();
+
         delete(options.outputFile);
+
         File dir = options.inputFile;
         boolean extracted = false;
-        if(dir.isFile()){
+
+        if (dir.isFile()) {
             dir = extractFile(dir);
             extracted = true;
         }
+        simpleLog("TESTING");
         logMessage("Searching apk files ...");
+
         ApkBundle bundle = new ApkBundle();
         bundle.setAPKLogger(this);
         bundle.loadApkDirectory(dir, extracted);
+
         logMessage("Found modules: " + bundle.getApkModuleList().size());
-        for(ApkModule apkModule:bundle.getApkModuleList()){
+
+        for (ApkModule apkModule : bundle.getApkModuleList()) {
             String protect = Util.isProtected(apkModule);
-            if(protect != null){
+
+            if (protect != null) {
                 logMessage(options.inputFile.getAbsolutePath());
                 logMessage(protect);
                 return;
             }
         }
+
         ApkModule mergedModule = bundle.mergeModules(options.validateModules);
+
+        // =========================
+        // APP INFORMATION
+        // =========================
+
+        String appName = getAppName(mergedModule);
         packageName = mergedModule.getAndroidManifest().getPackageName();
+        versionName = mergedModule.getAndroidManifest().getVersionName();
+        int splitCount = getSplitCount(bundle);
+        int dexCount = getDexCount(mergedModule);
+
+        simpleLog("App Name              : " + appName);
+
+        simpleLog("Package               : " + packageName);
+
+        simpleLog("Version Name          : " + versionName);
+
+        simpleLog("Splits                : " + splitCount);
+
+        simpleLog("DEX Files             : " + dexCount);
+
+        // =========================
+        // PROCESSING
+        // =========================
+
         if (options.resDirName != null) {
             logMessage("Renaming resources root dir: " + options.resDirName);
+
             mergedModule.setResourcesRootDir(options.resDirName);
         }
+
         if (options.validateResDir) {
             logMessage("Validating resources dir ...");
+
             mergedModule.validateResourcesDir();
         }
+
         if (options.cleanMeta) {
             logMessage("Clearing META-INF ...");
+
             clearMeta(mergedModule);
         }
+
         sanitizeManifest(mergedModule);
+
         mergedModule.refreshTable();
         mergedModule.refreshManifest();
+
+        // =========================
+        // EXTRACT NATIVE LIBS
+        // =========================
+
+        String extractNativeLibs = options.extractNativeLibs;
+
+        simpleLog("Extract Native Libs   : " + extractNativeLibs);
+
+        logMessage("Applying extract Native Libs   : " + extractNativeLibs);
+
         applyExtractNativeLibs(mergedModule, options.getExtractNativeLibs());
-        logMessage("Writing apk ...");
-        mergedModule.writeApk(options.outputFile);
+
+        // =========================
+        // COMPRESSION
+        // =========================
+
+        int compressionLevel = ProcessingManager.getCompressionLevel(mContext);
+
+        ApkWriter.compressionLevel = compressionLevel;
+
+        simpleLog("Compression Level     : " + compressionLevel);
+
+        // =========================
+        // WRITE APK
+        // =========================
+
+        logMessage("Writing APK ...");
+
+        mergedModule.writeApk(
+                options.outputFile
+        );
+
+        long outputSize = options.outputFile.length();
+
+        simpleLog("File Size             : " + formatFileSize(outputSize));
+
+        // =========================
+        // CLOSE
+        // =========================
+
         mergedModule.close();
         bundle.close();
-        if(extracted){
+
+        if (extracted) {
             Util.deleteDir(dir);
             dir.deleteOnExit();
         }
-        logMessage("Saved to: " + options.outputFile);
+
+        // =========================
+        // SAVED
+        // =========================
+
+        simpleLog("Saved APK Name        : " + options.outputFile.getName());
+
+        simpleLog("Saved APK Path        : " + options.outputFile.getAbsolutePath());
+    }
+
+    private String getAppName(ApkModule apkModule) {
+        if (!apkModule.hasAndroidManifest()) return "Unknown";
+
+        AndroidManifestBlock manifest = apkModule.getAndroidManifest();
+        ResXmlElement application = manifest.getApplicationElement();
+        if (application == null) return "Unknown";
+
+        ResXmlAttribute label = application.searchAttributeByResourceId(AndroidManifest.ID_label);
+        if (label == null) return "Unknown";
+
+        // 1. Jika bernilai STRING murni (langsung tertulis di manifest)
+        if (label.getValueType() == ValueType.STRING) {
+            String str = label.getValueAsString();
+            if (str != null && !str.isEmpty()) return str;
+        }
+
+        // 2. Jika bernilai REFERENCE (@string/app_name), Resolve lewat TableBlock (resources.arsc)
+        if (apkModule.hasTableBlock()) {
+            TableBlock tableBlock = apkModule.getTableBlock();
+            int resId = label.getData(); // Ambil Resource ID (misal 0x7f110000)
+
+            ResourceEntry resourceEntry = tableBlock.getResource(resId);
+            if (resourceEntry != null) {
+                Entry entry = resourceEntry.get(); // Ambil default entry
+                if (entry != null && entry.getResValue() != null) {
+                    String appName = entry.getResValue().getValueAsString();
+                    if (appName != null && !appName.isEmpty()) {
+                        return appName;
+                    }
+                }
+            }
+        }
+
+        // Fallback jika tidak ketemu string-nya di arsc
+        String fallback = label.getValueAsString();
+        return fallback != null ? fallback : "Unknown";
+    }
+
+    private int getDexCount(ApkModule apkModule) {
+        if (apkModule == null) return 0;
+
+        // REAndroid menyediakan API bawaan untuk mendaftar seluruh DEX file
+        return apkModule.listDexFiles().size();
+    }
+
+    private String formatFileSize(long bytes) {
+
+        if (bytes < 1024) {
+            return bytes + " B";
+        }
+
+        if (bytes < 1024 * 1024) {
+            return String.format(
+                    "%.2f KB",
+                    bytes / 1024.0
+            );
+        }
+
+        if (bytes < 1024L * 1024L * 1024L) {
+            return String.format(
+                    "%.2f MB",
+                    bytes / (1024.0 * 1024.0)
+            );
+        }
+
+        return String.format(
+                "%.2f GB",
+                bytes / (1024.0 * 1024.0 * 1024.0)
+        );
+    }
+
+    private int getSplitCount(ApkBundle bundle) {
+        return Math.max(0, bundle.getApkModuleList().size() - 1);
+    }
+
+    protected void onLog(String message) {
+        // UI callback
     }
     private File extractFile(File file) throws IOException {
         File tmp = toTmpDir(file);
