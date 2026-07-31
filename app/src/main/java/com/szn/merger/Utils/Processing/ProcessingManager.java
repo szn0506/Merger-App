@@ -11,14 +11,13 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ProcessingManager {
-
     private static final String KEY_OUTPUT_DIRECTORY_PATH = "output_directory_path";
     private static final String KEY_FORMAT_NAME = "format_name";
     private static final String KEY_COMPRESSION_LEVEL = "compression_level";
     private static final String KEY_APPEND_TIMESTAMP = "is_append_timestamp_enabled";
     private static final String KEY_APPEND_VERSION = "is_append_version_enabled";
     private static final String KEY_LOG_TYPE = "log_type";
-
+    private static final String KEY_EXTRACT_NATIVE_LIBS = "extract_native_libs";
 
     public static String getDirPath(Context context) {
         return PrefsManager.getInstance(context)
@@ -80,6 +79,12 @@ public class ProcessingManager {
                 .saveString(KEY_LOG_TYPE, value);
     }
 
+    public static String isExtractNativeLibs(Context context) {
+        return PrefsManager.getInstance(context).getString(KEY_EXTRACT_NATIVE_LIBS, "false");
+    }
+    public static void setExtractNativeLibs(Context context, boolean enabled) {
+        PrefsManager.getInstance(context).saveString(KEY_EXTRACT_NATIVE_LIBS, String.valueOf(enabled));
+    }
     public static String getPrefix(Context context) {
         String formatName = getFormatName(context);
         int index = formatName.indexOf("MyApp");

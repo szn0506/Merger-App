@@ -23,7 +23,7 @@ import com.szn.merger.Utils.RadioAdapter;
 import java.util.Arrays;
 
 public class ProcessingActivity extends AppCompatActivity {
-    MaterialCardView outputDir, prefixSuffix, compressionLevel, logType;
+    MaterialCardView extractNativeLibs, outputDir, prefixSuffix, compressionLevel, logType;
     CustomSwitchItem timestamp, version;
     TextView currentPath, currentFormatName, currentCompressionLevel, currentLogType;
 
@@ -40,6 +40,7 @@ public class ProcessingActivity extends AppCompatActivity {
         setupListener();
     }
     private void initViews() {
+        extractNativeLibs = findViewById(R.id.extract_native_libs);
         outputDir = findViewById(R.id.card_output_directory);
         prefixSuffix = findViewById(R.id.card_file_name_prefix_suffix);
         compressionLevel = findViewById(R.id.card_compression_level);
@@ -53,14 +54,11 @@ public class ProcessingActivity extends AppCompatActivity {
     }
 
     private void setupListener() {
+        extractNativeLibs.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setExtractNativeLibs(this, isChecked));
         outputDir.setOnClickListener(v -> showPathDirDialog());
         prefixSuffix.setOnClickListener( v-> showFormatNameDialog());
-        timestamp.setOnCheckedChangeListener(( buttonView, isChecked) -> {
-          ProcessingManager.setAppendTimestampEnabled(this, isChecked);
-        });
-        version.setOnCheckedChangeListener(( buttonview, isChecked) -> {
-            ProcessingManager.setAppendVersionEnabled(this, isChecked);
-        });
+        timestamp.setOnCheckedChangeListener(( buttonView, isChecked) -> ProcessingManager.setAppendTimestampEnabled(this, isChecked));
+        version.setOnCheckedChangeListener(( buttonview, isChecked) -> ProcessingManager.setAppendVersionEnabled(this, isChecked));
         compressionLevel.setOnClickListener( v -> showCompressionLevelDialog());
         logType.setOnClickListener( v -> showLogTypeDropdown());
     }

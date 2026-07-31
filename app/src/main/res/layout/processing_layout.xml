@@ -44,11 +44,24 @@
                 android:layout_marginBottom="20dp" />
 
             <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Card.RoundedTop">
+
+                <com.szn.merger.CustomSwitchItem
+                    android:id="@+id/extract_native_libs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:itemTitle="Extract Native Libs"
+                    app:itemIcon="@drawable/ic_file" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_output_directory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                style="@style/Widget.Card.RoundedTop">
+
+                style="@style/Widget.Card.FlatMiddle">
 
                 <LinearLayout
                     android:layout_width="match_parent"

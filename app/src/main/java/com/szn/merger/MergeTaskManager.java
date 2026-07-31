@@ -26,9 +26,7 @@ public class MergeTaskManager {
     private final TextView logText;
     private final NestedScrollView scrollCard;
     private final ViewGroup logCard;
-
     private boolean isManualScroll = false;
-
     public MergeTaskManager(
             Activity activity,
             TextView logText,
@@ -106,14 +104,13 @@ public class MergeTaskManager {
 
     private void runMerge(File input, File tempOutput) {
         isManualScroll = false;
-
         new Thread(() -> {
             try {
                 MergerOptions options = new MergerOptions();
                 options.inputFile = input;
                 options.outputFile = tempOutput;
                 // FEATURE
-                options.extractNativeLibs = "true";
+                options.extractNativeLibs = ProcessingManager.isExtractNativeLibs(activity);
 
                 StringBuilder logBuffer = new StringBuilder();
 
