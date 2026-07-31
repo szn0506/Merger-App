@@ -35,6 +35,10 @@ public class ProcessingManager {
     }
 
     public static void saveFormatName(Context context, String value) {
+        if (value.endsWith(".apk")) {
+            value = value.substring(0, value.length() - 4);
+        }
+
         PrefsManager.getInstance(context)
                 .saveString(KEY_FORMAT_NAME, value);
     }
@@ -93,7 +97,7 @@ public class ProcessingManager {
             return "";
         }
 
-        return "_" + formatName.substring(0, index);
+        return formatName.substring(0, index);
     }
 
     public static String getSuffix(Context context) {
@@ -104,7 +108,7 @@ public class ProcessingManager {
             return "";
         }
 
-        return "_" + formatName.substring(index + "MyApp".length());
+        return formatName.substring(index + "MyApp".length());
     }
     public static String getTimestamp(Context context) {
         if (!isAppendTimestampEnabled(context)) return "";

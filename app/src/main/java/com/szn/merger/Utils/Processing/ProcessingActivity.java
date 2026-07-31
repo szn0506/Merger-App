@@ -23,8 +23,8 @@ import com.szn.merger.Utils.RadioAdapter;
 import java.util.Arrays;
 
 public class ProcessingActivity extends AppCompatActivity {
-    MaterialCardView extractNativeLibs, outputDir, prefixSuffix, compressionLevel, logType;
-    CustomSwitchItem timestamp, version;
+    MaterialCardView outputDir, prefixSuffix, compressionLevel, logType;
+    CustomSwitchItem extractNativeLibs, timestamp, version;
     TextView currentPath, currentFormatName, currentCompressionLevel, currentLogType;
 
 
@@ -138,6 +138,10 @@ public class ProcessingActivity extends AppCompatActivity {
         btnConfirm.setOnClickListener(v -> {
             String path = input.getText().toString().trim();
             if (path.isEmpty()) {
+                path = "/storage/emulated/0/Download";
+                ProcessingManager.saveDirPath(this, path);
+                currentPath.setText(path);
+                input.setText(path);
                 dialog.dismiss();
                 return;
             }

@@ -37,7 +37,6 @@ import com.reandroid.arsc.model.ResourceEntry;
 import com.reandroid.arsc.value.Entry;
 import com.reandroid.arsc.value.ResValue;
 import com.reandroid.arsc.value.ValueType;
-import com.reandroid.commons.utils.log.Logger;
 import com.reandroid.utils.HexUtil;
 import com.szn.merger.Utils.AutoDevice.AutoDeviceActivity;
 import com.szn.merger.Utils.AutoDevice.AutoDeviceManager;
@@ -49,11 +48,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
-
-
-
 public class Merger extends CommandExecutor<MergerOptions> {
-
     public static final String LOG_DEFAULT = "Default";
     public static final String LOG_SIMPLE = "Simple";
     public static String packageName;
@@ -66,16 +61,10 @@ public class Merger extends CommandExecutor<MergerOptions> {
         super(options, "[MERGE] ");
         this.mContext = context;
         this.logMode = logMode;
-        Logger.i("LOG MODE = [" + logMode + "]");
-        Logger.i(LOG_DEFAULT.equals(logMode) + "");
-        Logger.i(LOG_SIMPLE.equals(logMode) + "");
-        Logger.i("LOG MODE = [" + logMode + "]");
     }
 
     @Override
     public void logMessage(String message) {
-        System.out.println("LOG NOW: " + message);
-
         if (LOG_DEFAULT.equals(logMode)) {
             super.logMessage(message);
             onLog(message);
@@ -88,10 +77,14 @@ public class Merger extends CommandExecutor<MergerOptions> {
             onLog(message);
         }
     }
-    private boolean isSimpleLog() {
-        return LOG_SIMPLE.equals(logMode);
-    }
 
+    public void logSavedFile(File file) {
+        logMessage("Saved to: " + file.getAbsolutePath());
+
+        if (LOG_SIMPLE.equals(logMode)) {
+            onLog("Saved APK        : " + file.getAbsolutePath());
+        }
+    }
     @Override
     public void runCommand() throws IOException {
 
@@ -106,7 +99,6 @@ public class Merger extends CommandExecutor<MergerOptions> {
             dir = extractFile(dir);
             extracted = true;
         }
-        simpleLog("TESTING");
         logMessage("Searching apk files ...");
 
         ApkBundle bundle = new ApkBundle();
@@ -221,14 +213,6 @@ public class Merger extends CommandExecutor<MergerOptions> {
             Util.deleteDir(dir);
             dir.deleteOnExit();
         }
-
-        // =========================
-        // SAVED
-        // =========================
-
-        simpleLog("Saved APK Name        : " + options.outputFile.getName());
-
-        simpleLog("Saved APK Path        : " + options.outputFile.getAbsolutePath());
     }
 
     private String getAppName(ApkModule apkModule) {
@@ -277,28 +261,10 @@ public class Merger extends CommandExecutor<MergerOptions> {
     }
 
     private String formatFileSize(long bytes) {
-
-        if (bytes < 1024) {
-            return bytes + " B";
-        }
-
-        if (bytes < 1024 * 1024) {
-            return String.format(
-                    "%.2f KB",
-                    bytes / 1024.0
-            );
-        }
-
-        if (bytes < 1024L * 1024L * 1024L) {
-            return String.format(
-                    "%.2f MB",
-                    bytes / (1024.0 * 1024.0)
-            );
-        }
-
-        return String.format(
-                "%.2f GB",
-                bytes / (1024.0 * 1024.0 * 1024.0)
+        if (bytes < 1024) return bytes + " B";
+        if (bytes < 1024 * 1024) return String.format("%.2f KB", bytes / 1024.0);
+        if (bytes < 1024L * 1024L * 1024L) return String.format("%.2f MB", bytes / (1024.0 * 1024.0));
+        return String.format("%.2f GB", bytes / (1024.0 * 1024.0 * 1024.0)
         );
     }
 

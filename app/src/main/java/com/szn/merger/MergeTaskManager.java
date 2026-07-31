@@ -174,7 +174,6 @@ public class MergeTaskManager {
                 String baseName = (lastDot != -1) ? inputFileName.substring(0, lastDot) : inputFileName;
 
                 String outputName = ProcessingManager.getPrefix(activity) + baseName + ProcessingManager.getSuffix(activity) + ProcessingManager.getVersion(activity) + ProcessingManager.getTimestamp(activity) + ".apk";
-
                 File finalOutput = new File(ProcessingManager.getDirPath(activity), outputName);
 
                 /*
@@ -199,6 +198,9 @@ public class MergeTaskManager {
                                     + finalOutput.getAbsolutePath()
                     );
                 }
+
+                // WE CALL IT FROM HERE BECAUSE MERGER CLASS DOESN'T KNOW THE FINAL FILE
+                merger.logSavedFile(finalOutput);
 
                 /*
                  * Stop auto-scroll after the merge is complete.
