@@ -72,7 +72,9 @@ public class ProcessingActivity extends AppCompatActivity {
         timestamp.setChecked(ProcessingManager.isAppendTimestampEnabled(this));
         version.setChecked(ProcessingManager.isAppendVersionEnabled(this));
         currentPath.setText(ProcessingManager.getDirPath(this));
-        currentFormatName.setText(ProcessingManager.getFormatName(this) + ".apk");
+        String savedFormat = ProcessingManager.getFormatName(this);
+        if (!savedFormat.isEmpty()) currentFormatName.setText(savedFormat + ".apk");
+        else currentFormatName.setText("MyApp.apk");
         currentCompressionLevel.setText(String.valueOf(ProcessingManager.getCompressionLevel(this)));
         currentLogType.setText(ProcessingManager.getLogType(this));
     }
@@ -126,7 +128,6 @@ public class ProcessingActivity extends AppCompatActivity {
 
     private void showPathDirDialog() {
         View view = this.getLayoutInflater().inflate(R.layout.output_path_dialog, null);
-
         TextInputEditText input = view.findViewById(R.id.input);
         MaterialButton btnConfirm = view.findViewById(R.id.buttonConfirm);
         MaterialButton btnCancel = view.findViewById(R.id.buttonCancel);

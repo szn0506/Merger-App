@@ -21,7 +21,7 @@ public class ProcessingManager {
 
     public static String getDirPath(Context context) {
         return PrefsManager.getInstance(context)
-                .getString(KEY_OUTPUT_DIRECTORY_PATH, "storage/0/emulated/Download");
+                .getString(KEY_OUTPUT_DIRECTORY_PATH, "/storage/emulated/0/Download");
     }
 
     public static void saveDirPath(Context context, String value) {

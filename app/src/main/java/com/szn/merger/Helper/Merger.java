@@ -174,8 +174,6 @@ public class Merger extends CommandExecutor<MergerOptions> {
 
         simpleLog("Extract Native Libs   : " + extractNativeLibs);
 
-        logMessage("Applying extract Native Libs   : " + extractNativeLibs);
-
         applyExtractNativeLibs(mergedModule, options.getExtractNativeLibs());
 
         // =========================

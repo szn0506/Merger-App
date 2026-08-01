@@ -1,6 +1,7 @@
 package com.szn.merger.Utils.AutoDevice;
 
 import static com.szn.merger.Utils.AutoDevice.AutoDeviceManager.isAutoConfigEnabled;
+import static com.szn.merger.Utils.AutoDevice.AutoDeviceManager.isAutoDetectEnabled;
 import static com.szn.merger.Utils.AutoDevice.AutoDeviceManager.listSplits;
 import static com.szn.merger.Utils.AutoDevice.AutoDeviceManager.selectedSplits;
 
@@ -79,7 +80,7 @@ public class AutoDeviceActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
     }
     private void loadState() {
-        autoDetect.setChecked(AutoDeviceManager.isAutoDetectEnabled(this));
+        autoDetect.setChecked(isAutoDetectEnabled(this));
         autoConfig.setChecked(isAutoConfigEnabled(this));
         toolbar.setNavigationOnClickListener(v -> {
             getOnBackPressedDispatcher().onBackPressed();
@@ -180,7 +181,7 @@ public class AutoDeviceActivity extends AppCompatActivity {
     public static void showSplitsPicker(Activity activity, List<String> allEntries) {
         AutoDeviceManager.selectedSplits.clear();
 
-        if (isAutoConfigEnabled(activity)) {
+        if ((!isAutoDetectEnabled(activity) || isAutoConfigEnabled(activity))) {
             return;
         }
         List<String> splits = listSplits(allEntries);
@@ -333,7 +334,7 @@ public class AutoDeviceActivity extends AppCompatActivity {
 
     private void updateState() {
 
-        boolean autoDetectEnabled = AutoDeviceManager.isAutoDetectEnabled(this);
+        boolean autoDetectEnabled = isAutoDetectEnabled(this);
         boolean autoConfigEnabled = isAutoConfigEnabled(this);
 
         autoConfig.setEnabled(autoDetectEnabled);
