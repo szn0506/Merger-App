@@ -1,0 +1,178 @@
+<resources>
+    <!--  App  -->
+    <string name="app_header" translatable="false">Mergify</string>
+    <string name="paste_path">在此粘贴路径</string>
+    <string name="merge_button">合并</string>
+    <string name="extract_from_apps_installed">从已安装的应用提取</string>
+    <string name="select_app">选择应用</string>
+    <string name="search_app">搜索应用...</string>
+    <string name="confirm_app">确认</string>
+    <string name="cancel_app">取消</string>
+    <string name="logs_hint">日志将显示在这里...</string>
+    <string name="built_by">由 szn 🤍 精心制作</string>
+
+    <!--  Theme  -->
+    <string name="theme_system">跟随系统（默认）</string>
+    <string name="theme_light">浅色</string>
+    <string name="theme_dark">深色</string>
+    <string name="theme_mode">主题模式</string>
+    <string name="material_you_switch">Material You 动态配色</string>
+    <string name="pure_black_switch">纯黑模式</string>
+
+    <!--  Settings  -->
+    <string name="setting_header">设置</string>
+    <string name="general_subheader">常规</string>
+    <string name="automation_subheader">自动化</string>
+    <string name="signing_subheader">签名设置</string>
+
+    <!--  Auto Detect  -->
+    <string name="title_auto_detect">自动检测</string>
+    <string name="desc_auto_detect">根据您的设备设置自动调整应用配置。</string>
+    <string name="select_mode">选择模式</string>
+    <string name="mode_disabled">已禁用</string>
+    <string name="mode_from_device">来自设备</string>
+    <string name="mode_custom">自定义</string>
+
+    <!--  Detection Rules  -->
+    <string name="header_detection_rules">检测规则</string>
+    <string name="desc_detection_rules">选择要检测的内容以及如何应用各项设置。</string>
+
+    <!--  Auto Configuration  -->
+    <string name="title_auto_config">自动配置</string>
+    <string name="label_abi">ABI 架构</string>
+    <string name="label_dpi">DPI 屏幕密度</string>
+    <string name="label_language">语言</string>
+    <string name="info_auto_config">自动配置将使用上述规则自动选择 Split APK。禁用此功能可在合并时手动选择 Split APK。仅设置为“来自设备”或“自定义”的规则才会生效。</string>
+
+    <!--  Picker  -->
+    <string name="select_picker">选择 %1$s</string>
+    <string name="search_picker">搜索 %1$s</string>
+    <string name="custom_mode">自定义：%1$s</string>
+    <string name="search_language_hint">搜索语言...</string>
+
+    <!--  Auto Install  -->
+    <string name="title_auto_install">自动安装</string>
+    <string name="desc_auto_install">合并完成后自动安装 APK。</string>
+    <string name="header_installation_options">安装选项</string>
+    <string name="desc_installation_options">选择安装前后要执行的操作。</string>
+    <string name="switch_enable_auto_install">启用自动安装</string>
+    <string name="switch_remove_existing_app">卸载现有应用</string>
+    <string name="switch_delete_output_apk">删除输出的 APK</string>
+    <string name="info_auto_install">自动安装需要允许安装未知来源应用的权限。“卸载现有应用”将在安装前移除旧版本；“删除输出的 APK”仅会在安装成功后删除合并后的 APK 文件。</string>
+
+    <!--  Splits  -->
+    <string name="select_splits">选择 Split 拆分包</string>
+    <string name="select_splits_subtitle">选择要合并的 Split 拆分包</string>
+    <string name="selected_count">已选择 %1$d / %2$d</string>
+    <string name="select_all">全选</string>
+
+    <!--  Signing  -->
+    <string name="title_signing">签名</string>
+    <string name="desc_signing">为合并后的 APK 签名并配置签名选项。</string>
+    <string name="signing_switch">合并后进行签名</string>
+    <string name="sign_switch">签名 APK 文件</string>
+    <string name="signing_schemes">签名方案 (Schemes)</string>
+    <string name="signing_desc">选择在签名过程中要应用哪些签名方案。</string>
+    <string name="desc_signing_schemes">V1, V2, V3, V4</string>
+
+    <!--  Signature Schemes Dialog  -->
+    <string name="desc_signing_schemes_dialog">选择需要生成的签名方案。</string>
+    <string name="scheme_v1_title">V1 (JAR 签名)</string>
+    <string name="scheme_v1_desc">兼容 Android 1.6 及以上版本。</string>
+    <string name="scheme_v2_title">V2 (APK 签名方案 v2)</string>
+    <string name="scheme_v2_desc">Android 7.0 及以上版本必需。</string>
+    <string name="scheme_v3_title">V3 (APK 签名方案 v3)</string>
+    <string name="scheme_v3_desc">支持签名证书轮换 (Rotation)。</string>
+    <string name="scheme_v4_title">V4 (APK 签名方案 v4)</string>
+    <string name="scheme_v4_desc">针对增量安装进行优化。</string>
+
+    <!--  Keystore  -->
+    <string name="title_keystore">密钥库 (Keystore)</string>
+    <string name="desc_keystore">创建新的密钥库或导入现有密钥库。</string>
+    <string name="info_keystore">选定的密钥库将用于对合并后的 APK 进行签名。除非您使用的是已 Root 且禁用了签名验证的设备，否则 APK 必须签名后才能安装。</string>
+
+    <!--  Generate Keystore  -->
+    <string name="title_generate_keystore">创建 Keystore</string>
+    <string name="desc_generate_keystore">创建用于签名合并 APK 的新密钥库。</string>
+    <string name="keystore_name">密钥库名称</string>
+    <string name="hint_keystore_name">my-release</string>
+    <string name="alias">别名 (Alias)</string>
+    <string name="hint_alias">release</string>
+    <string name="password">密码</string>
+    <string name="hint_password">创建密码</string>
+    <string name="confirm_password">确认密码</string>
+    <string name="hint_confirm_password">再次输入密码</string>
+    <string name="btn_generate">创建</string>
+
+    <!--  Import Keystore  -->
+    <string name="title_import_keystore">导入 Keystore</string>
+    <string name="desc_import_keystore">选择现有的密钥库以签名合并后的 APK。</string>
+    <string name="select_keystore_file">选择 Keystore 文件</string>
+    <string name="select_keystore_file_desc">支持 .jks 和 .p12 文件</string>
+    <string name="keystore_password">密钥库密码</string>
+    <string name="hint_keystore_password">输入您的密码</string>
+    <string name="btn_import">导入</string>
+
+    <!--  Processing  -->
+    <string name="processing">处理选项</string>
+    <string name="desc_processing">在合并前配置处理选项。</string>
+    <string name="title_output_directory">输出目录</string>
+    <string name="desc_output_directory">选择保存合并文件的目录</string>
+    <string name="output_directory">输出目录</string>
+    <string name="output_directory_default">storage/emulated/0/Download</string>
+    <string name="info_processing">这些选项用于控制合并后 APK 的生成与处理方式。</string>
+
+    <!--  Output Name  -->
+    <string name="output_name_format_title">文件名格式</string>
+    <string name="output_name_format_subtitle">使用前缀和后缀自定义合并后的 APK 名称。</string>
+    <string name="output_prefix_hint">前缀</string>
+    <string name="output_prefix_helper">添加在应用名称前的文本</string>
+    <string name="output_app_name_hint">应用名称</string>
+    <string name="output_suffix_hint">后缀</string>
+    <string name="output_suffix_helper">添加在应用名称后的文本</string>
+    <string name="output_preview_label">预览</string>
+    <string name="output_preview_default">MyApplication.apk</string>
+    <string name="file_name_prefix_suffix">文件名 前缀 &amp; 后缀</string>
+    <string name="file_name_prefix_suffix_default">默认</string>
+    <string name="append_timestamps">添加时间戳</string>
+    <string name="append_version_name">添加版本名称</string>
+
+    <!--  Compression  -->
+    <string name="compression_level">压缩等级</string>
+    <string name="compression_level_desc">为输出文件选择压缩等级。</string>
+    <string name="compression_level_default">默认等级</string>
+
+    <!--  Logs  -->
+    <string name="log_type">日志级别</string>
+    <string name="default_value">默认</string>
+    <string name="log_type_default">默认</string>
+    <string name="log_type_simple">简易</string>
+
+    <!--  General UI Controls  -->
+    <string name="done">完成</string>
+    <string name="btn_save">保存</string>
+    <string name="features">功能</string>
+    <string name="selected">已选择</string>
+    <string name="splits">Split 拆分包</string>
+    <string name="release_key">Release Key</string>
+    <string name="release_jks">release.jks</string>
+    <string name="size_default">100 MB</string>
+    <string name="version_default">1.0.0</string>
+    <string name="bullet">•</string>
+    <string name="select_language">选择语言</string>
+    <string name="language">语言</string>
+    <string name="language_default">跟随系统</string>
+
+    <!--  Arrays  -->
+    <string-array name="compression_levels">
+        <item>等级 1</item>
+        <item>等级 2</item>
+        <item>等级 3</item>
+        <item>等级 4</item>
+        <item>等级 5</item>
+        <item>等级 6</item>
+        <item>等级 7</item>
+        <item>等级 8</item>
+        <item>等级 9</item>
+    </string-array>
+</resources>

@@ -1,0 +1,178 @@
+<resources>
+    <!--  App  -->
+    <string name="app_header" translatable="false">Mergify</string>
+    <string name="paste_path">الصق المسار هنا</string>
+    <string name="merge_button">دمج</string>
+    <string name="extract_from_apps_installed">استخراج من التطبيقات</string>
+    <string name="select_app">حدد التطبيق</string>
+    <string name="search_app">البحث عن تطبيق...</string>
+    <string name="confirm_app">تأكيد</string>
+    <string name="cancel_app">إلغاء</string>
+    <string name="logs_hint">ستظهر السجلات هنا...</string>
+    <string name="built_by">صُنع بـ 🤍 بواسطة szn</string>
+
+    <!--  Theme  -->
+    <string name="theme_system">النظام (افتراضي)</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_dark">داكن</string>
+    <string name="theme_mode">وضع المظهر</string>
+    <string name="material_you_switch">Material You</string>
+    <string name="pure_black_switch">أسود داكن</string>
+
+    <!--  Settings  -->
+    <string name="setting_header">الإعدادات</string>
+    <string name="general_subheader">عام</string>
+    <string name="automation_subheader">الأتمتة</string>
+    <string name="signing_subheader">التوقيع</string>
+
+    <!--  Auto Detect  -->
+    <string name="title_auto_detect">الكشف التلقائي</string>
+    <string name="desc_auto_detect">ضبط التطبيق تلقائيًا بناءً على إعدادات جهازك.</string>
+    <string name="select_mode">حدد الوضع</string>
+    <string name="mode_disabled">معطل</string>
+    <string name="mode_from_device">من الجهاز</string>
+    <string name="mode_custom">مخصص</string>
+
+    <!--  Detection Rules  -->
+    <string name="header_detection_rules">قواعد الكشف</string>
+    <string name="desc_detection_rules">اختر ما تريد كشفه وكيفية تطبيق كل إعداد.</string>
+
+    <!--  Auto Configuration  -->
+    <string name="title_auto_config">التكوين التلقائي</string>
+    <string name="label_abi">ABI</string>
+    <string name="label_dpi">DPI</string>
+    <string name="label_language">اللغة</string>
+    <string name="info_auto_config">يستخدم التكوين التلقائي القواعد أعلاه لتحديد أجزاء APK تلقائيًا. قم بتعطيله لتحديد أجزاء APK يدويًا أثناء الدمج. سيتم تطبيق القواعد المحددة على "من الجهاز" أو "مخصص" فقط.</string>
+
+    <!--  Picker  -->
+    <string name="select_picker">تحديد %1$s</string>
+    <string name="search_picker">بحث %1$s</string>
+    <string name="custom_mode">مخصص : %1$s</string>
+    <string name="search_language_hint">البحث عن لغة...</string>
+
+    <!--  Auto Install  -->
+    <string name="title_auto_install">التثبيت التلقائي</string>
+    <string name="desc_auto_install">تثبيت ملف APK المدمج تلقائيًا بعد اكتمال عملية الدمج.</string>
+    <string name="header_installation_options">خيارات التثبيت</string>
+    <string name="desc_installation_options">اختر ما يحدث قبل التثبيت وبعده.</string>
+    <string name="switch_enable_auto_install">تمكين التثبيت التلقائي</string>
+    <string name="switch_remove_existing_app">إزالة التطبيق الحالي</string>
+    <string name="switch_delete_output_apk">حذف ملف APK الناتج</string>
+    <string name="info_auto_install">يتطلب التثبيت التلقائي إذنًا لتثبيت التطبيقات من مصادر غير معروفة. ستقوم إزالة التطبيق الحالي بإلغاء تثبيت الإصدار الحالي قبل التثبيت، بينما يقوم حذف ملف APK الناتج بحذف ملف APK المدمج فقط بعد التثبيت الناجح.</string>
+
+    <!--  Splits  -->
+    <string name="select_splits">تحديد الأجزاء (Splits)</string>
+    <string name="select_splits_subtitle">اختر الأجزاء المراد دمجها</string>
+    <string name="selected_count">تم تحديد %1$d/%2$d</string>
+    <string name="select_all">تحديد الكل</string>
+
+    <!--  Signing  -->
+    <string name="title_signing">التوقيع</string>
+    <string name="desc_signing">توقيع ملفات APK المدمجة وتكوين خيارات التوقيع.</string>
+    <string name="signing_switch">التوقيع بعد الدمج</string>
+    <string name="sign_switch">توقيع ملف APK</string>
+    <string name="signing_schemes">مخططات التوقيع</string>
+    <string name="signing_desc">اختر المخططات التي تريد تطبيقها أثناء عملية التوقيع.</string>
+    <string name="desc_signing_schemes">V1, V2, V3, V4</string>
+
+    <!--  Signature Schemes Dialog  -->
+    <string name="desc_signing_schemes_dialog">اختر مخططات التوقيع المراد إنشاؤها.</string>
+    <string name="scheme_v1_title">V1 (توقيع JAR)</string>
+    <string name="scheme_v1_desc">متوافق مع Android 1.6 وما فوق.</string>
+    <string name="scheme_v2_title">V2 (مخطط توقيع APK v2)</string>
+    <string name="scheme_v2_desc">مطلوب لنظام Android 7.0 وما فوق.</string>
+    <string name="scheme_v3_title">V3 (مخطط توقيع APK v3)</string>
+    <string name="scheme_v3_desc">يدعم تدوير شهادة التوقيع.</string>
+    <string name="scheme_v4_title">V4 (مخطط توقيع APK v4)</string>
+    <string name="scheme_v4_desc">محسّن للتثبيت التراكمي.</string>
+
+    <!--  Keystore  -->
+    <string name="title_keystore">مخزن المفاتيح (Keystore)</string>
+    <string name="desc_keystore">إنشاء مخزن مفاتيح جديد أو استيراد مخزن موجود.</string>
+    <string name="info_keystore">سيتم استخدام مخزن المفاتيح المحدد لتوقيع ملفات APK المدمجة. يجب توقيع ملفات APK قبل التثبيت إلا إذا كنت تستخدم جهازًا بروت مع تعطيل التحقق من التوقيع.</string>
+
+    <!--  Generate Keystore  -->
+    <string name="title_generate_keystore">إنشاء مخزن مفاتيح</string>
+    <string name="desc_generate_keystore">إنشاء مخزن مفاتيح جديد لتوقيع ملفات APK المدمجة.</string>
+    <string name="keystore_name">اسم مخزن المفاتيح</string>
+    <string name="hint_keystore_name">my-release</string>
+    <string name="alias">الاسم المستعار (Alias)</string>
+    <string name="hint_alias">release</string>
+    <string name="password">كلمة المرور</string>
+    <string name="hint_password">أنشئ كلمة مرور</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="hint_confirm_password">أعد إدخال كلمة المرور</string>
+    <string name="btn_generate">إنشاء</string>
+
+    <!--  Import Keystore  -->
+    <string name="title_import_keystore">استيراد مخزن مفاتيح</string>
+    <string name="desc_import_keystore">حديد مخزن مفاتيح موجود لتوقيع ملفات APK المدمجة.</string>
+    <string name="select_keystore_file">حدد ملف مخزن المفاتيح</string>
+    <string name="select_keystore_file_desc">يدعم ملفات .jks و .p12</string>
+    <string name="keystore_password">كلمة مرور مخزن المفاتيح</string>
+    <string name="hint_keystore_password">أدخل كلمة المرور</string>
+    <string name="btn_import">استيراد</string>
+
+    <!--  Processing  -->
+    <string name="processing">المعالجة</string>
+    <string name="desc_processing">تكوين خيارات المعالجة قبل الدمج.</string>
+    <string name="title_output_directory">دليل الإخراج</string>
+    <string name="desc_output_directory">حدد الدليل لحفظ الملفات المدمجة</string>
+    <string name="output_directory">دليل الإخراج</string>
+    <string name="output_directory_default">storage/emulated/0/Download</string>
+    <string name="info_processing">تتحكم هذه الخيارات في كيفية إنشاء ملف APK المدمج ومعالجته.</string>
+
+    <!--  Output Name  -->
+    <string name="output_name_format_title">تنسيق اسم الملف</string>
+    <string name="output_name_format_subtitle">تخصيص اسم ملف APK المدمج باستخدام بادئة ولاحقة.</string>
+    <string name="output_prefix_hint">البادئة</string>
+    <string name="output_prefix_helper">النص المضاف قبل اسم التطبيق</string>
+    <string name="output_app_name_hint">اسم التطبيق</string>
+    <string name="output_suffix_hint">اللاحقة</string>
+    <string name="output_suffix_helper">النص المضاف بعد اسم التطبيق</string>
+    <string name="output_preview_label">معاينة</string>
+    <string name="output_preview_default">MyApp.apk</string>
+    <string name="file_name_prefix_suffix">بادئة ولاحقة اسم الملف</string>
+    <string name="file_name_prefix_suffix_default">افتراضي</string>
+    <string name="append_timestamps">إضافة الطابع الزمني</string>
+    <string name="append_version_name">إضافة اسم الإصدار</string>
+
+    <!--  Compression  -->
+    <string name="compression_level">مستوى الضغط</string>
+    <string name="compression_level_desc">حدد مستوى الضغط لملف الإخراج.</string>
+    <string name="compression_level_default">المستوى الافتراضي</string>
+
+    <!--  Logs  -->
+    <string name="log_type">مستوى السجل</string>
+    <string name="default_value">افتراضي</string>
+    <string name="log_type_default">افتراضي</string>
+    <string name="log_type_simple">بسيط</string>
+
+    <!--  General UI Controls  -->
+    <string name="done">تم</string>
+    <string name="btn_save">حفظ</string>
+    <string name="features">الميزات</string>
+    <string name="selected">محدد</string>
+    <string name="splits">الأجزاء</string>
+    <string name="release_key">Release Key</string>
+    <string name="release_jks">release.jks</string>
+    <string name="size_default">100 م.ب</string>
+    <string name="version_default">1.0.0</string>
+    <string name="bullet">•</string>
+    <string name="select_language">اختر اللغة</string>
+    <string name="language">اللغة</string>
+    <string name="language_default">النظام</string>
+
+    <!--  Arrays  -->
+    <string-array name="compression_levels">
+        <item>المستوى 1</item>
+        <item>المستوى 2</item>
+        <item>المستوى 3</item>
+        <item>المستوى 4</item>
+        <item>المستوى 5</item>
+        <item>المستوى 6</item>
+        <item>المستوى 7</item>
+        <item>المستوى 8</item>
+        <item>المستوى 9</item>
+    </string-array>
+</resources>

@@ -1,0 +1,178 @@
+<resources>
+    <!--  App  -->
+    <string name="app_header" translatable="false">Mergify</string>
+    <string name="paste_path">여기에 경로 붙여넣기</string>
+    <string name="merge_button">병합</string>
+    <string name="extract_from_apps_installed">설치된 앱에서 추출</string>
+    <string name="select_app">앱 선택</string>
+    <string name="search_app">앱 검색...</string>
+    <string name="confirm_app">확인</string>
+    <string name="cancel_app">취소</string>
+    <string name="logs_hint">로그가 여기에 표시됩니다...</string>
+    <string name="built_by">szn이 🤍를 담아 만듦</string>
+
+    <!--  Theme  -->
+    <string name="theme_system">시스템 (기본값)</string>
+    <string name="theme_light">라이트</string>
+    <string name="theme_dark">다크</string>
+    <string name="theme_mode">테마 모드</string>
+    <string name="material_you_switch">Material You</string>
+    <string name="pure_black_switch">순수 블랙</string>
+
+    <!--  Settings  -->
+    <string name="setting_header">설정</string>
+    <string name="general_subheader">일반</string>
+    <string name="automation_subheader">자동화</string>
+    <string name="signing_subheader">서명</string>
+
+    <!--  Auto Detect  -->
+    <string name="title_auto_detect">자동 감지</string>
+    <string name="desc_auto_detect">기기 설정에 따라 앱을 자동으로 조정합니다.</string>
+    <string name="select_mode">모드 선택</string>
+    <string name="mode_disabled">사용 안 함</string>
+    <string name="mode_from_device">기기에서 가져오기</string>
+    <string name="mode_custom">사용자 지정</string>
+
+    <!--  Detection Rules  -->
+    <string name="header_detection_rules">감지 규칙</string>
+    <string name="desc_detection_rules">감지할 항목과 각 설정이 적용되는 방식을 선택합니다.</string>
+
+    <!--  Auto Configuration  -->
+    <string name="title_auto_config">자동 구성</string>
+    <string name="label_abi">ABI</string>
+    <string name="label_dpi">DPI</string>
+    <string name="label_language">언어</string>
+    <string name="info_auto_config">자동 구성은 위의 규칙을 사용하여 분할 APK를 자동으로 선택합니다. 병합 중에 분할 APK를 수동으로 선택하려면 이 기능을 비활성화하세요. \"기기에서 가져오기\" 또는 \"사용자 지정\"으로 설정된 규칙만 적용됩니다.</string>
+
+    <!--  Picker  -->
+    <string name="select_picker">%1$s 선택</string>
+    <string name="search_picker">%1$s 검색</string>
+    <string name="custom_mode">사용자 지정 : %1$s</string>
+    <string name="search_language_hint">언어 검색...</string>
+
+    <!--  Auto Install  -->
+    <string name="title_auto_install">자동 설치</string>
+    <string name="desc_auto_install">병합 프로세스 완료 후 병합된 APK를 자동으로 설치합니다.</string>
+    <string name="header_installation_options">설치 옵션</string>
+    <string name="desc_installation_options">설치 전후에 수행할 작업을 선택합니다.</string>
+    <string name="switch_enable_auto_install">자동 설치 사용</string>
+    <string name="switch_remove_existing_app">기존 앱 제거</string>
+    <string name="switch_delete_output_apk">출력 APK 삭제</string>
+    <string name="info_auto_install">자동 설치를 사용하려면 출처를 알 수 없는 앱 설치 권한이 필요합니다. \"기존 앱 제거\"는 설치 전에 현재 버전을 제거하며, \"출력 APK 삭제\"는 설치가 성공한 경우에만 병합된 APK를 삭제합니다.</string>
+
+    <!--  Splits  -->
+    <string name="select_splits">분할 선택</string>
+    <string name="select_splits_subtitle">병합할 분할 선택</string>
+    <string name="selected_count">%1$d/%2$d개 선택됨</string>
+    <string name="select_all">모두 선택</string>
+
+    <!--  Signing  -->
+    <string name="title_signing">서명</string>
+    <string name="desc_signing">병합된 APK에 서명하고 서명 옵션을 구성합니다.</string>
+    <string name="signing_switch">병합 후 서명</string>
+    <string name="sign_switch">APK 파일 서명</string>
+    <string name="signing_schemes">서명 스킴</string>
+    <string name="signing_desc">서명 프로세스 중에 적용할 스킴을 선택합니다.</string>
+    <string name="desc_signing_schemes">V1, V2, V3, V4</string>
+
+    <!--  Signature Schemes Dialog  -->
+    <string name="desc_signing_schemes_dialog">생성할 서명 스킴을 선택하세요.</string>
+    <string name="scheme_v1_title">V1 (JAR 서명)</string>
+    <string name="scheme_v1_desc">Android 1.6 이상과 호환됩니다.</string>
+    <string name="scheme_v2_title">V2 (APK 서명 스킴 v2)</string>
+    <string name="scheme_v2_desc">Android 7.0 이상에 필수적입니다.</string>
+    <string name="scheme_v3_title">V3 (APK 서명 스킴 v3)</string>
+    <string name="scheme_v3_desc">서명 인증서 회전을 지원합니다.</string>
+    <string name="scheme_v4_title">V4 (APK 서명 스킴 v4)</string>
+    <string name="scheme_v4_desc">증분 설치에 최적화되어 있습니다.</string>
+
+    <!--  Keystore  -->
+    <string name="title_keystore">키스토어</string>
+    <string name="desc_keystore">새 키스토어를 생성하거나 기존 키스토어를 가져옵니다.</string>
+    <string name="info_keystore">선택한 키스토어는 병합된 APK에 서명하는 데 사용됩니다. 서명 검증이 비활성화된 루팅된 기기를 사용하지 않는 한, APK는 설치 전에 서명되어야 합니다.</string>
+
+    <!--  Generate Keystore  -->
+    <string name="title_generate_keystore">키스토어 생성</string>
+    <string name="desc_generate_keystore">병합된 APK에 서명할 새 키스토어를 만듭니다.</string>
+    <string name="keystore_name">키스토어 이름</string>
+    <string name="hint_keystore_name">my-release</string>
+    <string name="alias">별칭</string>
+    <string name="hint_alias">release</string>
+    <string name="password">비밀번호</string>
+    <string name="hint_password">비밀번호 만들기</string>
+    <string name="confirm_password">비밀번호 확인</string>
+    <string name="hint_confirm_password">비밀번호 다시 입력</string>
+    <string name="btn_generate">생성</string>
+
+    <!--  Import Keystore  -->
+    <string name="title_import_keystore">키스토어 가져오기</string>
+    <string name="desc_import_keystore">병합된 APK에 서명할 기존 키스토어를 선택합니다.</string>
+    <string name="select_keystore_file">키스토어 파일 선택</string>
+    <string name="select_keystore_file_desc">.jks 및 .p12 파일 지원</string>
+    <string name="keystore_password">키스토어 비밀번호</string>
+    <string name="hint_keystore_password">비밀번호 입력</string>
+    <string name="btn_import">가져오기</string>
+
+    <!--  Processing  -->
+    <string name="processing">처리 중</string>
+    <string name="desc_processing">병합하기 전에 처리 옵션을 구성합니다.</string>
+    <string name="title_output_directory">출력 디렉토리</string>
+    <string name="desc_output_directory">병합된 파일을 저장할 디렉토리 선택</string>
+    <string name="output_directory">출력 디렉토리</string>
+    <string name="output_directory_default">storage/emulated/0/Download</string>
+    <string name="info_processing">이 옵션은 병합된 APK가 생성되고 처리되는 방식을 제어합니다.</string>
+
+    <!--  Output Name  -->
+    <string name="output_name_format_title">파일 이름 형식</string>
+    <string name="output_name_format_subtitle">접두사(Prefix)와 접미사(Suffix)를 사용하여 병합된 APK 이름을 사용자 지정합니다.</string>
+    <string name="output_prefix_hint">접두사</string>
+    <string name="output_prefix_helper">앱 이름 앞에 추가되는 텍스트</string>
+    <string name="output_app_name_hint">앱 이름</string>
+    <string name="output_suffix_hint">접미사</string>
+    <string name="output_suffix_helper">앱 이름 뒤에 추가되는 텍스트</string>
+    <string name="output_preview_label">미리보기</string>
+    <string name="output_preview_default">내앱.apk</string>
+    <string name="file_name_prefix_suffix">파일 이름 접두사 &amp; 접미사</string>
+    <string name="file_name_prefix_suffix_default">기본값</string>
+    <string name="append_timestamps">타임스탬프 추가</string>
+    <string name="append_version_name">버전 이름 추가</string>
+
+    <!--  Compression  -->
+    <string name="compression_level">압축 수준</string>
+    <string name="compression_level_desc">출력 파일의 압축 수준을 선택합니다.</string>
+    <string name="compression_level_default">기본 수준</string>
+
+    <!--  Logs  -->
+    <string name="log_type">로그 수준</string>
+    <string name="default_value">기본값</string>
+    <string name="log_type_default">기본값</string>
+    <string name="log_type_simple">간단히</string>
+
+    <!--  General UI Controls  -->
+    <string name="done">완료</string>
+    <string name="btn_save">저장</string>
+    <string name="features">기능</string>
+    <string name="selected">선택됨</string>
+    <string name="splits">분할</string>
+    <string name="release_key">Release Key</string>
+    <string name="release_jks">release.jks</string>
+    <string name="size_default">100 MB</string>
+    <string name="version_default">1.0.0</string>
+    <string name="bullet">•</string>
+    <string name="select_language">언어 선택</string>
+    <string name="language">언어</string>
+    <string name="language_default">시스템</string>
+
+    <!--  Arrays  -->
+    <string-array name="compression_levels">
+        <item>수준 1</item>
+        <item>수준 2</item>
+        <item>수준 3</item>
+        <item>수준 4</item>
+        <item>수준 5</item>
+        <item>수준 6</item>
+        <item>수준 7</item>
+        <item>수준 8</item>
+        <item>수준 9</item>
+    </string-array>
+</resources>

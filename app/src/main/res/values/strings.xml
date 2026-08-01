@@ -1,50 +1,169 @@
 <resources>
-    <string name="app_name">Merger</string>
-    <string name="theme_system">System (Default)</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-
-    <string name="app_header">Merge App</string>
+    <!--  App  -->
+    <string name="app_header" translatable="false">Mergify</string>
     <string name="paste_path">Paste the path here</string>
     <string name="merge_button">Merge</string>
     <string name="extract_from_apps_installed">Extract from Apps</string>
-    <string name="logs_hint">Logs will appears here...</string>
     <string name="select_app">Select App</string>
     <string name="search_app">Search App...</string>
     <string name="confirm_app">Confirm</string>
     <string name="cancel_app">Cancel</string>
+    <string name="logs_hint">Logs will appear here...</string>
+    <string name="built_by">Built with 🤍 by szn</string>
+
+    <!--  Theme  -->
+    <string name="theme_system">System (Default)</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_mode">Theme Mode</string>
+    <string name="material_you_switch">Material You</string>
+    <string name="pure_black_switch">Pure Black</string>
+
+    <!--  Settings  -->
     <string name="setting_header">Settings</string>
     <string name="general_subheader">General</string>
     <string name="automation_subheader">Automation</string>
     <string name="signing_subheader">Signing</string>
-    <string name="theme_mode">Theme Mode</string>
-    <string name="material_you_switch">Material You</string>
-    <string name="pure_black_switch">Pure Black</string>
-    <string name="auto_detect_switch">Auto Detect</string>
-    <string name="auto_install_switch">Auto Install</string>
-    <string name="signing_switch">Sign After Merge</string>
-    <string name="built_by">Built with 🤍 by szn</string>
+
+    <!--  Auto Detect  -->
+    <string name="title_auto_detect">Auto Detect</string>
+    <string name="desc_auto_detect">Automatically adjust the app based on your device settings.</string>
     <string name="select_mode">Select Mode</string>
     <string name="mode_disabled">Disabled</string>
     <string name="mode_from_device">From Device</string>
     <string name="mode_custom">Custom</string>
-    <string name="search_language_hint">Search Language…</string>
-    <string name="title_auto_detect">Auto Detect</string>
-    <string name="desc_auto_detect">Automatically adjust the app based on your device settings.</string>
+
+    <!--  Detection Rules  -->
     <string name="header_detection_rules">Detection Rules</string>
     <string name="desc_detection_rules">Choose what to detect and how each setting should be applied.</string>
+
+    <!--  Auto Configuration  -->
     <string name="title_auto_config">Auto Configuration</string>
     <string name="label_abi">ABI</string>
     <string name="label_dpi">DPI</string>
     <string name="label_language">Language</string>
-    <string name="info_auto_config">Auto Configuration uses the rules above to automatically select APK splits. Disable it to choose APK splits manually during merging. Only rules set to From device or Custom will be applied.</string>
-    <string name="btn_save_changes">Save Changes</string>
+    <string name="info_auto_config">Auto Configuration uses the rules above to automatically select APK splits. Disable it to choose APK splits manually during merging. Only rules set to From Device or Custom will be applied.</string>
 
+    <!--  Picker  -->
     <string name="select_picker">Select %1$s</string>
     <string name="search_picker">Search %1$s</string>
     <string name="custom_mode">Custom : %1$s</string>
+    <string name="search_language_hint">Search Language...</string>
 
-    <!-- ABI -->
+    <!--  Auto Install  -->
+    <string name="title_auto_install">Auto Install</string>
+    <string name="desc_auto_install">Automatically install the merged APK after the merge process is completed.</string>
+    <string name="header_installation_options">Installation Options</string>
+    <string name="desc_installation_options">Choose what happens before and after installation.</string>
+    <string name="switch_enable_auto_install">Enable Auto Install</string>
+    <string name="switch_remove_existing_app">Remove Existing App</string>
+    <string name="switch_delete_output_apk">Delete Output APK</string>
+    <string name="info_auto_install">Auto Install requires permission to install applications from unknown sources. Remove Existing App will uninstall the current version before installation, while Delete Output APK removes the merged APK only after a successful installation.</string>
+
+    <!--  Splits  -->
+    <string name="select_splits">Select Splits</string>
+    <string name="select_splits_subtitle">Choose which splits to merge</string>
+    <string name="selected_count">%1$d/%2$d selected</string>
+    <string name="select_all">Select All</string>
+
+    <!--  Signing  -->
+    <string name="title_signing">Signing</string>
+    <string name="desc_signing">Sign merged APKs and configure signing options.</string>
+    <string name="signing_switch">Sign After Merge</string>
+    <string name="sign_switch">Sign APK File</string>
+    <string name="signing_schemes">Signing Schemes</string>
+    <string name="signing_desc">Choose which schemes to apply on signing progress.</string>
+    <string name="desc_signing_schemes">V1, V2, V3, V4</string>
+
+    <!--  Signature Schemes Dialog  -->
+    <string name="desc_signing_schemes_dialog">Choose which signature schemes to generate.</string>
+    <string name="scheme_v1_title">V1 (JAR Signature)</string>
+    <string name="scheme_v1_desc">Compatible with Android 1.6 and above.</string>
+    <string name="scheme_v2_title">V2 (APK Signature Scheme v2)</string>
+    <string name="scheme_v2_desc">Required for Android 7.0 and above.</string>
+    <string name="scheme_v3_title">V3 (APK Signature Scheme v3)</string>
+    <string name="scheme_v3_desc">Supports signing certificate rotation.</string>
+    <string name="scheme_v4_title">V4 (APK Signature Scheme v4)</string>
+    <string name="scheme_v4_desc">Optimized for incremental installation.</string>
+
+    <!--  Keystore  -->
+    <string name="title_keystore">Keystore</string>
+    <string name="desc_keystore">Generate a new keystore or import an existing one.</string>
+    <string name="info_keystore">The selected keystore will be used to sign merged APKs. APKs must be signed before installation unless you are using a rooted device with signature verification disabled.</string>
+
+    <!--  Generate Keystore  -->
+    <string name="title_generate_keystore">Generate Keystore</string>
+    <string name="desc_generate_keystore">Create a new keystore to sign merged APKs.</string>
+    <string name="keystore_name">Keystore Name</string>
+    <string name="hint_keystore_name">my-release</string>
+    <string name="alias">Alias</string>
+    <string name="hint_alias">release</string>
+    <string name="password">Password</string>
+    <string name="hint_password">Create a password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="hint_confirm_password">Repeat your password</string>
+    <string name="btn_generate">Generate</string>
+
+    <!--  Import Keystore  -->
+    <string name="title_import_keystore">Import Keystore</string>
+    <string name="desc_import_keystore">Select an existing keystore to sign merged APKs.</string>
+    <string name="select_keystore_file">Select Keystore File</string>
+    <string name="select_keystore_file_desc">Supports .jks and .p12 files</string>
+    <string name="keystore_password">Keystore Password</string>
+    <string name="hint_keystore_password">Enter your password</string>
+    <string name="btn_import">Import</string>
+
+    <!--  Processing  -->
+    <string name="processing">Processing</string>
+    <string name="desc_processing">Configure processing options before merging.</string>
+    <string name="title_output_directory">Output Directory</string>
+    <string name="desc_output_directory">Select directory to save merged files</string>
+    <string name="output_directory">Output Directory</string>
+    <string name="output_directory_default">storage/emulated/0/Download</string>
+    <string name="info_processing">These options control how the merged APK is generated and processed.</string>
+
+    <!--  Output Name  -->
+    <string name="output_name_format_title">File Name Format</string>
+    <string name="output_name_format_subtitle">Customize the name of your merged APK using a prefix and suffix.</string>
+    <string name="output_prefix_hint">Prefix</string>
+    <string name="output_prefix_helper">Text added before the app name</string>
+    <string name="output_app_name_hint">App Name</string>
+    <string name="output_suffix_hint">Suffix</string>
+    <string name="output_suffix_helper">Text added after the app name</string>
+    <string name="output_preview_label">Preview</string>
+    <string name="output_preview_default">MyApp.apk</string>
+    <string name="file_name_prefix_suffix">File Name Prefix &amp; Suffix</string>
+    <string name="file_name_prefix_suffix_default">Default</string>
+    <string name="append_timestamps">Append Timestamps</string>
+    <string name="append_version_name">Append Version Name</string>
+
+    <!--  Compression  -->
+    <string name="compression_level">Compression Level</string>
+    <string name="compression_level_desc">Select a compression level for the output file.</string>
+    <string name="compression_level_default">Default Level</string>
+
+    <!--  Logs  -->
+    <string name="log_type">Log Level</string>
+    <string name="default_value">Default</string>
+    <string name="log_type_default">Default</string>
+    <string name="log_type_simple">Simple</string>
+
+    <!--  General UI Controls  -->
+    <string name="done">Done</string>
+    <string name="btn_save">Save</string>
+    <string name="features">Features</string>
+    <string name="selected">Selected</string>
+    <string name="splits">Splits</string>
+    <string name="release_key">Release Key</string>
+    <string name="release_jks">release.jks</string>
+    <string name="size_default">100 MB</string>
+    <string name="version_default">1.0.0</string>
+    <string name="bullet">•</string>
+    <string name="select_language">Select Language</string>
+    <string name="language">Language</string>
+    <string name="language_default">System</string>
+
+    <!--  Arrays  -->
     <string-array name="abi_list">
         <item>armeabi-v7a</item>
         <item>arm64-v8a</item>
@@ -52,7 +171,6 @@
         <item>x86_64</item>
     </string-array>
 
-    <!-- DPI -->
     <string-array name="dpi_list">
         <item>ldpi</item>
         <item>mdpi</item>
@@ -65,7 +183,6 @@
         <item>anydpi</item>
     </string-array>
 
-    <!-- Language -->
     <string-array name="language_list">
         <item>af</item>
         <item>am</item>
@@ -142,127 +259,46 @@
         <item>zh</item>
         <item>zu</item>
     </string-array>
-    <!-- Auto Install -->
-    <string name="title_auto_install">Auto Install</string>
-    <string name="desc_auto_install">Automatically install the merged APK after the merge process is completed.</string>
 
-    <string name="header_installation_options">Installation Options</string>
-    <string name="desc_installation_options">Choose what happens before and after installation.</string>
+    <string-array name="languages">
+        <item>System</item>
+        <item>English</item>
+        <item>العربية</item>
+        <item>Deutsch</item>
+        <item>Español</item>
+        <item>Français</item>
+        <item>हिन्दी</item>
+        <item>Indonesia</item>
+        <item>Italiano</item>
+        <item>日本語</item>
+        <item>한국어</item>
+        <item>Bahasa Melayu</item>
+        <item>Português</item>
+        <item>Русский</item>
+        <item>Türkçe</item>
+        <item>Tiếng Việt</item>
+        <item>中文</item>
+    </string-array>
 
-    <string name="switch_enable_auto_install">Enable Auto Install</string>
-    <string name="switch_remove_existing_app">Remove Existing App</string>
-    <string name="switch_delete_output_apk">Delete Output APK</string>
-
-    <string name="info_auto_install">Auto Install requires permission to install applications from unknown sources. Remove Existing App will uninstall the current version before installation, while Delete Output APK removes the merged APK only after a successful installation.</string>
-    <string name="select_splits">Select Splits</string>
-    <string name="select_splits_subtitle">Choose which splits to merge</string>
-
-    <string name="title_signing">Signing</string>
-    <string name="desc_signing">Sign merged APKs and configure signing options.</string>
-    <string name="sign_switch">Sign Apk File</string>
-    <string name="title_signing_schemes">Signing Schemes</string>
-    <string name="desc_signing_schemes">V1, V2, V3</string>
-
-    <string name="title_keystore">Keystore</string>
-    <string name="desc_keystore">Generate a new keystore or import an existing one.</string>
-
-    <string name="info_keystore">The selected keystore will be used to sign merged APKs. APKs must be signed before installation unless you are using a rooted device with signature verification disabled.</string>
-    <!-- Signing Schemes Bottom Sheet -->
-    <string name="title_signing_schemes_dialog">Signing Schemes</string>
-    <string name="desc_signing_schemes_dialog">Choose which signature schemes to generate.</string>
-
-    <string name="scheme_v1_title">V1 (JAR Signature)</string>
-    <string name="scheme_v1_desc">Compatible with Android 1.6 and above.</string>
-
-    <string name="scheme_v2_title">V2 (APK Signature Scheme v2)</string>
-    <string name="scheme_v2_desc">Required for Android 7.0 and above.</string>
-
-    <string name="scheme_v3_title">V3 (APK Signature Scheme v3)</string>
-    <string name="scheme_v3_desc">Supports signing certificate rotation.</string>
-
-    <string name="scheme_v4_title">V4 (APK Signature Scheme v4)</string>
-    <string name="scheme_v4_desc">Optimized for incremental installation.</string>
-    <string name="done">Done</string>
-    <string name="title_generate_keystore">Generate Keystore</string>
-    <string name="desc_generate_keystore">Create a new keystore to sign merged APKs.</string>
-
-    <string name="keystore_name">Keystore Name</string>
-    <string name="hint_keystore_name">my-release</string>
-
-    <string name="alias">Alias</string>
-    <string name="hint_alias">release</string>
-
-    <string name="password">Password</string>
-    <string name="hint_password">Create a password</string>
-
-    <string name="confirm_password">Confirm Password</string>
-    <string name="hint_confirm_password">Repeat your password</string>
-
-    <string name="btn_generate">Generate</string>
-    <string name="title_import_keystore">Import Keystore</string>
-    <string name="desc_import_keystore">Select an existing keystore to sign merged APKs.</string>
-
-    <string name="select_keystore_file">Select Keystore File</string>
-    <string name="select_keystore_file_desc">Supports .pkcs files</string>
-
-    <string name="keystore_password">Keystore Password</string>
-    <string name="hint_keystore_password">Enter your password</string>
-
-    <string name="btn_import">Import</string>
-    <string name="selected_count">%1$d/%2$d selected</string>
-    <string name="select_all">Select All</string>
-    <string name="title_output_directory">Output Directory</string>
-    <string name="desc_output_directory">Enter the folder where merged APKs will be saved.</string>
-    <string name="title_suffix_name">Suffix Name</string>
-    <string name="desc_suffix_name">Enter a suffix to append to merged APK filenames.</string>
-    <string name="btn_save">Save</string>
-
-
-    <string name="processing">Processing</string>
-    <string name="desc_processing">Configure processing options before merging.</string>
-
-    <string name="output_directory">Output Directory</string>
-    <string name="output_directory_default">storage/0/emulated/Download</string>
-
-    <string name="file_name_prefix_suffix">Format Name</string>
-    <string name="file_name_prefix_suffix_default">None</string>
-
-    <string name="append_timestamps">Append timestamp</string>
-    <string name="append_version_name">Append version name</string>
-
-    <string name="compression_level">Compression Level</string>
-    <string name="compression_level_default">Default</string>
-
-    <string name="log_type">Log Level</string>
-
-    <string name="info_processing">These options control how the merged APK is generated and processed.</string>
-
-        <!-- Output file name format -->
-
-        <string name="output_name_format_title">File Name Format</string>
-
-        <string name="output_name_format_subtitle">
-        Customize the name of your merged APK using a prefix and suffix.
-    </string>
-
-        <string name="output_prefix_hint">Prefix</string>
-
-        <string name="output_prefix_helper">
-        Text added before the app name
-    </string>
-
-        <string name="output_app_name_hint">App Name</string>
-
-        <string name="output_suffix_hint">Suffix</string>
-
-        <string name="output_suffix_helper">
-        Text added after the app name
-    </string>
-
-        <string name="output_preview_label">Preview</string>
-
-        <string name="output_preview_default">MyApp.apk</string>
-    <string name="compression_level_desc">Select a compression level for the output file.</string>
+    <string-array name="language_codes">
+        <item>system</item>
+        <item>en</item>
+        <item>ar</item>
+        <item>de</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>hi</item>
+        <item>id</item>
+        <item>it</item>
+        <item>ja</item>
+        <item>ko</item>
+        <item>ms</item>
+        <item>pt</item>
+        <item>ru</item>
+        <item>tr</item>
+        <item>vi</item>
+        <item>zh</item>
+    </string-array>
 
     <string-array name="compression_levels">
         <item>Level 1</item>
@@ -275,8 +311,4 @@
         <item>Level 8</item>
         <item>Level 9</item>
     </string-array>
-    <string name="log_type_default">Default</string>
-    <string name="log_type_simple">Simple</string>
-    <string name="signing_schemes">Signing Schemes</string>
-    <string name="signing_desc">Choose which schemes to apply on signing progress</string>
 </resources>

@@ -1,0 +1,178 @@
+<resources>
+    <!--  App  -->
+    <string name="app_header" translatable="false">Mergify</string>
+    <string name="paste_path">Tampal laluan di sini</string>
+    <string name="merge_button">Gabungkan</string>
+    <string name="extract_from_apps_installed">Ekstrak daripada Aplikasi</string>
+    <string name="select_app">Pilih Aplikasi</string>
+    <string name="search_app">Cari Aplikasi...</string>
+    <string name="confirm_app">Sahkan</string>
+    <string name="cancel_app">Batal</string>
+    <string name="logs_hint">Log akan dipaparkan di sini...</string>
+    <string name="built_by">Dibuat dengan 🤍 oleh szn</string>
+
+    <!--  Theme  -->
+    <string name="theme_system">Sistem (Lalai)</string>
+    <string name="theme_light">Cerah</string>
+    <string name="theme_dark">Gelap</string>
+    <string name="theme_mode">Mod Tema</string>
+    <string name="material_you_switch">Material You</string>
+    <string name="pure_black_switch">Hitam Pekat</string>
+
+    <!--  Settings  -->
+    <string name="setting_header">Tetapan</string>
+    <string name="general_subheader">Umum</string>
+    <string name="automation_subheader">Aplikasi Automatik</string>
+    <string name="signing_subheader">Penandatanganan</string>
+
+    <!--  Auto Detect  -->
+    <string name="title_auto_detect">Kesan Automatik</string>
+    <string name="desc_auto_detect">Laras aplikasi secara automatik berdasarkan tetapan peranti anda.</string>
+    <string name="select_mode">Pilih Mod</string>
+    <string name="mode_disabled">Dinyahaktifkan</string>
+    <string name="mode_from_device">Daripada Peranti</string>
+    <string name="mode_custom">Kustom</string>
+
+    <!--  Detection Rules  -->
+    <string name="header_detection_rules">Peraturan Pengesanan</string>
+    <string name="desc_detection_rules">Pilih perkara yang mahu dikesan dan cara setiap tetapan digunakan.</string>
+
+    <!--  Auto Configuration  -->
+    <string name="title_auto_config">Konfigurasi Automatik</string>
+    <string name="label_abi">ABI</string>
+    <string name="label_dpi">DPI</string>
+    <string name="label_language">Bahasa</string>
+    <string name="info_auto_config">Konfigurasi Automatik menggunakan peraturan di atas untuk memilih APK pisah secara automatik. Nyahaktifkan untuk memilih APK pisah secara manual semasa penggabungan. Hanya peraturan yang ditetapkan kepada Daripada Peranti atau Kustom akan digunakan.</string>
+
+    <!--  Picker  -->
+    <string name="select_picker">Pilih %1$s</string>
+    <string name="search_picker">Cari %1$s</string>
+    <string name="custom_mode">Kustom : %1$s</string>
+    <string name="search_language_hint">Cari Bahasa...</string>
+
+    <!--  Auto Install  -->
+    <string name="title_auto_install">Pasang Automatik</string>
+    <string name="desc_auto_install">Pasang APK hasil gabungan secara automatik selepas proses penggabungan selesai.</string>
+    <string name="header_installation_options">Pilihan Pemasangan</string>
+    <string name="desc_installation_options">Pilih perkara yang berlaku sebelum dan selepas pemasangan.</string>
+    <string name="switch_enable_auto_install">Dayakan Pasang Automatik</string>
+    <string name="switch_remove_existing_app">Nyahpasang Aplikasi Sedia Ada</string>
+    <string name="switch_delete_output_apk">Padam APK Output</string>
+    <string name="info_auto_install">Pasang Automatik memerlukan kebenaran untuk memasang aplikasi daripada sumber tidak diketahui. Nyahpasang Aplikasi Sedia Ada akan menyahpasang versi semasa sebelum pemasangan, manakala Padam APK Output hanya akan memadamkan APK hasil gabungan selepas pemasangan berjaya.</string>
+
+    <!--  Splits  -->
+    <string name="select_splits">Pilih APK Pisah</string>
+    <string name="select_splits_subtitle">Pilih APK pisah yang ingin digabungkan</string>
+    <string name="selected_count">%1$d/%2$d dipilih</string>
+    <string name="select_all">Pilih Semua</string>
+
+    <!--  Signing  -->
+    <string name="title_signing">Penandatanganan</string>
+    <string name="desc_signing">Tandatangani APK hasil gabungan dan konfigurasikan pilihan penandatanganan.</string>
+    <string name="signing_switch">Tandatangani Selepas Penggabungan</string>
+    <string name="sign_switch">Tandatangani Fail APK</string>
+    <string name="signing_schemes">Skim Penandatanganan</string>
+    <string name="signing_desc">Pilih skim yang ingin digunakan semasa proses penandatanganan.</string>
+    <string name="desc_signing_schemes">V1, V2, V3, V4</string>
+
+    <!--  Signature Schemes Dialog  -->
+    <string name="desc_signing_schemes_dialog">Pilih skim tandatangan yang ingin dijana.</string>
+    <string name="scheme_v1_title">V1 (Tandatangan JAR)</string>
+    <string name="scheme_v1_desc">Serasi dengan Android 1.6 dan ke atas.</string>
+    <string name="scheme_v2_title">V2 (Skim Tandatangan APK v2)</string>
+    <string name="scheme_v2_desc">Diperlukan untuk Android 7.0 dan ke atas.</string>
+    <string name="scheme_v3_title">V3 (Skim Tandatangan APK v3)</string>
+    <string name="scheme_v3_desc">Menyokong putaran sijil tandatangan.</string>
+    <string name="scheme_v4_title">V4 (Skim Tandatangan APK v4)</string>
+    <string name="scheme_v4_desc">Dioptimumkan untuk pemasangan bertambah (incremental).</string>
+
+    <!--  Keystore  -->
+    <string name="title_keystore">Keystore</string>
+    <string name="desc_keystore">Jana keystore baharu atau import yang sedia ada.</string>
+    <string name="info_keystore">Keystore yang dipilih akan digunakan untuk menandatangani APK hasil gabungan. APK mesti ditandatangani sebelum dipasang melainkan anda menggunakan peranti berakar (root) dengan pengesahan tandatangan dinyahaktifkan.</string>
+
+    <!--  Generate Keystore  -->
+    <string name="title_generate_keystore">Jana Keystore</string>
+    <string name="desc_generate_keystore">Cipta keystore baharu untuk menandatangani APK hasil gabungan.</string>
+    <string name="keystore_name">Nama Keystore</string>
+    <string name="hint_keystore_name">my-release</string>
+    <string name="alias">Alias</string>
+    <string name="hint_alias">release</string>
+    <string name="password">Kata Laluan</string>
+    <string name="hint_password">Cipta kata laluan</string>
+    <string name="confirm_password">Sahkan Kata Laluan</string>
+    <string name="hint_confirm_password">Ulang kata laluan anda</string>
+    <string name="btn_generate">Jana</string>
+
+    <!--  Import Keystore  -->
+    <string name="title_import_keystore">Import Keystore</string>
+    <string name="desc_import_keystore">Pilih keystore sedia ada untuk menandatangani APK hasil gabungan.</string>
+    <string name="select_keystore_file">Pilih Fail Keystore</string>
+    <string name="select_keystore_file_desc">Menyokong fail .jks dan .p12</string>
+    <string name="keystore_password">Kata Laluan Keystore</string>
+    <string name="hint_keystore_password">Masukkan kata laluan anda</string>
+    <string name="btn_import">Import</string>
+
+    <!--  Processing  -->
+    <string name="processing">Pemprosesan</string>
+    <string name="desc_processing">Konfigurasikan pilihan pemprosesan sebelum menggabungkan.</string>
+    <string name="title_output_directory">Direktori Output</string>
+    <string name="desc_output_directory">Pilih direktori untuk menyimpan fail hasil gabungan</string>
+    <string name="output_directory">Direktori Output</string>
+    <string name="output_directory_default">storage/emulated/0/Download</string>
+    <string name="info_processing">Pilihan ini mengawal cara APK hasil gabungan dijana dan diproses.</string>
+
+    <!--  Output Name  -->
+    <string name="output_name_format_title">Format Nama Fail</string>
+    <string name="output_name_format_subtitle">Sesuaikan nama APK hasil gabungan menggunakan awalan (prefix) dan akhiran (suffix).</string>
+    <string name="output_prefix_hint">Awalan (Prefix)</string>
+    <string name="output_prefix_helper">Teks yang ditambah sebelum nama aplikasi</string>
+    <string name="output_app_name_hint">Nama Aplikasi</string>
+    <string name="output_suffix_hint">Akhiran (Suffix)</string>
+    <string name="output_suffix_helper">Teks yang ditambah selepas nama aplikasi</string>
+    <string name="output_preview_label">Pratonton</string>
+    <string name="output_preview_default">AplikasiSaya.apk</string>
+    <string name="file_name_prefix_suffix">Awalan &amp; Akhiran Nama Fail</string>
+    <string name="file_name_prefix_suffix_default">Lalai</string>
+    <string name="append_timestamps">Tambah Cap Masa</string>
+    <string name="append_version_name">Tambah Nama Versi</string>
+
+    <!--  Compression  -->
+    <string name="compression_level">Tahap Mampatan</string>
+    <string name="compression_level_desc">Pilih tahap mampatan untuk fail output.</string>
+    <string name="compression_level_default">Tahap Lalai</string>
+
+    <!--  Logs  -->
+    <string name="log_type">Tahap Log</string>
+    <string name="default_value">Lalai</string>
+    <string name="log_type_default">Lalai</string>
+    <string name="log_type_simple">Ringkas</string>
+
+    <!--  General UI Controls  -->
+    <string name="done">Selesai</string>
+    <string name="btn_save">Simpan</string>
+    <string name="features">Ciri-ciri</string>
+    <string name="selected">Dipilih</string>
+    <string name="splits">Pisah</string>
+    <string name="release_key">Release Key</string>
+    <string name="release_jks">release.jks</string>
+    <string name="size_default">100 MB</string>
+    <string name="version_default">1.0.0</string>
+    <string name="bullet">•</string>
+    <string name="select_language">Pilih Bahasa</string>
+    <string name="language">Bahasa</string>
+    <string name="language_default">Sistem</string>
+
+    <!--  Arrays  -->
+    <string-array name="compression_levels">
+        <item>Tahap 1</item>
+        <item>Tahap 2</item>
+        <item>Tahap 3</item>
+        <item>Tahap 4</item>
+        <item>Tahap 5</item>
+        <item>Tahap 6</item>
+        <item>Tahap 7</item>
+        <item>Tahap 8</item>
+        <item>Tahap 9</item>
+    </string-array>
+</resources>

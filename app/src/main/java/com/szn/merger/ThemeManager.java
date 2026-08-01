@@ -11,6 +11,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.LocaleListCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class ThemeManager {
     private static final String KEY_THEME = "selected_mode";
     private static final String KEY_MATERIAL_YOU = "material_you_enabled";
     private static final String KEY_PURE_BLACK = "pure_black_enabled";
-
+    private static final String KEY_LANGUAGE = "selected_language";
     private static final int[] MODE_MAP = {
             AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
             AppCompatDelegate.MODE_NIGHT_NO,
@@ -203,6 +204,37 @@ public class ThemeManager {
 
         AppCompatDelegate.setDefaultNightMode(mode);
         popup.dismiss();
+        recreateAll();
+    }
+
+    public static int getLanguage(Activity activity) {
+        return PrefsManager.getInstance(activity).getInt(KEY_LANGUAGE, 0);
+    }
+
+    public static void applyLanguage(Activity activity) {
+
+        int index = getLanguage(activity);
+
+        String[] codes = activity.getResources()
+                .getStringArray(R.array.language_codes);
+
+        if (index == 0) {
+            AppCompatDelegate.setApplicationLocales(
+                    LocaleListCompat.getEmptyLocaleList()
+            );
+        } else {
+            AppCompatDelegate.setApplicationLocales(
+                    LocaleListCompat.forLanguageTags(codes[index])
+            );
+        }
+    }
+
+    public static void setLanguage(Activity activity, int index) {
+        PrefsManager prefs = PrefsManager.getInstance(activity);
+
+        prefs.saveInt(KEY_LANGUAGE, index);
+        applyLanguage(activity);
+
         recreateAll();
     }
 }

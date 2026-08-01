@@ -1,0 +1,178 @@
+<resources>
+    <!--  App  -->
+    <string name="app_header" translatable="false">Mergify</string>
+    <string name="paste_path">पथ यहाँ पेस्ट करें</string>
+    <string name="merge_button">मर्ज करें</string>
+    <string name="extract_from_apps_installed">एप्स से निकालें</string>
+    <string name="select_app">ऐप चुनें</string>
+    <string name="search_app">ऐप खोजें...</string>
+    <string name="confirm_app">पुष्टि करें</string>
+    <string name="cancel_app">रद्द करें</string>
+    <string name="logs_hint">लॉग यहाँ दिखाई देंगे...</string>
+    <string name="built_by">szn द्वारा 🤍 के साथ निर्मित</string>
+
+    <!--  Theme  -->
+    <string name="theme_system">सिस्टम (डिफ़ॉल्ट)</string>
+    <string name="theme_light">लाइट</string>
+    <string name="theme_dark">डार्क</string>
+    <string name="theme_mode">थीम मोड</string>
+    <string name="material_you_switch">Material You</string>
+    <string name="pure_black_switch">प्योर ब्लैक</string>
+
+    <!--  Settings  -->
+    <string name="setting_header">सेटिंग्स</string>
+    <string name="general_subheader">सामान्य</string>
+    <string name="automation_subheader">ऑटोमेशन</string>
+    <string name="signing_subheader">साइनिंग</string>
+
+    <!--  Auto Detect  -->
+    <string name="title_auto_detect">ऑटो डिटेक्ट</string>
+    <string name="desc_auto_detect">अपने डिवाइस की सेटिंग्स के आधार पर ऐप को स्वचालित रूप से समायोजित करें।</string>
+    <string name="select_mode">मोड चुनें</string>
+    <string name="mode_disabled">अक्षम</string>
+    <string name="mode_from_device">डिवाइस से</string>
+    <string name="mode_custom">कस्टम</string>
+
+    <!--  Detection Rules  -->
+    <string name="header_detection_rules">डिटेक्शन रूल्स</string>
+    <string name="desc_detection_rules">चुनें कि क्या डिटेक्ट करना है और प्रत्येक सेटिंग को कैसे लागू करना है।</string>
+
+    <!--  Auto Configuration  -->
+    <string name="title_auto_config">ऑटो कॉन्फ़िगरेशन</string>
+    <string name="label_abi">ABI</string>
+    <string name="label_dpi">DPI</string>
+    <string name="label_language">भाषा</string>
+    <string name="info_auto_config">ऑटो कॉन्फ़िगरेशन APK स्प्लिट्स को स्वचालित रूप से चुनने के लिए ऊपर दिए गए नियमों का उपयोग करता है। मर्जिंग के दौरान मैन्युअल रूप से APK स्प्लिट्स चुनने के लिए इसे अक्षम करें। केवल "डिवाइस से" या "कस्टम" पर सेट नियम लागू होंगे।</string>
+
+    <!--  Picker  -->
+    <string name="select_picker">%1$s चुनें</string>
+    <string name="search_picker">%1$s खोजें</string>
+    <string name="custom_mode">कस्टम : %1$s</string>
+    <string name="search_language_hint">भाषा खोजें...</string>
+
+    <!--  Auto Install  -->
+    <string name="title_auto_install">ऑटो इंस्टॉल</string>
+    <string name="desc_auto_install">मर्ज प्रक्रिया पूरी होने के बाद मर्ज किए गए APK को स्वचालित रूप से इंस्टॉल करें।</string>
+    <string name="header_installation_options">इंस्टॉलेशन विकल्प</string>
+    <string name="desc_installation_options">चुनें कि इंस्टॉलेशन से पहले और बाद में क्या होना चाहिए।</string>
+    <string name="switch_enable_auto_install">ऑटो इंस्टॉल सक्षम करें</string>
+    <string name="switch_remove_existing_app">मौजूदा ऐप हटाएं</string>
+    <string name="switch_delete_output_apk">आउटपुट APK हटाएं</string>
+    <string name="info_auto_install">ऑटो इंस्टॉल के लिए अज्ञात स्रोतों से एप्लिकेशन इंस्टॉल करने की अनुमति की आवश्यकता होती है। "मौजूदा ऐप हटाएं" इंस्टॉलेशन से पहले वर्तमान संस्करण को अनइंस्टॉल कर देगा, जबकि "आउटपुट APK हटाएं" केवल सफल इंस्टॉलेशन के बाद मर्ज किए गए APK को हटाता है।</string>
+
+    <!--  Splits  -->
+    <string name="select_splits">स्प्लिट्स चुनें</string>
+    <string name="select_splits_subtitle">चुनें कि किन स्प्लिट्स को मर्ज करना है</string>
+    <string name="selected_count">%1$d/%2$d चयनित</string>
+    <string name="select_all">सभी चुनें</string>
+
+    <!--  Signing  -->
+    <string name="title_signing">साइनिंग</string>
+    <string name="desc_signing">मर्ज किए गए APKs पर हस्ताक्षर करें और साइनिंग विकल्प कॉन्फ़िगर करें।</string>
+    <string name="signing_switch">मर्ज के बाद साइन करें</string>
+    <string name="sign_switch">APK फ़ाइल साइन करें</string>
+    <string name="signing_schemes">साइनिंग स्कीम्स</string>
+    <string name="signing_desc">चुनें कि साइनिंग प्रक्रिया पर कौन सी स्कीम्स लागू करनी हैं।</string>
+    <string name="desc_signing_schemes">V1, V2, V3, V4</string>
+
+    <!--  Signature Schemes Dialog  -->
+    <string name="desc_signing_schemes_dialog">चुनें कि कौन सी सिग्नेचर स्कीम्स जेनरेट करनी हैं।</string>
+    <string name="scheme_v1_title">V1 (JAR सिग्नेचर)</string>
+    <string name="scheme_v1_desc">Android 1.6 और उच्चतर के साथ संगत।</string>
+    <string name="scheme_v2_title">V2 (APK सिग्नेचर स्कीम v2)</string>
+    <string name="scheme_v2_desc">Android 7.0 और उच्चतर के लिए आवश्यक।</string>
+    <string name="scheme_v3_title">V3 (APK सिग्नेचर स्कीम v3)</string>
+    <string name="scheme_v3_desc">साइनिंग सर्टिफिकेट रोटेशन का समर्थन करता है।</string>
+    <string name="scheme_v4_title">V4 (APK सिग्नेचर स्कीम v4)</string>
+    <string name="scheme_v4_desc">इंक्रीमेंटल इंस्टॉलेशन के लिए अनुकूलित।</string>
+
+    <!--  Keystore  -->
+    <string name="title_keystore">कीस्टोर (Keystore)</string>
+    <string name="desc_keystore">एक नया कीस्टोर बनाएं या मौजूदा कीस्टोर आयात करें।</string>
+    <string name="info_keystore">चयनित कीस्टोर का उपयोग मर्ज किए गए APKs पर हस्ताक्षर करने के लिए किया जाएगा। जब तक आप सिग्नेचर सत्यापन अक्षम के साथ रूट किए गए डिवाइस का उपयोग नहीं कर रहे हों, तब तक APKs को इंस्टॉल करने से पहले साइन किया जाना चाहिए।</string>
+
+    <!--  Generate Keystore  -->
+    <string name="title_generate_keystore">कीस्टोर जेनरेट करें</string>
+    <string name="desc_generate_keystore">मर्ज किए गए APKs को साइन करने के लिए नया कीस्टोर बनाएं।</string>
+    <string name="keystore_name">कीस्टोर नाम</string>
+    <string name="hint_keystore_name">my-release</string>
+    <string name="alias">एलियास (Alias)</string>
+    <string name="hint_alias">release</string>
+    <string name="password">पासवर्ड</string>
+    <string name="hint_password">एक पासवर्ड बनाएं</string>
+    <string name="confirm_password">पासवर्ड की पुष्टि करें</string>
+    <string name="hint_confirm_password">अपना पासवर्ड दोहराएं</string>
+    <string name="btn_generate">जेनरेट करें</string>
+
+    <!--  Import Keystore  -->
+    <string name="title_import_keystore">कीस्टोर आयात करें</string>
+    <string name="desc_import_keystore">मर्ज किए गए APKs को साइन करने के लिए मौजूदा कीस्टोर चुनें।</string>
+    <string name="select_keystore_file">कीस्टोर फ़ाइल चुनें</string>
+    <string name="select_keystore_file_desc">.jks और .p12 फ़ाइलों का समर्थन करता है</string>
+    <string name="keystore_password">कीस्टोर पासवर्ड</string>
+    <string name="hint_keystore_password">अपना पासवर्ड दर्ज करें</string>
+    <string name="btn_import">आयात करें</string>
+
+    <!--  Processing  -->
+    <string name="processing">प्रोसेसिंग</string>
+    <string name="desc_processing">मर्ज करने से पहले प्रोसेसिंग विकल्प कॉन्फ़िगर करें।</string>
+    <string name="title_output_directory">आउटपुट डायरेक्टरी</string>
+    <string name="desc_output_directory">मर्ज की गई फ़ाइलों को सहेजने के लिए डायरेक्टरी चुनें</string>
+    <string name="output_directory">आउटपुट डायरेक्टरी</string>
+    <string name="output_directory_default">storage/emulated/0/Download</string>
+    <string name="info_processing">ये विकल्प नियंत्रित करते हैं कि मर्ज किया गया APK कैसे जेनरेट और प्रोसेस किया जाता है।</string>
+
+    <!--  Output Name  -->
+    <string name="output_name_format_title">फ़ाइल नाम फ़ॉर्मैट</string>
+    <string name="output_name_format_subtitle">प्रीफ़िक्स और सफ़िक्स का उपयोग करके अपने मर्ज किए गए APK का नाम कस्टमाइज़ करें।</string>
+    <string name="output_prefix_hint">प्रीफ़िक्स</string>
+    <string name="output_prefix_helper">ऐप नाम से पहले जोड़ा गया टेक्स्ट</string>
+    <string name="output_app_name_hint">ऐप नाम</string>
+    <string name="output_suffix_hint">सफ़िक्स</string>
+    <string name="output_suffix_helper">ऐप नाम के बाद जोड़ा गया टेक्स्ट</string>
+    <string name="output_preview_label">पूर्वावलोकन</string>
+    <string name="output_preview_default">MyApp.apk</string>
+    <string name="file_name_prefix_suffix">फ़ाइल नाम प्रीफ़िक्स और सफ़िक्स</string>
+    <string name="file_name_prefix_suffix_default">डिफ़ॉल्ट</string>
+    <string name="append_timestamps">टाइमस्टैम्प जोड़ें</string>
+    <string name="append_version_name">वर्ज़न नाम जोड़ें</string>
+
+    <!--  Compression  -->
+    <string name="compression_level">कंप्रेशन लेवल</string>
+    <string name="compression_level_desc">आउटपुट फ़ाइल के लिए कंप्रेशन लेवल चुनें।</string>
+    <string name="compression_level_default">डिफ़ॉल्ट लेवल</string>
+
+    <!--  Logs  -->
+    <string name="log_type">लॉग लेवल</string>
+    <string name="default_value">डिफ़ॉल्ट</string>
+    <string name="log_type_default">डिफ़ॉल्ट</string>
+    <string name="log_type_simple">सिंपल</string>
+
+    <!--  General UI Controls  -->
+    <string name="done">हो गया</string>
+    <string name="btn_save">सहेजें</string>
+    <string name="features">विशेषताएं</string>
+    <string name="selected">चयनित</string>
+    <string name="splits">स्प्लिट्स</string>
+    <string name="release_key">Release Key</string>
+    <string name="release_jks">release.jks</string>
+    <string name="size_default">100 MB</string>
+    <string name="version_default">1.0.0</string>
+    <string name="bullet">•</string>
+    <string name="select_language">भाषा चुनें</string>
+    <string name="language">भाषा</string>
+    <string name="language_default">सिस्टम</string>
+
+    <!--  Arrays  -->
+    <string-array name="compression_levels">
+        <item>लेवल 1</item>
+        <item>लेवल 2</item>
+        <item>लेवल 3</item>
+        <item>लेवल 4</item>
+        <item>लेवल 5</item>
+        <item>लेवल 6</item>
+        <item>लेवल 7</item>
+        <item>लेवल 8</item>
+        <item>लेवल 9</item>
+    </string-array>
+</resources>

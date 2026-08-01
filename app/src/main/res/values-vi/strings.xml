@@ -1,0 +1,178 @@
+<resources>
+    <!--  App  -->
+    <string name="app_header" translatable="false">Mergify</string>
+    <string name="paste_path">Dán đường dẫn vào đây</string>
+    <string name="merge_button">Gộp APK</string>
+    <string name="extract_from_apps_installed">Trích xuất từ ứng dụng đã cài</string>
+    <string name="select_app">Chọn ứng dụng</string>
+    <string name="search_app">Tìm kiếm ứng dụng...</string>
+    <string name="confirm_app">Xác nhận</string>
+    <string name="cancel_app">Hủy</string>
+    <string name="logs_hint">Nhật ký hiển thị tại đây...</string>
+    <string name="built_by">Được tạo với 🤍 bởi szn</string>
+
+    <!--  Theme  -->
+    <string name="theme_system">Hệ thống (Mặc định)</string>
+    <string name="theme_light">Sáng</string>
+    <string name="theme_dark">Tối</string>
+    <string name="theme_mode">Chế độ giao diện</string>
+    <string name="material_you_switch">Material You</string>
+    <string name="pure_black_switch">Đen tuyền</string>
+
+    <!--  Settings  -->
+    <string name="setting_header">Cài đặt</string>
+    <string name="general_subheader">Chung</string>
+    <string name="automation_subheader">Tự động hóa</string>
+    <string name="signing_subheader">Chữ ký APK</string>
+
+    <!--  Auto Detect  -->
+    <string name="title_auto_detect">Tự động phát hiện</string>
+    <string name="desc_auto_detect">Tự động điều chỉnh ứng dụng dựa trên cài đặt thiết bị của bạn.</string>
+    <string name="select_mode">Chọn chế độ</string>
+    <string name="mode_disabled">Đã tắt</string>
+    <string name="mode_from_device">Từ thiết bị</string>
+    <string name="mode_custom">Tùy chỉnh</string>
+
+    <!--  Detection Rules  -->
+    <string name="header_detection_rules">Quy tắc phát hiện</string>
+    <string name="desc_detection_rules">Chọn nội dung cần phát hiện và cách áp dụng từng cài đặt.</string>
+
+    <!--  Auto Configuration  -->
+    <string name="title_auto_config">Cấu hình tự động</string>
+    <string name="label_abi">ABI</string>
+    <string name="label_dpi">DPI</string>
+    <string name="label_language">Ngôn ngữ</string>
+    <string name="info_auto_config">Cấu hình tự động sử dụng các quy tắc trên để tự động chọn các tệp APK phân đoạn (splits). Tắt tùy chọn này để chọn APK phân đoạn thủ công khi gộp. Chỉ các quy tắc được đặt thành \"Từ thiết bị\" hoặc \"Tùy chỉnh\" mới được áp dụng.</string>
+
+    <!--  Picker  -->
+    <string name="select_picker">Chọn %1$s</string>
+    <string name="search_picker">Tìm kiếm %1$s</string>
+    <string name="custom_mode">Tùy chỉnh : %1$s</string>
+    <string name="search_language_hint">Tìm kiếm ngôn ngữ...</string>
+
+    <!--  Auto Install  -->
+    <string name="title_auto_install">Tự động cài đặt</string>
+    <string name="desc_auto_install">Tự động cài đặt APK đã gộp sau khi quá trình hoàn tất.</string>
+    <string name="header_installation_options">Tùy chọn cài đặt</string>
+    <string name="desc_installation_options">Chọn thao tác thực hiện trước và sau khi cài đặt.</string>
+    <string name="switch_enable_auto_install">Bật tự động cài đặt</string>
+    <string name="switch_remove_existing_app">Gỡ cài đặt ứng dụng hiện có</string>
+    <string name="switch_delete_output_apk">Xóa APK đầu ra</string>
+    <string name="info_auto_install">Tự động cài đặt yêu cầu quyền cài đặt ứng dụng từ nguồn không xác định. \"Gỡ cài đặt ứng dụng hiện có\" sẽ xóa phiên bản hiện tại trước khi cài đặt, trong khi \"Xóa APK đầu ra\" chỉ xóa tệp APK đã gộp sau khi cài đặt thành công.</string>
+
+    <!--  Splits  -->
+    <string name="select_splits">Chọn APK phân đoạn</string>
+    <string name="select_splits_subtitle">Chọn các APK phân đoạn bạn muốn gộp</string>
+    <string name="selected_count">Đã chọn %1$d/%2$d</string>
+    <string name="select_all">Chọn tất cả</string>
+
+    <!--  Signing  -->
+    <string name="title_signing">Chữ ký APK</string>
+    <string name="desc_signing">Ký tên cho APK đã gộp và cấu hình các tùy chọn chữ ký.</string>
+    <string name="signing_switch">Ký tên sau khi gộp</string>
+    <string name="sign_switch">Ký tệp APK</string>
+    <string name="signing_schemes">Sơ đồ chữ ký</string>
+    <string name="signing_desc">Chọn sơ đồ chữ ký áp dụng trong quá trình ký.</string>
+    <string name="desc_signing_schemes">V1, V2, V3, V4</string>
+
+    <!--  Signature Schemes Dialog  -->
+    <string name="desc_signing_schemes_dialog">Chọn các sơ đồ chữ ký bạn muốn tạo.</string>
+    <string name="scheme_v1_title">V1 (Chữ ký JAR)</string>
+    <string name="scheme_v1_desc">Tương thích với Android 1.6 trở lên.</string>
+    <string name="scheme_v2_title">V2 (Sơ đồ chữ ký APK v2)</string>
+    <string name="scheme_v2_desc">Yêu cầu cho Android 7.0 trở lên.</string>
+    <string name="scheme_v3_title">V3 (Sơ đồ chữ ký APK v3)</string>
+    <string name="scheme_v3_desc">Hỗ trợ xoay vòng chứng chỉ chữ ký.</string>
+    <string name="scheme_v4_title">V4 (Sơ đồ chữ ký APK v4)</string>
+    <string name="scheme_v4_desc">Tối ưu hóa cho cài đặt tăng dần (incremental).</string>
+
+    <!--  Keystore  -->
+    <string name="title_keystore">Kho khóa (Keystore)</string>
+    <string name="desc_keystore">Tạo kho khóa mới hoặc nhập kho khóa hiện có.</string>
+    <string name="info_keystore">Kho khóa được chọn sẽ được sử dụng để ký APK đã gộp. APK phải được ký trước khi cài đặt trừ khi bạn đang sử dụng thiết bị đã root và tắt xác minh chữ ký.</string>
+
+    <!--  Generate Keystore  -->
+    <string name="title_generate_keystore">Tạo Keystore</string>
+    <string name="desc_generate_keystore">Tạo kho khóa mới để ký APK đã gộp.</string>
+    <string name="keystore_name">Tên Keystore</string>
+    <string name="hint_keystore_name">my-release</string>
+    <string name="alias">Tên thay thế (Alias)</string>
+    <string name="hint_alias">release</string>
+    <string name="password">Mật khẩu</string>
+    <string name="hint_password">Tạo mật khẩu</string>
+    <string name="confirm_password">Xác nhận mật khẩu</string>
+    <string name="hint_confirm_password">Nhập lại mật khẩu</string>
+    <string name="btn_generate">Tạo</string>
+
+    <!--  Import Keystore  -->
+    <string name="title_import_keystore">Nhập Keystore</string>
+    <string name="desc_import_keystore">Chọn kho khóa hiện có để ký APK đã gộp.</string>
+    <string name="select_keystore_file">Chọn tệp Keystore</string>
+    <string name="select_keystore_file_desc">Hỗ trợ các tệp .jks và .p12</string>
+    <string name="keystore_password">Mật khẩu Keystore</string>
+    <string name="hint_keystore_password">Nhập mật khẩu của bạn</string>
+    <string name="btn_import">Nhập</string>
+
+    <!--  Processing  -->
+    <string name="processing">Xử lý</string>
+    <string name="desc_processing">Cấu hình các tùy chọn xử lý trước khi gộp.</string>
+    <string name="title_output_directory">Thư mục đầu ra</string>
+    <string name="desc_output_directory">Chọn thư mục để lưu các tệp đã gộp</string>
+    <string name="output_directory">Thư mục đầu ra</string>
+    <string name="output_directory_default">storage/emulated/0/Download</string>
+    <string name="info_processing">Các tùy chọn này kiểm soát cách tệp APK đã gộp được tạo và xử lý.</string>
+
+    <!--  Output Name  -->
+    <string name="output_name_format_title">Định dạng tên tệp</string>
+    <string name="output_name_format_subtitle">Tùy chỉnh tên APK đã gộp bằng tiền tố (prefix) và hậu tố (suffix).</string>
+    <string name="output_prefix_hint">Tiền tố (Prefix)</string>
+    <string name="output_prefix_helper">Văn bản thêm vào trước tên ứng dụng</string>
+    <string name="output_app_name_hint">Tên ứng dụng</string>
+    <string name="output_suffix_hint">Hậu tố (Suffix)</string>
+    <string name="output_suffix_helper">Văn bản thêm vào sau tên ứng dụng</string>
+    <string name="output_preview_label">Xem trước</string>
+    <string name="output_preview_default">UngDungCuaToi.apk</string>
+    <string name="file_name_prefix_suffix">Tiền tố &amp; Hậu tố tên tệp</string>
+    <string name="file_name_prefix_suffix_default">Mặc định</string>
+    <string name="append_timestamps">Thêm dấu thời gian</string>
+    <string name="append_version_name">Thêm tên phiên bản</string>
+
+    <!--  Compression  -->
+    <string name="compression_level">Mức độ nén</string>
+    <string name="compression_level_desc">Chọn mức độ nén cho tệp đầu ra.</string>
+    <string name="compression_level_default">Mức mặc định</string>
+
+    <!--  Logs  -->
+    <string name="log_type">Mức độ nhật ký</string>
+    <string name="default_value">Mặc định</string>
+    <string name="log_type_default">Mặc định</string>
+    <string name="log_type_simple">Đơn giản</string>
+
+    <!--  General UI Controls  -->
+    <string name="done">Hoàn tất</string>
+    <string name="btn_save">Lưu</string>
+    <string name="features">Tính năng</string>
+    <string name="selected">Đã chọn</string>
+    <string name="splits">Phân đoạn</string>
+    <string name="release_key">Release Key</string>
+    <string name="release_jks">release.jks</string>
+    <string name="size_default">100 MB</string>
+    <string name="version_default">1.0.0</string>
+    <string name="bullet">•</string>
+    <string name="select_language">Chọn ngôn ngữ</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="language_default">Hệ thống</string>
+
+    <!--  Arrays  -->
+    <string-array name="compression_levels">
+        <item>Mức 1</item>
+        <item>Mức 2</item>
+        <item>Mức 3</item>
+        <item>Mức 4</item>
+        <item>Mức 5</item>
+        <item>Mức 6</item>
+        <item>Mức 7</item>
+        <item>Mức 8</item>
+        <item>Mức 9</item>
+    </string-array>
+</resources>

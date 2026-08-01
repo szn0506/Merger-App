@@ -43,6 +43,7 @@ public class SigningActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ThemeManager.register(this);
         ThemeManager.applyTheme(this);
+        ThemeManager.applyLanguage(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signing_layout);
         initView();

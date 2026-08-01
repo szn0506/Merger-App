@@ -32,6 +32,7 @@ public class ProcessingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ThemeManager.register(this);
         ThemeManager.applyTheme(this);
+        ThemeManager.applyLanguage(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.processing_layout);
 
@@ -67,7 +68,7 @@ public class ProcessingActivity extends AppCompatActivity {
         timestamp.setChecked(ProcessingManager.isAppendTimestampEnabled(this));
         version.setChecked(ProcessingManager.isAppendVersionEnabled(this));
         currentPath.setText(ProcessingManager.getDirPath(this));
-        currentFormatName.setText(ProcessingManager.getFormatName(this));
+        currentFormatName.setText(ProcessingManager.getFormatName(this) + ".apk");
         currentCompressionLevel.setText(String.valueOf(ProcessingManager.getCompressionLevel(this)));
         currentLogType.setText(ProcessingManager.getLogType(this));
     }
@@ -77,8 +78,8 @@ public class ProcessingActivity extends AppCompatActivity {
         popupWindow.showAsDropDown(logType, 0, 4, Gravity.END);
 
         view.findViewById(R.id.defaultLog).setOnClickListener(v -> {
-            currentLogType.setText(R.string.log_type_default);
-            ProcessingManager.saveLogType(this, getString(R.string.log_type_default));
+            currentLogType.setText(R.string.default_value);
+            ProcessingManager.saveLogType(this, getString(R.string.default_value));
             popupWindow.dismiss();
         });
         view.findViewById(R.id.simpleLog).setOnClickListener(v -> {

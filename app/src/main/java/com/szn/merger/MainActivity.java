@@ -14,12 +14,9 @@ import com.szn.merger.Utils.Utils;
 
 import java.io.File;
 
-public class MainActivity extends AppCompatActivity implements
-        SAFHelper.OnFilePickedListener, AppsDialog.OnAppExtractedListener {
-
+public class MainActivity extends AppCompatActivity implements SAFHelper.OnFilePickedListener, AppsDialog.OnAppExtractedListener {
     private EditText editFilePath;
     private File selectedInputFile;
-
     private SAFHelper safHelper;
     private AppsDialog appsDialog;
     private MergeTaskManager mergeTaskManager;
@@ -27,8 +24,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeManager.register(this);
-
         ThemeManager.applyTheme(this);
+        ThemeManager.applyLanguage(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);

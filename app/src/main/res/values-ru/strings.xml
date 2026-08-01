@@ -1,0 +1,178 @@
+<resources>
+    <!--  App  -->
+    <string name="app_header" translatable="false">Mergify</string>
+    <string name="paste_path">Вставьте путь сюда</string>
+    <string name="merge_button">Объединить</string>
+    <string name="extract_from_apps_installed">Извлечь из приложений</string>
+    <string name="select_app">Выберите приложение</string>
+    <string name="search_app">Поиск приложения...</string>
+    <string name="confirm_app">Подтвердить</string>
+    <string name="cancel_app">Отмена</string>
+    <string name="logs_hint">Логи появятся здесь...</string>
+    <string name="built_by">Сделано с 🤍 от szn</string>
+
+    <!--  Theme  -->
+    <string name="theme_system">Системная (По умолчанию)</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Тёмная</string>
+    <string name="theme_mode">Режим темы</string>
+    <string name="material_you_switch">Material You</string>
+    <string name="pure_black_switch">Глубокий чёрный</string>
+
+    <!--  Settings  -->
+    <string name="setting_header">Настройки</string>
+    <string name="general_subheader">Общие</string>
+    <string name="automation_subheader">Автоматизация</string>
+    <string name="signing_subheader">Подпись</string>
+
+    <!--  Auto Detect  -->
+    <string name="title_auto_detect">Автоопределение</string>
+    <string name="desc_auto_detect">Автоматически подстраивать приложение под настройки вашего устройства.</string>
+    <string name="select_mode">Выберите режим</string>
+    <string name="mode_disabled">Отключено</string>
+    <string name="mode_from_device">С устройства</string>
+    <string name="mode_custom">Пользовательский</string>
+
+    <!--  Detection Rules  -->
+    <string name="header_detection_rules">Правила определения</string>
+    <string name="desc_detection_rules">Выберите, что определять и как применять каждую настройку.</string>
+
+    <!--  Auto Configuration  -->
+    <string name="title_auto_config">Автоконфигурация</string>
+    <string name="label_abi">ABI</string>
+    <string name="label_dpi">DPI</string>
+    <string name="label_language">Язык</string>
+    <string name="info_auto_config">Автоконфигурация использует правила выше для автоматического выбора сплит-APK. Отключите её, чтобы выбирать сплиты вручную при объединении. Будут применены только правила со значением \"С устройства\" или \"Пользовательский\".</string>
+
+    <!--  Picker  -->
+    <string name="select_picker">Выбрать %1$s</string>
+    <string name="search_picker">Поиск %1$s</string>
+    <string name="custom_mode">Пользовательский : %1$s</string>
+    <string name="search_language_hint">Поиск языка...</string>
+
+    <!--  Auto Install  -->
+    <string name="title_auto_install">Автоустановка</string>
+    <string name="desc_auto_install">Автоматически устанавливать объединённый APK после завершения процесса.</string>
+    <string name="header_installation_options">Параметры установки</string>
+    <string name="desc_installation_options">Выберите действия до и после установки.</string>
+    <string name="switch_enable_auto_install">Включить автоустановку</string>
+    <string name="switch_remove_existing_app">Удалить существующее приложение</string>
+    <string name="switch_delete_output_apk">Удалить итоговый APK</string>
+    <string name="info_auto_install">Для автоустановки требуется разрешение на установку приложений из неизвестных источников. Опция \"Удалить существующее приложение\" удалит текущую версию перед установкой, а \"Удалить итоговый APK\" удалит объединённый файл только после успешной установки.</string>
+
+    <!--  Splits  -->
+    <string name="select_splits">Выбрать сплиты</string>
+    <string name="select_splits_subtitle">Выберите сплиты для объединения</string>
+    <string name="selected_count">Выбрано %1$d из %2$d</string>
+    <string name="select_all">Выбрать все</string>
+
+    <!--  Signing  -->
+    <string name="title_signing">Подпись</string>
+    <string name="desc_signing">Подписывайте объединённые APK и настраивайте параметры подписи.</string>
+    <string name="signing_switch">Подписывать после объединения</string>
+    <string name="sign_switch">Подписывать APK-файл</string>
+    <string name="signing_schemes">Схемы подписи</string>
+    <string name="signing_desc">Выберите схемы для применения во время процесса подписи.</string>
+    <string name="desc_signing_schemes">V1, V2, V3, V4</string>
+
+    <!--  Signature Schemes Dialog  -->
+    <string name="desc_signing_schemes_dialog">Выберите схемы подписи, которые необходимо создать.</string>
+    <string name="scheme_v1_title">V1 (JAR-подпись)</string>
+    <string name="scheme_v1_desc">Совместимо с Android 1.6 и выше.</string>
+    <string name="scheme_v2_title">V2 (Схема подписи APK v2)</string>
+    <string name="scheme_v2_desc">Требуется для Android 7.0 и выше.</string>
+    <string name="scheme_v3_title">V3 (Схема подписи APK v3)</string>
+    <string name="scheme_v3_desc">Поддерживает ротацию сертификатов подписи.</string>
+    <string name="scheme_v4_title">V4 (Схема подписи APK v4)</string>
+    <string name="scheme_v4_desc">Оптимизировано для инкрементной установки.</string>
+
+    <!--  Keystore  -->
+    <string name="title_keystore">Хранилище ключей (Keystore)</string>
+    <string name="desc_keystore">Создайте новое хранилище ключей или импортируйте существующее.</string>
+    <string name="info_keystore">Выбранное хранилище ключей будет использоваться для подписи объединённых APK. APK-файлы должны быть подписаны перед установкой, если вы не используете устройство с Root-правами и отключённой проверкой подписи.</string>
+
+    <!--  Generate Keystore  -->
+    <string name="title_generate_keystore">Создать Keystore</string>
+    <string name="desc_generate_keystore">Создать новое хранилище ключей для подписи объединённых APK.</string>
+    <string name="keystore_name">Имя хранилища ключей</string>
+    <string name="hint_keystore_name">my-release</string>
+    <string name="alias">Псевдоним (Alias)</string>
+    <string name="hint_alias">release</string>
+    <string name="password">Пароль</string>
+    <string name="hint_password">Создайте пароль</string>
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="hint_confirm_password">Повторите пароль</string>
+    <string name="btn_generate">Создать</string>
+
+    <!--  Import Keystore  -->
+    <string name="title_import_keystore">Импортировать Keystore</string>
+    <string name="desc_import_keystore">Выберите существующее хранилище ключей для подписи объединённых APK.</string>
+    <string name="select_keystore_file">Выбрать файл Keystore</string>
+    <string name="select_keystore_file_desc">Поддерживаются файлы .jks и .p12</string>
+    <string name="keystore_password">Пароль хранилища ключей</string>
+    <string name="hint_keystore_password">Введите пароль</string>
+    <string name="btn_import">Импортировать</string>
+
+    <!--  Processing  -->
+    <string name="processing">Обработка</string>
+    <string name="desc_processing">Настройте параметры обработки перед объединением.</string>
+    <string name="title_output_directory">Выходной каталог</string>
+    <string name="desc_output_directory">Выберите каталог для сохранения объединённых файлов</string>
+    <string name="output_directory">Выходной каталог</string>
+    <string name="output_directory_default">storage/emulated/0/Download</string>
+    <string name="info_processing">Эти параметры управляют тем, как создаётся и обрабатывается объединённый APK.</string>
+
+    <!--  Output Name  -->
+    <string name="output_name_format_title">Формат имени файла</string>
+    <string name="output_name_format_subtitle">Настройте имя объединённого APK с помощью префикса и суффикса.</string>
+    <string name="output_prefix_hint">Префикс</string>
+    <string name="output_prefix_helper">Текст, добавляемый перед именем приложения</string>
+    <string name="output_app_name_hint">Имя приложения</string>
+    <string name="output_suffix_hint">Суффикс</string>
+    <string name="output_suffix_helper">Текст, добавляемый после имени приложения</string>
+    <string name="output_preview_label">Предпросмотр</string>
+    <string name="output_preview_default">МоёПриложение.apk</string>
+    <string name="file_name_prefix_suffix">Префикс и суффикс имени файла</string>
+    <string name="file_name_prefix_suffix_default">По умолчанию</string>
+    <string name="append_timestamps">Добавлять метку времени</string>
+    <string name="append_version_name">Добавлять имя версии</string>
+
+    <!--  Compression  -->
+    <string name="compression_level">Уровень сжатия</string>
+    <string name="compression_level_desc">Выберите уровень сжатия для итогового файла.</string>
+    <string name="compression_level_default">Уровень по умолчанию</string>
+
+    <!--  Logs  -->
+    <string name="log_type">Уровень логов</string>
+    <string name="default_value">По умолчанию</string>
+    <string name="log_type_default">По умолчанию</string>
+    <string name="log_type_simple">Простой</string>
+
+    <!--  General UI Controls  -->
+    <string name="done">Готово</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="features">Функции</string>
+    <string name="selected">Выбрано</string>
+    <string name="splits">Сплиты</string>
+    <string name="release_key">Release Key</string>
+    <string name="release_jks">release.jks</string>
+    <string name="size_default">100 МБ</string>
+    <string name="version_default">1.0.0</string>
+    <string name="bullet">•</string>
+    <string name="select_language">Выберите язык</string>
+    <string name="language">Язык</string>
+    <string name="language_default">Система</string>
+
+    <!--  Arrays  -->
+    <string-array name="compression_levels">
+        <item>Уровень 1</item>
+        <item>Уровень 2</item>
+        <item>Уровень 3</item>
+        <item>Уровень 4</item>
+        <item>Уровень 5</item>
+        <item>Уровень 6</item>
+        <item>Уровень 7</item>
+        <item>Уровень 8</item>
+        <item>Уровень 9</item>
+    </string-array>
+</resources>

@@ -72,8 +72,7 @@
                 android:src="@drawable/ic_folder"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="fitCenter"
-                app:tint="?attr/colorPrimary"
-                android:contentDescription="Buka Folder" />
+                app:tint="?attr/colorPrimary" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

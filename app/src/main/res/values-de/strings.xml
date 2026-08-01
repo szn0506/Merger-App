@@ -1,0 +1,178 @@
+<resources>
+    <!--  App  -->
+    <string name="app_header" translatable="false">Mergify</string>
+    <string name="paste_path">Pfad hier einfügen</string>
+    <string name="merge_button">Zusammenführen</string>
+    <string name="extract_from_apps_installed">Aus Apps extrahieren</string>
+    <string name="select_app">App auswählen</string>
+    <string name="search_app">App suchen...</string>
+    <string name="confirm_app">Bestätigen</string>
+    <string name="cancel_app">Abbrechen</string>
+    <string name="logs_hint">Protokolle erscheinen hier...</string>
+    <string name="built_by">Mit 🤍 erstellt von szn</string>
+
+    <!--  Theme  -->
+    <string name="theme_system">System (Standard)</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
+    <string name="theme_mode">Design-Modus</string>
+    <string name="material_you_switch">Material You</string>
+    <string name="pure_black_switch">Reines Schwarz</string>
+
+    <!--  Settings  -->
+    <string name="setting_header">Einstellungen</string>
+    <string name="general_subheader">Allgemein</string>
+    <string name="automation_subheader">Automatisierung</string>
+    <string name="signing_subheader">Signierung</string>
+
+    <!--  Auto Detect  -->
+    <string name="title_auto_detect">Automatische Erkennung</string>
+    <string name="desc_auto_detect">Passt die App automatisch basierend auf Ihren Geräteeinstellungen an.</string>
+    <string name="select_mode">Modus auswählen</string>
+    <string name="mode_disabled">Deaktiviert</string>
+    <string name="mode_from_device">Vom Gerät</string>
+    <string name="mode_custom">Benutzerdefiniert</string>
+
+    <!--  Detection Rules  -->
+    <string name="header_detection_rules">Erkennungsregeln</string>
+    <string name="desc_detection_rules">Wählen Sie, was erkannt werden soll und wie die Einstellungen angewendet werden.</string>
+
+    <!--  Auto Configuration  -->
+    <string name="title_auto_config">Automatische Konfiguration</string>
+    <string name="label_abi">ABI</string>
+    <string name="label_dpi">DPI</string>
+    <string name="label_language">Sprache</string>
+    <string name="info_auto_config">Die automatische Konfiguration verwendet die obigen Regeln, um APK-Splits automatisch auszuwählen. Deaktivieren Sie sie, um APK-Splits während des Zusammenführens manuell auszuwählen. Es werden nur Regeln angewendet, die auf \"Vom Gerät\" oder \"Benutzerdefiniert\" eingestellt sind.</string>
+
+    <!--  Picker  -->
+    <string name="select_picker">%1$s auswählen</string>
+    <string name="search_picker">%1$s suchen</string>
+    <string name="custom_mode">Benutzerdefiniert : %1$s</string>
+    <string name="search_language_hint">Sprache suchen...</string>
+
+    <!--  Auto Install  -->
+    <string name="title_auto_install">Automatische Installation</string>
+    <string name="desc_auto_install">Installiert die zusammengefügte APK automatisch nach Abschluss des Vorgangs.</string>
+    <string name="header_installation_options">Installationsoptionen</string>
+    <string name="desc_installation_options">Wählen Sie, was vor und nach der Installation geschieht.</string>
+    <string name="switch_enable_auto_install">Automatische Installation aktivieren</string>
+    <string name="switch_remove_existing_app">Vorhandene App entfernen</string>
+    <string name="switch_delete_output_apk">Erstellte APK löschen</string>
+    <string name="info_auto_install">Die automatische Installation erfordert die Berechtigung, Anwendungen aus unbekannten Quellen zu installieren. \"Vorhandene App entfernen\" deinstalliert die aktuelle Version vor der Installation, während \"Erstellte APK löschen\" die zusammengefügte APK erst nach erfolgreicher Installation löscht.</string>
+
+    <!--  Splits  -->
+    <string name="select_splits">Splits auswählen</string>
+    <string name="select_splits_subtitle">Wählen Sie die zusammenzuführenden Splits aus</string>
+    <string name="selected_count">%1$d/%2$d ausgewählt</string>
+    <string name="select_all">Alle auswählen</string>
+
+    <!--  Signing  -->
+    <string name="title_signing">Signierung</string>
+    <string name="desc_signing">Signieren Sie zusammengefügte APKs und konfigurieren Sie Signaturoptionen.</string>
+    <string name="signing_switch">Nach Zusammenführen signieren</string>
+    <string name="sign_switch">APK-Datei signieren</string>
+    <string name="signing_schemes">Signaturschemata</string>
+    <string name="signing_desc">Wählen Sie die Schemata aus, die beim Signieren angewendet werden sollen.</string>
+    <string name="desc_signing_schemes">V1, V2, V3, V4</string>
+
+    <!--  Signature Schemes Dialog  -->
+    <string name="desc_signing_schemes_dialog">Wählen Sie die zu erstellenden Signaturschemata aus.</string>
+    <string name="scheme_v1_title">V1 (JAR-Signatur)</string>
+    <string name="scheme_v1_desc">Kompatibel mit Android 1.6 und höher.</string>
+    <string name="scheme_v2_title">V2 (APK-Signaturschema v2)</string>
+    <string name="scheme_v2_desc">Erforderlich für Android 7.0 und höher.</string>
+    <string name="scheme_v3_title">V3 (APK-Signaturschema v3)</string>
+    <string name="scheme_v3_desc">Unterstützt die Rotation von Signaturzertifikaten.</string>
+    <string name="scheme_v4_title">V4 (APK-Signaturschema v4)</string>
+    <string name="scheme_v4_desc">Optimiert für inkrementelle Installation.</string>
+
+    <!--  Keystore  -->
+    <string name="title_keystore">Keystore</string>
+    <string name="desc_keystore">Erstellen Sie einen neuen Keystore oder importieren Sie einen vorhandenen.</string>
+    <string name="info_keystore">Der ausgewählte Keystore wird zum Signieren zusammengefügter APKs verwendet. APKs müssen vor der Installation signiert werden, es sei denn, Sie verwenden ein gerootetes Gerät mit deaktivierter Signaturprüfung.</string>
+
+    <!--  Generate Keystore  -->
+    <string name="title_generate_keystore">Keystore erstellen</string>
+    <string name="desc_generate_keystore">Erstellen Sie einen neuen Keystore zum Signieren zusammengefügter APKs.</string>
+    <string name="keystore_name">Keystore-Name</string>
+    <string name="hint_keystore_name">my-release</string>
+    <string name="alias">Alias</string>
+    <string name="hint_alias">release</string>
+    <string name="password">Passwort</string>
+    <string name="hint_password">Passwort erstellen</string>
+    <string name="confirm_password">Passwort bestätigen</string>
+    <string name="hint_confirm_password">Passwort wiederholen</string>
+    <string name="btn_generate">Erstellen</string>
+
+    <!--  Import Keystore  -->
+    <string name="title_import_keystore">Keystore importieren</string>
+    <string name="desc_import_keystore">Wählen Sie einen vorhandenen Keystore zum Signieren zusammengefügter APKs aus.</string>
+    <string name="select_keystore_file">Keystore-Datei auswählen</string>
+    <string name="select_keystore_file_desc">Unterstützt .jks- und .p12-Dateien</string>
+    <string name="keystore_password">Keystore-Passwort</string>
+    <string name="hint_keystore_password">Passwort eingeben</string>
+    <string name="btn_import">Importieren</string>
+
+    <!--  Processing  -->
+    <string name="processing">Verarbeitung</string>
+    <string name="desc_processing">Konfigurieren Sie Verarbeitungsoptionen vor dem Zusammenführen.</string>
+    <string name="title_output_directory">Ausgabeverzeichnis</string>
+    <string name="desc_output_directory">Wählen Sie das Verzeichnis zum Speichern zusammengefügter Dateien</string>
+    <string name="output_directory">Ausgabeverzeichnis</string>
+    <string name="output_directory_default">storage/emulated/0/Download</string>
+    <string name="info_processing">Diese Optionen steuern, wie die zusammengefügte APK erstellt und verarbeitet wird.</string>
+
+    <!--  Output Name  -->
+    <string name="output_name_format_title">Dateinamensformat</string>
+    <string name="output_name_format_subtitle">Passen Sie den Namen der zusammengefügten APK mit Präfix und Suffix an.</string>
+    <string name="output_prefix_hint">Präfix</string>
+    <string name="output_prefix_helper">Text, der vor dem App-Namen hinzugefügt wird</string>
+    <string name="output_app_name_hint">App-Name</string>
+    <string name="output_suffix_hint">Suffix</string>
+    <string name="output_suffix_helper">Text, der nach dem App-Namen hinzugefügt wird</string>
+    <string name="output_preview_label">Vorschau</string>
+    <string name="output_preview_default">MeineApp.apk</string>
+    <string name="file_name_prefix_suffix">Dateiname Präfix &amp; Suffix</string>
+    <string name="file_name_prefix_suffix_default">Standard</string>
+    <string name="append_timestamps">Zeitstempel anhängen</string>
+    <string name="append_version_name">Versionsnamen anhängen</string>
+
+    <!--  Compression  -->
+    <string name="compression_level">Komprimierungsstufe</string>
+    <string name="compression_level_desc">Wählen Sie eine Komprimierungsstufe für die Ausgabedatei.</string>
+    <string name="compression_level_default">Standardstufe</string>
+
+    <!--  Logs  -->
+    <string name="log_type">Protokollstufe</string>
+    <string name="default_value">Standard</string>
+    <string name="log_type_default">Standard</string>
+    <string name="log_type_simple">Einfach</string>
+
+    <!--  General UI Controls  -->
+    <string name="done">Fertig</string>
+    <string name="btn_save">Speichern</string>
+    <string name="features">Funktionen</string>
+    <string name="selected">Ausgewählt</string>
+    <string name="splits">Splits</string>
+    <string name="release_key">Release Key</string>
+    <string name="release_jks">release.jks</string>
+    <string name="size_default">100 MB</string>
+    <string name="version_default">1.0.0</string>
+    <string name="bullet">•</string>
+    <string name="select_language">Sprache auswählen</string>
+    <string name="language">Sprache</string>
+    <string name="language_default">System</string>
+
+    <!--  Arrays  -->
+    <string-array name="compression_levels">
+        <item>Stufe 1</item>
+        <item>Stufe 2</item>
+        <item>Stufe 3</item>
+        <item>Stufe 4</item>
+        <item>Stufe 5</item>
+        <item>Stufe 6</item>
+        <item>Stufe 7</item>
+        <item>Stufe 8</item>
+        <item>Stufe 9</item>
+    </string-array>
+</resources>

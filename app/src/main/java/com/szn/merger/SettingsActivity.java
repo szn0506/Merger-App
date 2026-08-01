@@ -6,18 +6,21 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
 import com.szn.merger.Utils.AutoDevice.AutoDeviceActivity;
 import com.szn.merger.Utils.AutoInstall.AutoInstallActivity;
 import com.szn.merger.Utils.Processing.ProcessingActivity;
+import com.szn.merger.Utils.RadioAdapter;
 import com.szn.merger.Utils.Signing.SigningActivity;
+
+import java.util.Arrays;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -32,6 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ThemeManager.register(this);
         ThemeManager.applyTheme(this);
+        ThemeManager.applyLanguage(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -59,6 +63,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         // THE KEY POINT HERE: All popup logic bound to the card is handled inside this single line
         ThemeManager.setupThemePopup(this, themeCard, currentTheme);
+        String[] languages = getResources().getStringArray(R.array.languages);
+        currentLang.setText(languages[ThemeManager.getLanguage(this)]);
     }
 
     private void setupListeners() {
@@ -76,38 +82,35 @@ public class SettingsActivity extends AppCompatActivity {
         BottomSheetDialog dialog = new BottomSheetDialog(this);
 
         EditText searchLang = view.findViewById(R.id.search_lang);
-        RadioGroup radioGroup = view.findViewById(R.id.radioGroupLang);
+        RecyclerView recyclerView = view.findViewById(R.id.langRecyclerView);
 
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        String[] languages = getResources().getStringArray(R.array.languages);
+
+        RadioAdapter adapter = new RadioAdapter(Arrays.asList(languages), ((position, value) -> {
+            ThemeManager.setLanguage(this, position);
+            currentLang.setText(value);
+            dialog.dismiss();
+        }));
+        adapter.setSelectedValue(languages[ThemeManager.getLanguage(this)]);
+        recyclerView.setAdapter(adapter);
         searchLang.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
             @Override
             public void afterTextChanged(Editable s) {
-                filterLanguages(radioGroup, s.toString());
-            }
-        });
-
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            RadioButton selected = view.findViewById(checkedId);
-            if (selected != null) {
-                currentLang.setText(selected.getText());
-                dialog.dismiss();
+                adapter.filter(s.toString());
             }
         });
 
         dialog.setContentView(view);
         dialog.show();
-    }
-
-    private void filterLanguages(RadioGroup group, String query) {
-        String lowerQuery = query.toLowerCase().trim();
-        for (int i = 0; i < group.getChildCount(); i++) {
-            View child = group.getChildAt(i);
-            if (child instanceof RadioButton) {
-                RadioButton rb = (RadioButton) child;
-                boolean isMatch = rb.getText().toString().toLowerCase().contains(lowerQuery);
-                rb.setVisibility(isMatch ? View.VISIBLE : View.GONE);
-            }
-        }
     }
 }

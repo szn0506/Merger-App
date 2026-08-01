@@ -17,7 +17,7 @@ import java.util.Set;
 public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.ViewHolder> {
 
     public interface OnItemSelectedListener {
-        void onItemSelected(int position, String value);
+        void onItemSelected(int position, String value, int selectedCount);
     }
 
     private final List<String> items;
@@ -61,7 +61,7 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.ViewHo
             }
 
             if (listener != null) {
-                listener.onItemSelected(position, value);
+                listener.onItemSelected(position, value, checkedItems.size());
             }
         });
     }
@@ -82,6 +82,31 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.ViewHo
         public ViewHolder(@NonNull MaterialCheckBox itemView) {
             super(itemView);
             checkBox = itemView;
+        }
+    }
+
+    public void selectAll() {
+        checkedItems.clear();
+        checkedItems.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public int getSelectedCount() {
+        return checkedItems.size();
+    }
+
+    public void toggleSelectAll() {
+        if (checkedItems.size() == items.size()) {
+            checkedItems.clear();
+        } else {
+            checkedItems.clear();
+            checkedItems.addAll(items);
+        }
+
+        notifyDataSetChanged();
+
+        if (listener != null) {
+            listener.onItemSelected(-1, "", checkedItems.size());
         }
     }
 }

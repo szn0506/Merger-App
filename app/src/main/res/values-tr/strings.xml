@@ -1,0 +1,178 @@
+<resources>
+    <!--  App  -->
+    <string name="app_header" translatable="false">Mergify</string>
+    <string name="paste_path">Yolu buraya yapıştırın</string>
+    <string name="merge_button">Birleştir</string>
+    <string name="extract_from_apps_installed">Uygulamalardan Çıkar</string>
+    <string name="select_app">Uygulama Seç</string>
+    <string name="search_app">Uygulama ara...</string>
+    <string name="confirm_app">Onayla</string>
+    <string name="cancel_app">İptal</string>
+    <string name="logs_hint">Günlükler burada görünecek...</string>
+    <string name="built_by">szn tarafından 🤍 ile yapıldı</string>
+
+    <!--  Theme  -->
+    <string name="theme_system">Sistem (Varsayılan)</string>
+    <string name="theme_light">Açık</string>
+    <string name="theme_dark">Koyu</string>
+    <string name="theme_mode">Tema Modu</string>
+    <string name="material_you_switch">Material You</string>
+    <string name="pure_black_switch">Saf Siyah</string>
+
+    <!--  Settings  -->
+    <string name="setting_header">Ayarlar</string>
+    <string name="general_subheader">Genel</string>
+    <string name="automation_subheader">Otomasyon</string>
+    <string name="signing_subheader">İmzalama</string>
+
+    <!--  Auto Detect  -->
+    <string name="title_auto_detect">Otomatik Algılama</string>
+    <string name="desc_auto_detect">Uygulamayı cihazınızın ayarlarına göre otomatik olarak ayarlar.</string>
+    <string name="select_mode">Mod Seçin</string>
+    <string name="mode_disabled">Devre Dışı</string>
+    <string name="mode_from_device">Cihazdan</string>
+    <string name="mode_custom">Özel</string>
+
+    <!--  Detection Rules  -->
+    <string name="header_detection_rules">Algılama Kuralları</string>
+    <string name="desc_detection_rules">Nelerin algılanacağını ve her bir ayarın nasıl uygulanacağını seçin.</string>
+
+    <!--  Auto Configuration  -->
+    <string name="title_auto_config">Otomatik Yapılandırma</string>
+    <string name="label_abi">ABI</string>
+    <string name="label_dpi">DPI</string>
+    <string name="label_language">Dil</string>
+    <string name="info_auto_config">Otomatik Yapılandırma, bölünmüş (split) APK\'ları otomatik olarak seçmek için yukarıdaki kuralları kullanır. Birleştirme sırasında split APK\'ları manuel olarak seçmek için bu özelliği devre dışı bırakın. Yalnızca «Cihazdan» veya «Özel» olarak ayarlanan kurallar uygulanacaktır.</string>
+
+    <!--  Picker  -->
+    <string name="select_picker">%1$s Seçin</string>
+    <string name="search_picker">%1$s Ara</string>
+    <string name="custom_mode">Özel : %1$s</string>
+    <string name="search_language_hint">Dil ara...</string>
+
+    <!--  Auto Install  -->
+    <string name="title_auto_install">Otomatik Yükleme</string>
+    <string name="desc_auto_install">İşlem tamamlandıktan sonra birleştirilen APK\'yı otomatik olarak yükler.</string>
+    <string name="header_installation_options">Yükleme Seçenekleri</string>
+    <string name="desc_installation_options">Yüklemeden önce ve sonra ne olacağını seçin.</string>
+    <string name="switch_enable_auto_install">Otomatik Yüklemeyi Etkinleştir</string>
+    <string name="switch_remove_existing_app">Mevcut Uygulamayı Kaldır</string>
+    <string name="switch_delete_output_apk">Oluşturulan APK\'yı Sil</string>
+    <string name="info_auto_install">Otomatik yükleme, bilinmeyen kaynaklardan uygulama yükleme izni gerektirir. «Mevcut Uygulamayı Kaldır», yüklemeden önce mevcut sürümü kaldırır; «Oluşturulan APK\'yı Sil» ise yalnızca başarılı bir yüklemeden sonra birleştirilmiş APK\'yı siler.</string>
+
+    <!--  Splits  -->
+    <string name="select_splits">Bölümleri Seç</string>
+    <string name="select_splits_subtitle">Hangi bölümlerin birleştirileceğini seçin</string>
+    <string name="selected_count">%1$d/%2$d seçildi</string>
+    <string name="select_all">Tümünü Seç</string>
+
+    <!--  Signing  -->
+    <string name="title_signing">İmzalama</string>
+    <string name="desc_signing">Birleştirilmiş APK\'ları imzalayın ve imzalama seçeneklerini yapılandırın.</string>
+    <string name="signing_switch">Birleştirmeden Sonra İmza Ekle</string>
+    <string name="sign_switch">APK Dosyasını İmza</string>
+    <string name="signing_schemes">İmzalama Düzenleri (Schemes)</string>
+    <string name="signing_desc">İmzalama işlemi sırasında hangi düzenlerin uygulanacağını seçin.</string>
+    <string name="desc_signing_schemes">V1, V2, V3, V4</string>
+
+    <!--  Signature Schemes Dialog  -->
+    <string name="desc_signing_schemes_dialog">Oluşturulacak imza düzenlerini seçin.</string>
+    <string name="scheme_v1_title">V1 (JAR İmzası)</string>
+    <string name="scheme_v1_desc">Android 1.6 ve üzeri ile uyumludur.</string>
+    <string name="scheme_v2_title">V2 (APK İmza Düzeni v2)</string>
+    <string name="scheme_v2_desc">Android 7.0 ve üzeri için gereklidir.</string>
+    <string name="scheme_v3_title">V3 (APK İmza Düzeni v3)</string>
+    <string name="scheme_v3_desc">İmza sertifikası rotasyonunu destekler.</string>
+    <string name="scheme_v4_title">V4 (APK İmza Düzeni v4)</string>
+    <string name="scheme_v4_desc">Artımlı (incremental) yükleme için optimize edilmiştir.</string>
+
+    <!--  Keystore  -->
+    <string name="title_keystore">Anahtar Deposu (Keystore)</string>
+    <string name="desc_keystore">Yeni bir anahtar deposu oluşturun veya mevcut bir depoyu içe aktarın.</string>
+    <string name="info_keystore">Seçilen anahtar deposu, birleştirilen APK\'ları imzalamak için kullanılacaktır. İmza doğrulaması devre dışı bırakılmış köklü (rootlu) bir cihaz kullanmıyorsanız, APK\'lar yüklenmeden önce imzalanmalıdır.</string>
+
+    <!--  Generate Keystore  -->
+    <string name="title_generate_keystore">Keystore Oluştur</string>
+    <string name="desc_generate_keystore">Birleştirilmiş APK\'ları imzalamak için yeni bir anahtar deposu oluşturun.</string>
+    <string name="keystore_name">Keystore Adı</string>
+    <string name="hint_keystore_name">my-release</string>
+    <string name="alias">Rumuz (Alias)</string>
+    <string name="hint_alias">release</string>
+    <string name="password">Şifre</string>
+    <string name="hint_password">Şifre oluşturun</string>
+    <string name="confirm_password">Şifreyi Onayla</string>
+    <string name="hint_confirm_password">Şifrenizi tekrar girin</string>
+    <string name="btn_generate">Oluştur</string>
+
+    <!--  Import Keystore  -->
+    <string name="title_import_keystore">Keystore İçe Aktar</string>
+    <string name="desc_import_keystore">Birleştirilmiş APK\'ları imzalamak için mevcut bir anahtar deposu seçin.</string>
+    <string name="select_keystore_file">Keystore Dosyası Seçin</string>
+    <string name="select_keystore_file_desc">.jks ve .p12 dosyalarını destekler</string>
+    <string name="keystore_password">Keystore Şifresi</string>
+    <string name="hint_keystore_password">Şifrenizi girin</string>
+    <string name="btn_import">İçe Aktar</string>
+
+    <!--  Processing  -->
+    <string name="processing">İşleniyor</string>
+    <string name="desc_processing">Birleştirmeden önce işlem seçeneklerini yapılandırın.</string>
+    <string name="title_output_directory">Çıktı Dizini</string>
+    <string name="desc_output_directory">Birleştirilen dosyaların kaydedileceği dizini seçin</string>
+    <string name="output_directory">Çıktı Dizini</string>
+    <string name="output_directory_default">storage/emulated/0/Download</string>
+    <string name="info_processing">Bu seçenekler, birleştirilmiş APK\'nın nasıl oluşturulacağını ve işleneceğini kontrol eder.</string>
+
+    <!--  Output Name  -->
+    <string name="output_name_format_title">Dosya Adı Biçimi</string>
+    <string name="output_name_format_subtitle">Birleştirilmiş APK adını bir ön ek (prefix) ve son ek (suffix) kullanarak özelleştirin.</string>
+    <string name="output_prefix_hint">Ön Ek</string>
+    <string name="output_prefix_helper">Uygulama adından önce eklenen metin</string>
+    <string name="output_app_name_hint">Uygulama Adı</string>
+    <string name="output_suffix_hint">Son Ek</string>
+    <string name="output_suffix_helper">Uygulama adından sonra eklenen metin</string>
+    <string name="output_preview_label">Önizleme</string>
+    <string name="output_preview_default">Uygulamam.apk</string>
+    <string name="file_name_prefix_suffix">Dosya Adı Ön Ek &amp; Son Ek</string>
+    <string name="file_name_prefix_suffix_default">Varsayılan</string>
+    <string name="append_timestamps">Zaman Damgası Ekle</string>
+    <string name="append_version_name">Sürüm Adı Ekle</string>
+
+    <!--  Compression  -->
+    <string name="compression_level">Sıkıştırma Seviyesi</string>
+    <string name="compression_level_desc">Çıktı dosyası için bir sıkıştırma seviyesi seçin.</string>
+    <string name="compression_level_default">Varsayılan Seviye</string>
+
+    <!--  Logs  -->
+    <string name="log_type">Günlük Seviyesi</string>
+    <string name="default_value">Varsayılan</string>
+    <string name="log_type_default">Varsayılan</string>
+    <string name="log_type_simple">Basit</string>
+
+    <!--  General UI Controls  -->
+    <string name="done">Bitti</string>
+    <string name="btn_save">Kaydet</string>
+    <string name="features">Özellikler</string>
+    <string name="selected">Seçildi</string>
+    <string name="splits">Bölümler</string>
+    <string name="release_key">Release Key</string>
+    <string name="release_jks">release.jks</string>
+    <string name="size_default">100 MB</string>
+    <string name="version_default">1.0.0</string>
+    <string name="bullet">•</string>
+    <string name="select_language">Dil Seçin</string>
+    <string name="language">Dil</string>
+    <string name="language_default">Sistem</string>
+
+    <!--  Arrays  -->
+    <string-array name="compression_levels">
+        <item>Seviye 1</item>
+        <item>Seviye 2</item>
+        <item>Seviye 3</item>
+        <item>Seviye 4</item>
+        <item>Seviye 5</item>
+        <item>Seviye 6</item>
+        <item>Seviye 7</item>
+        <item>Seviye 8</item>
+        <item>Seviye 9</item>
+    </string-array>
+</resources>

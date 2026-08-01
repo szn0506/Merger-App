@@ -53,6 +53,7 @@ public class AutoDeviceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ThemeManager.register(this);
         ThemeManager.applyTheme(this);
+        ThemeManager.applyLanguage(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auto_device_layout);
 

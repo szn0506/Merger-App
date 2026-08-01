@@ -1,0 +1,178 @@
+<resources>
+    <!--  App  -->
+    <string name="app_header" translatable="false">Mergify</string>
+    <string name="paste_path">ここにパスを貼り付け</string>
+    <string name="merge_button">結合</string>
+    <string name="extract_from_apps_installed">インストール済みアプリから抽出</string>
+    <string name="select_app">アプリを選択</string>
+    <string name="search_app">アプリを検索...</string>
+    <string name="confirm_app">確認</string>
+    <string name="cancel_app">キャンセル</string>
+    <string name="logs_hint">ログがここに表示されます...</string>
+    <string name="built_by">szn が 🤍 を込めて作成</string>
+
+    <!--  Theme  -->
+    <string name="theme_system">システム（デフォルト）</string>
+    <string name="theme_light">ライト</string>
+    <string name="theme_dark">ダーク</string>
+    <string name="theme_mode">テーマモード</string>
+    <string name="material_you_switch">Material You</string>
+    <string name="pure_black_switch">漆黒 (Pure Black)</string>
+
+    <!--  Settings  -->
+    <string name="setting_header">設定</string>
+    <string name="general_subheader">一般</string>
+    <string name="automation_subheader">自動化</string>
+    <string name="signing_subheader">署名</string>
+
+    <!--  Auto Detect  -->
+    <string name="title_auto_detect">自動検出</string>
+    <string name="desc_auto_detect">デバイスの設定に基づいてアプリを自動的に調整します。</string>
+    <string name="select_mode">モードを選択</string>
+    <string name="mode_disabled">無効</string>
+    <string name="mode_from_device">デバイスから取得</string>
+    <string name="mode_custom">カスタム</string>
+
+    <!--  Detection Rules  -->
+    <string name="header_detection_rules">検出ルール</string>
+    <string name="desc_detection_rules">検出する項目と各設定の適用方法を選択します。</string>
+
+    <!--  Auto Configuration  -->
+    <string name="title_auto_config">自動構成</string>
+    <string name="label_abi">ABI</string>
+    <string name="label_dpi">DPI</string>
+    <string name="label_language">言語</string>
+    <string name="info_auto_config">自動構成は上記のルールを使用して分割 APK を自動的に選択します。結合時に分割 APK を手動で選択する場合は無効にしてください。「デバイスから取得」または「カスタム」に設定されたルールのみが適用されます。</string>
+
+    <!--  Picker  -->
+    <string name="select_picker">%1$s を選択</string>
+    <string name="search_picker">%1$s を検索</string>
+    <string name="custom_mode">カスタム : %1$s</string>
+    <string name="search_language_hint">言語を検索...</string>
+
+    <!--  Auto Install  -->
+    <string name="title_auto_install">自動インストール</string>
+    <string name="desc_auto_install">結合プロセス完了後、結合された APK を自動的にインストールします。</string>
+    <string name="header_installation_options">インストールオプション</string>
+    <string name="desc_installation_options">インストール前後の動作を選択します。</string>
+    <string name="switch_enable_auto_install">自動インストールを有効化</string>
+    <string name="switch_remove_existing_app">既存のアプリを削除</string>
+    <string name="switch_delete_output_apk">出力 APK を削除</string>
+    <string name="info_auto_install">自動インストールには、不明なソースからのアプリをインストールする権限が必要です。「既存のアプリを削除」はインストール前に現在のバージョンをアンインストールします。「出力 APK を削除」はインストールが成功した場合にのみ結合された APK を削除します。</string>
+
+    <!--  Splits  -->
+    <string name="select_splits">分割を選択</string>
+    <string name="select_splits_subtitle">結合する分割を選択してください</string>
+    <string name="selected_count">%1$d/%2$d 選択済み</string>
+    <string name="select_all">すべて選択</string>
+
+    <!--  Signing  -->
+    <string name="title_signing">署名</string>
+    <string name="desc_signing">結合された APK に署名し、署名オプションを構成します。</string>
+    <string name="signing_switch">結合後に署名</string>
+    <string name="sign_switch">APK ファイルに署名</string>
+    <string name="signing_schemes">署名スキーム</string>
+    <string name="signing_desc">署名プロセス中に適用するスキームを選択します。</string>
+    <string name="desc_signing_schemes">V1, V2, V3, V4</string>
+
+    <!--  Signature Schemes Dialog  -->
+    <string name="desc_signing_schemes_dialog">生成する署名スキームを選択してください。</string>
+    <string name="scheme_v1_title">V1 (JAR 署名)</string>
+    <string name="scheme_v1_desc">Android 1.6 以上と互換性があります。</string>
+    <string name="scheme_v2_title">V2 (APK 署名スキーム v2)</string>
+    <string name="scheme_v2_desc">Android 7.0 以上で必須です。</string>
+    <string name="scheme_v3_title">V3 (APK 署名スキーム v3)</string>
+    <string name="scheme_v3_desc">署名証明書のローテーションをサポートします。</string>
+    <string name="scheme_v4_title">V4 (APK 署名スキーム v4)</string>
+    <string name="scheme_v4_desc">増分インストール用に最適化されています。</string>
+
+    <!--  Keystore  -->
+    <string name="title_keystore">キーストア</string>
+    <string name="desc_keystore">新しいキーストアを生成するか、既存のものをインポートします。</string>
+    <string name="info_keystore">選択したキーストアは結合された APK の署名に使用されます。署名検証が無効化された Root 化デバイスを使用している場合を除き、APK はインストール前に署名されている必要があります。</string>
+
+    <!--  Generate Keystore  -->
+    <string name="title_generate_keystore">キーストアを生成</string>
+    <string name="desc_generate_keystore">結合された APK に署名するための新しいキーストアを作成します。</string>
+    <string name="keystore_name">キーストア名</string>
+    <string name="hint_keystore_name">my-release</string>
+    <string name="alias">エイリアス</string>
+    <string name="hint_alias">release</string>
+    <string name="password">パスワード</string>
+    <string name="hint_password">パスワードを作成</string>
+    <string name="confirm_password">パスワードを再入力</string>
+    <string name="hint_confirm_password">パスワードを確認</string>
+    <string name="btn_generate">生成</string>
+
+    <!--  Import Keystore  -->
+    <string name="title_import_keystore">キーストアをインポート</string>
+    <string name="desc_import_keystore">結合された APK に署名するための既存のキーストアを選択します。</string>
+    <string name="select_keystore_file">キーストアファイルを選択</string>
+    <string name="select_keystore_file_desc">.jks および .p12 ファイルをサポート</string>
+    <string name="keystore_password">キーストアのパスワード</string>
+    <string name="hint_keystore_password">パスワードを入力</string>
+    <string name="btn_import">インポート</string>
+
+    <!--  Processing  -->
+    <string name="processing">処理</string>
+    <string name="desc_processing">結合前の処理オプションを構成します。</string>
+    <string name="title_output_directory">出力ディレクトリ</string>
+    <string name="desc_output_directory">結合されたファイルを保存するディレクトリを選択します</string>
+    <string name="output_directory">出力ディレクトリ</string>
+    <string name="output_directory_default">storage/emulated/0/Download</string>
+    <string name="info_processing">これらのオプションは、結合された APK の生成および処理方法を制御します。</string>
+
+    <!--  Output Name  -->
+    <string name="output_name_format_title">ファイル名形式</string>
+    <string name="output_name_format_subtitle">接頭辞（Prefix）と接尾辞（Suffix）を使用して結合された APK 名をカスタマイズします。</string>
+    <string name="output_prefix_hint">接頭辞</string>
+    <string name="output_prefix_helper">アプリ名の前に追加されるテキスト</string>
+    <string name="output_app_name_hint">アプリ名</string>
+    <string name="output_suffix_hint">接尾辞</string>
+    <string name="output_suffix_helper">アプリ名の後に追加されるテキスト</string>
+    <string name="output_preview_label">プレビュー</string>
+    <string name="output_preview_default">MyApplication.apk</string>
+    <string name="file_name_prefix_suffix">ファイル名の接頭辞 &amp; 接尾辞</string>
+    <string name="file_name_prefix_suffix_default">デフォルト</string>
+    <string name="append_timestamps">タイムスタンプを追加</string>
+    <string name="append_version_name">バージョン名を追加</string>
+
+    <!--  Compression  -->
+    <string name="compression_level">圧縮レベル</string>
+    <string name="compression_level_desc">出力ファイルの圧縮レベルを選択します。</string>
+    <string name="compression_level_default">デフォルトレベル</string>
+
+    <!--  Logs  -->
+    <string name="log_type">ログレベル</string>
+    <string name="default_value">デフォルト</string>
+    <string name="log_type_default">デフォルト</string>
+    <string name="log_type_simple">シンプル</string>
+
+    <!--  General UI Controls  -->
+    <string name="done">完了</string>
+    <string name="btn_save">保存</string>
+    <string name="features">機能</string>
+    <string name="selected">選択済み</string>
+    <string name="splits">分割</string>
+    <string name="release_key">Release Key</string>
+    <string name="release_jks">release.jks</string>
+    <string name="size_default">100 MB</string>
+    <string name="version_default">1.0.0</string>
+    <string name="bullet">•</string>
+    <string name="select_language">言語を選択</string>
+    <string name="language">言語</string>
+    <string name="language_default">システム</string>
+
+    <!--  Arrays  -->
+    <string-array name="compression_levels">
+        <item>レベル 1</item>
+        <item>レベル 2</item>
+        <item>レベル 3</item>
+        <item>レベル 4</item>
+        <item>レベル 5</item>
+        <item>レベル 6</item>
+        <item>レベル 7</item>
+        <item>レベル 8</item>
+        <item>レベル 9</item>
+    </string-array>
+</resources>

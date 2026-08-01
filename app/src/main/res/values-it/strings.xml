@@ -1,0 +1,178 @@
+<resources>
+    <!--  App  -->
+    <string name="app_header" translatable="false">Mergify</string>
+    <string name="paste_path">Incolla il percorso qui</string>
+    <string name="merge_button">Unisci</string>
+    <string name="extract_from_apps_installed">Estrai da app installate</string>
+    <string name="select_app">Seleziona app</string>
+    <string name="search_app">Cerca app...</string>
+    <string name="confirm_app">Conferma</string>
+    <string name="cancel_app">Annulla</string>
+    <string name="logs_hint">I log appariranno qui...</string>
+    <string name="built_by">Creato con 🤍 da szn</string>
+
+    <!--  Theme  -->
+    <string name="theme_system">Sistema (Predefinito)</string>
+    <string name="theme_light">Chiaro</string>
+    <string name="theme_dark">Scuro</string>
+    <string name="theme_mode">Modalità tema</string>
+    <string name="material_you_switch">Material You</string>
+    <string name="pure_black_switch">Nero assoluto</string>
+
+    <!--  Settings  -->
+    <string name="setting_header">Impostazioni</string>
+    <string name="general_subheader">Generale</string>
+    <string name="automation_subheader">Automazione</string>
+    <string name="signing_subheader">Firma</string>
+
+    <!--  Auto Detect  -->
+    <string name="title_auto_detect">Rilevamento automatico</string>
+    <string name="desc_auto_detect">Adatta automaticamente l\'app in base alle impostazioni del dispositivo.</string>
+    <string name="select_mode">Seleziona modalità</string>
+    <string name="mode_disabled">Disattivato</string>
+    <string name="mode_from_device">Dal dispositivo</string>
+    <string name="mode_custom">Personalizzato</string>
+
+    <!--  Detection Rules  -->
+    <string name="header_detection_rules">Regole di rilevamento</string>
+    <string name="desc_detection_rules">Scegli cosa rilevare e come applicare ciascuna impostazione.</string>
+
+    <!--  Auto Configuration  -->
+    <string name="title_auto_config">Configurazione automatica</string>
+    <string name="label_abi">ABI</string>
+    <string name="label_dpi">DPI</string>
+    <string name="label_language">Lingua</string>
+    <string name="info_auto_config">La configurazione automatica utilizza le regole sopra per selezionare automaticamente gli split APK. Disabilitala per scegliere manualmente gli split durante l\'unione. Verranno applicate solo le regole impostate su \"Dal dispositivo\" o \"Personalizzato\".</string>
+
+    <!--  Picker  -->
+    <string name="select_picker">Seleziona %1$s</string>
+    <string name="search_picker">Cerca %1$s</string>
+    <string name="custom_mode">Personalizzato : %1$s</string>
+    <string name="search_language_hint">Cerca lingua...</string>
+
+    <!--  Auto Install  -->
+    <string name="title_auto_install">Installazione automatica</string>
+    <string name="desc_auto_install">Installa automaticamente l\'APK unito al termine del processo.</string>
+    <string name="header_installation_options">Opzioni di installazione</string>
+    <string name="desc_installation_options">Scegli cosa succede prima e dopo l\'installazione.</string>
+    <string name="switch_enable_auto_install">Abilita installazione automatica</string>
+    <string name="switch_remove_existing_app">Rimuovi app esistente</string>
+    <string name="switch_delete_output_apk">Elimina APK generato</string>
+    <string name="info_auto_install">L\'installazione automatica richiede l\'autorizzazione per installare applicazioni da fonti sconosciute. \"Rimuovi app esistente\" disinstallerà la versione attuale prima dell\'installazione, mentre \"Elimina APK generato\" rimuoverà l\'APK unito solo dopo un\'installazione riuscita.</string>
+
+    <!--  Splits  -->
+    <string name="select_splits">Seleziona split</string>
+    <string name="select_splits_subtitle">Scegli quali split unire</string>
+    <string name="selected_count">%1$d/%2$d selezionati</string>
+    <string name="select_all">Seleziona tutto</string>
+
+    <!--  Signing  -->
+    <string name="title_signing">Firma</string>
+    <string name="desc_signing">Firma gli APK uniti e configura le opzioni di firma.</string>
+    <string name="signing_switch">Firma dopo l\'unione</string>
+    <string name="sign_switch">Firma file APK</string>
+    <string name="signing_schemes">Schemi di firma</string>
+    <string name="signing_desc">Scegli quali schemi applicare durante il processo di firma.</string>
+    <string name="desc_signing_schemes">V1, V2, V3, V4</string>
+
+    <!--  Signature Schemes Dialog  -->
+    <string name="desc_signing_schemes_dialog">Scegli quali schemi di firma generare.</string>
+    <string name="scheme_v1_title">V1 (Firma JAR)</string>
+    <string name="scheme_v1_desc">Compatibile con Android 1.6 e versioni successive.</string>
+    <string name="scheme_v2_title">V2 (Schema di firma APK v2)</string>
+    <string name="scheme_v2_desc">Richiesto per Android 7.0 e versioni successive.</string>
+    <string name="scheme_v3_title">V3 (Schema di firma APK v3)</string>
+    <string name="scheme_v3_desc">Supporta la rotazione dei certificati di firma.</string>
+    <string name="scheme_v4_title">V4 (Schema di firma APK v4)</string>
+    <string name="scheme_v4_desc">Ottimizzato per l\'installazione incrementale.</string>
+
+    <!--  Keystore  -->
+    <string name="title_keystore">Keystore</string>
+    <string name="desc_keystore">Genera un nuovo keystore o importane uno esistente.</string>
+    <string name="info_keystore">Il keystore selezionato verrà utilizzato per firmare gli APK uniti. Gli APK devono essere firmati prima dell\'installazione a meno che non si utilizzi un dispositivo con root e verifica della firma disabilitata.</string>
+
+    <!--  Generate Keystore  -->
+    <string name="title_generate_keystore">Genera keystore</string>
+    <string name="desc_generate_keystore">Crea un nuovo keystore per firmare gli APK uniti.</string>
+    <string name="keystore_name">Nome keystore</string>
+    <string name="hint_keystore_name">my-release</string>
+    <string name="alias">Alias</string>
+    <string name="hint_alias">release</string>
+    <string name="password">Password</string>
+    <string name="hint_password">Crea una password</string>
+    <string name="confirm_password">Conferma password</string>
+    <string name="hint_confirm_password">Ripeti la password</string>
+    <string name="btn_generate">Genera</string>
+
+    <!--  Import Keystore  -->
+    <string name="title_import_keystore">Importa keystore</string>
+    <string name="desc_import_keystore">Seleziona un keystore esistente per firmare gli APK uniti.</string>
+    <string name="select_keystore_file">Seleziona file keystore</string>
+    <string name="select_keystore_file_desc">Supporta file .jks e .p12</string>
+    <string name="keystore_password">Password keystore</string>
+    <string name="hint_keystore_password">Inserisci la password</string>
+    <string name="btn_import">Importa</string>
+
+    <!--  Processing  -->
+    <string name="processing">Elaborazione</string>
+    <string name="desc_processing">Configura le opzioni di elaborazione prima dell\'unione.</string>
+    <string name="title_output_directory">Cartella di destinazione</string>
+    <string name="desc_output_directory">Seleziona la cartella in cui salvare i file uniti</string>
+    <string name="output_directory">Cartella di destinazione</string>
+    <string name="output_directory_default">storage/emulated/0/Download</string>
+    <string name="info_processing">Queste opzioni controllano il modo in cui l\'APK unito viene generato ed elaborato.</string>
+
+    <!--  Output Name  -->
+    <string name="output_name_format_title">Formato nome file</string>
+    <string name="output_name_format_subtitle">Personalizza il nome dell\'APK unito utilizzando un prefisso e un suffisso.</string>
+    <string name="output_prefix_hint">Prefisso</string>
+    <string name="output_prefix_helper">Testo aggiunto prima del nome dell\'app</string>
+    <string name="output_app_name_hint">Nome dell\'app</string>
+    <string name="output_suffix_hint">Suffisso</string>
+    <string name="output_suffix_helper">Testo aggiunto dopo il nome dell\'app</string>
+    <string name="output_preview_label">Anteprima</string>
+    <string name="output_preview_default">MiaApp.apk</string>
+    <string name="file_name_prefix_suffix">Prefisso &amp; Suffisso nome file</string>
+    <string name="file_name_prefix_suffix_default">Predefinito</string>
+    <string name="append_timestamps">Aggiungi timestamp</string>
+    <string name="append_version_name">Aggiungi nome versione</string>
+
+    <!--  Compression  -->
+    <string name="compression_level">Livello di compressione</string>
+    <string name="compression_level_desc">Seleziona un livello di compressione per il file di destinazione.</string>
+    <string name="compression_level_default">Livello predefinito</string>
+
+    <!--  Logs  -->
+    <string name="log_type">Livello di log</string>
+    <string name="default_value">Predefinito</string>
+    <string name="log_type_default">Predefinito</string>
+    <string name="log_type_simple">Semplice</string>
+
+    <!--  General UI Controls  -->
+    <string name="done">Fatto</string>
+    <string name="btn_save">Salva</string>
+    <string name="features">Funzionalità</string>
+    <string name="selected">Selezionato</string>
+    <string name="splits">Split</string>
+    <string name="release_key">Release Key</string>
+    <string name="release_jks">release.jks</string>
+    <string name="size_default">100 MB</string>
+    <string name="version_default">1.0.0</string>
+    <string name="bullet">•</string>
+    <string name="select_language">Seleziona lingua</string>
+    <string name="language">Lingua</string>
+    <string name="language_default">Sistema</string>
+
+    <!--  Arrays  -->
+    <string-array name="compression_levels">
+        <item>Livello 1</item>
+        <item>Livello 2</item>
+        <item>Livello 3</item>
+        <item>Livello 4</item>
+        <item>Livello 5</item>
+        <item>Livello 6</item>
+        <item>Livello 7</item>
+        <item>Livello 8</item>
+        <item>Livello 9</item>
+    </string-array>
+</resources>

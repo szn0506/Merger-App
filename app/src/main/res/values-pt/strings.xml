@@ -1,0 +1,178 @@
+<resources>
+    <!--  App  -->
+    <string name="app_header" translatable="false">Mergify</string>
+    <string name="paste_path">Cole o caminho aqui</string>
+    <string name="merge_button">Mesclar</string>
+    <string name="extract_from_apps_installed">Extrair de apps instalados</string>
+    <string name="select_app">Selecionar aplicativo</string>
+    <string name="search_app">Buscar aplicativo...</string>
+    <string name="confirm_app">Confirmar</string>
+    <string name="cancel_app">Cancelar</string>
+    <string name="logs_hint">Os logs aparecerão aqui...</string>
+    <string name="built_by">Feito com 🤍 por szn</string>
+
+    <!--  Theme  -->
+    <string name="theme_system">Sistema (Padrão)</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Escuro</string>
+    <string name="theme_mode">Modo do tema</string>
+    <string name="material_you_switch">Material You</string>
+    <string name="pure_black_switch">Preto absoluto</string>
+
+    <!--  Settings  -->
+    <string name="setting_header">Configurações</string>
+    <string name="general_subheader">Geral</string>
+    <string name="automation_subheader">Automação</string>
+    <string name="signing_subheader">Assinatura</string>
+
+    <!--  Auto Detect  -->
+    <string name="title_auto_detect">Detecção automática</string>
+    <string name="desc_auto_detect">Ajuste automaticamente o aplicativo com base nas configurações do seu dispositivo.</string>
+    <string name="select_mode">Selecionar modo</string>
+    <string name="mode_disabled">Desativado</string>
+    <string name="mode_from_device">Do dispositivo</string>
+    <string name="mode_custom">Personalizado</string>
+
+    <!--  Detection Rules  -->
+    <string name="header_detection_rules">Regras de detecção</string>
+    <string name="desc_detection_rules">Escolha o que detectar e como cada configuração é aplicada.</string>
+
+    <!--  Auto Configuration  -->
+    <string name="title_auto_config">Configuração automática</string>
+    <string name="label_abi">ABI</string>
+    <string name="label_dpi">DPI</string>
+    <string name="label_language">Idioma</string>
+    <string name="info_auto_config">A Configuração Automática usa as regras acima para selecionar automaticamente os APKs divididos (splits). Desative para escolher os APKs manualmente durante a mesclagem. Apenas as regras definidas como \"Do dispositivo\" ou \"Personalizado\" serão aplicadas.</string>
+
+    <!--  Picker  -->
+    <string name="select_picker">Selecionar %1$s</string>
+    <string name="search_picker">Buscar %1$s</string>
+    <string name="custom_mode">Personalizado : %1$s</string>
+    <string name="search_language_hint">Buscar idioma...</string>
+
+    <!--  Auto Install  -->
+    <string name="title_auto_install">Instalação automática</string>
+    <string name="desc_auto_install">Instale automaticamente o APK mesclado após a conclusão do processo.</string>
+    <string name="header_installation_options">Opções de instalação</string>
+    <string name="desc_installation_options">Escolha o que acontece antes e depois da instalação.</string>
+    <string name="switch_enable_auto_install">Ativar instalação automática</string>
+    <string name="switch_remove_existing_app">Desinstalar aplicativo existente</string>
+    <string name="switch_delete_output_apk">Excluir APK gerado</string>
+    <string name="info_auto_install">A instalação automática requer permissão para instalar aplicativos de fontes desconhecidas. \"Desinstalar aplicativo existente\" removerá a versão atual antes da instalação, enquanto \"Excluir APK gerado\" apagará o APK mesclado apenas após uma instalação bem-sucedida.</string>
+
+    <!--  Splits  -->
+    <string name="select_splits">Selecionar splits</string>
+    <string name="select_splits_subtitle">Escolha quais splits deseja mesclar</string>
+    <string name="selected_count">%1$d/%2$d selecionados</string>
+    <string name="select_all">Selecionar todos</string>
+
+    <!--  Signing  -->
+    <string name="title_signing">Assinatura</string>
+    <string name="desc_signing">Assine os APKs mesclados e configure as opções de assinatura.</string>
+    <string name="signing_switch">Assinar após mesclar</string>
+    <string name="sign_switch">Assinar arquivo APK</string>
+    <string name="signing_schemes">Esquemas de assinatura</string>
+    <string name="signing_desc">Escolha quais esquemas aplicar durante o processo de assinatura.</string>
+    <string name="desc_signing_schemes">V1, V2, V3, V4</string>
+
+    <!--  Signature Schemes Dialog  -->
+    <string name="desc_signing_schemes_dialog">Escolha os esquemas de assinatura que deseja gerar.</string>
+    <string name="scheme_v1_title">V1 (Assinatura JAR)</string>
+    <string name="scheme_v1_desc">Compatível com Android 1.6 e superior.</string>
+    <string name="scheme_v2_title">V2 (Esquema de Assinatura de APK v2)</string>
+    <string name="scheme_v2_desc">Obrigatório para Android 7.0 e superior.</string>
+    <string name="scheme_v3_title">V3 (Esquema de Assinatura de APK v3)</string>
+    <string name="scheme_v3_desc">Suporta rotação de certificados de assinatura.</string>
+    <string name="scheme_v4_title">V4 (Esquema de Assinatura de APK v4)</string>
+    <string name="scheme_v4_desc">Otimizado para instalação incremental.</string>
+
+    <!--  Keystore  -->
+    <string name="title_keystore">Keystore</string>
+    <string name="desc_keystore">Gere uma nova keystore ou importe uma existente.</string>
+    <string name="info_keystore">A keystore selecionada será usada para assinar os APKs mesclados. Os APKs devem ser assinados antes da instalação, a menos que você esteja usando um dispositivo com root e verificação de assinatura desativada.</string>
+
+    <!--  Generate Keystore  -->
+    <string name="title_generate_keystore">Gerar Keystore</string>
+    <string name="desc_generate_keystore">Crie uma nova keystore para assinar os APKs mesclados.</string>
+    <string name="keystore_name">Nome da Keystore</string>
+    <string name="hint_keystore_name">my-release</string>
+    <string name="alias">Alias</string>
+    <string name="hint_alias">release</string>
+    <string name="password">Senha</string>
+    <string name="hint_password">Crie uma senha</string>
+    <string name="confirm_password">Confirmar senha</string>
+    <string name="hint_confirm_password">Repita sua senha</string>
+    <string name="btn_generate">Gerar</string>
+
+    <!--  Import Keystore  -->
+    <string name="title_import_keystore">Importar Keystore</string>
+    <string name="desc_import_keystore">Selecione uma keystore existente para assinar os APKs mesclados.</string>
+    <string name="select_keystore_file">Selecionar arquivo de Keystore</string>
+    <string name="select_keystore_file_desc">Suporta arquivos .jks e .p12</string>
+    <string name="keystore_password">Senha da Keystore</string>
+    <string name="hint_keystore_password">Digite sua senha</string>
+    <string name="btn_import">Importar</string>
+
+    <!--  Processing  -->
+    <string name="processing">Processamento</string>
+    <string name="desc_processing">Configure as opções de processamento antes de mesclar.</string>
+    <string name="title_output_directory">Diretório de saída</string>
+    <string name="desc_output_directory">Selecione o diretório para salvar os arquivos mesclados</string>
+    <string name="output_directory">Diretório de saída</string>
+    <string name="output_directory_default">storage/emulated/0/Download</string>
+    <string name="info_processing">Essas opções controlam como o APK mesclado é gerado e processado.</string>
+
+    <!--  Output Name  -->
+    <string name="output_name_format_title">Formato do nome do arquivo</string>
+    <string name="output_name_format_subtitle">Personalize o nome do APK mesclado usando um prefixo e um sufixo.</string>
+    <string name="output_prefix_hint">Prefixo</string>
+    <string name="output_prefix_helper">Texto adicionado antes do nome do app</string>
+    <string name="output_app_name_hint">Nome do aplicativo</string>
+    <string name="output_suffix_hint">Sufixo</string>
+    <string name="output_suffix_helper">Texto adicionado após o nome do app</string>
+    <string name="output_preview_label">Pré-visualização</string>
+    <string name="output_preview_default">MeuAplicativo.apk</string>
+    <string name="file_name_prefix_suffix">Prefixo &amp; Sufixo do nome do arquivo</string>
+    <string name="file_name_prefix_suffix_default">Padrão</string>
+    <string name="append_timestamps">Adicionar carimbo de data/hora</string>
+    <string name="append_version_name">Adicionar nome da versão</string>
+
+    <!--  Compression  -->
+    <string name="compression_level">Nível de compressão</string>
+    <string name="compression_level_desc">Selecione o nível de compressão para o arquivo de saída.</string>
+    <string name="compression_level_default">Nível padrão</string>
+
+    <!--  Logs  -->
+    <string name="log_type">Nível de log</string>
+    <string name="default_value">Padrão</string>
+    <string name="log_type_default">Padrão</string>
+    <string name="log_type_simple">Simples</string>
+
+    <!--  General UI Controls  -->
+    <string name="done">Concluído</string>
+    <string name="btn_save">Salvar</string>
+    <string name="features">Recursos</string>
+    <string name="selected">Selecionado</string>
+    <string name="splits">Splits</string>
+    <string name="release_key">Release Key</string>
+    <string name="release_jks">release.jks</string>
+    <string name="size_default">100 MB</string>
+    <string name="version_default">1.0.0</string>
+    <string name="bullet">•</string>
+    <string name="select_language">Selecionar idioma</string>
+    <string name="language">Idioma</string>
+    <string name="language_default">Sistema</string>
+
+    <!--  Arrays  -->
+    <string-array name="compression_levels">
+        <item>Nível 1</item>
+        <item>Nível 2</item>
+        <item>Nível 3</item>
+        <item>Nível 4</item>
+        <item>Nível 5</item>
+        <item>Nível 6</item>
+        <item>Nível 7</item>
+        <item>Nível 8</item>
+        <item>Nível 9</item>
+    </string-array>
+</resources>
