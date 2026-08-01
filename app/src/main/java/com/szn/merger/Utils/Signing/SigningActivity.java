@@ -34,7 +34,8 @@ public class SigningActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;
     private RecyclerView keystoreRecycler;
     private KeystoreAdapter adapter;
-    private MaterialButton btnGenerate, btnImport, importBtn;
+    private MaterialButton btnGenerate;
+    private MaterialButton btnImport;
     private String name, aliasName, pass, confirm, importPass;
     private Uri selectedKeystoreUri;
     private String selectedKeystoreType, selectedKeystoreName;
@@ -307,10 +308,10 @@ public class SigningActivity extends AppCompatActivity {
 
         importPassword = bottomSheetDialog.findViewById(R.id.password);
         importCard = bottomSheetDialog.findViewById(R.id.importKeystore);
-        importBtn = bottomSheetDialog.findViewById(R.id.btnImport);
+        MaterialButton importBtn = bottomSheetDialog.findViewById(R.id.btnImport);
         importCard.setOnClickListener( v -> openSAF());
 
-        importBtn.setOnClickListener( v -> {
+        importBtn.setOnClickListener(v -> {
             importPass = importPassword.getText().toString().trim();
             if (!validateImport()) return;
             importKeystore();

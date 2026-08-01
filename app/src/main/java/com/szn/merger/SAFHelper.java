@@ -18,7 +18,6 @@ public class SAFHelper {
 
     private final AppCompatActivity activity;
     private final OnFilePickedListener listener;
-    // Launcher now lives here
     private final ActivityResultLauncher<String[]> filePickerLauncher;
 
     public SAFHelper(AppCompatActivity activity, OnFilePickedListener listener) {

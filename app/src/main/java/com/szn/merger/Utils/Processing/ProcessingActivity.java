@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -23,6 +24,7 @@ import com.szn.merger.Utils.RadioAdapter;
 import java.util.Arrays;
 
 public class ProcessingActivity extends AppCompatActivity {
+    private MaterialToolbar toolbar;
     MaterialCardView outputDir, prefixSuffix, compressionLevel, logType;
     CustomSwitchItem extractNativeLibs, timestamp, version;
     TextView currentPath, currentFormatName, currentCompressionLevel, currentLogType;
@@ -41,6 +43,7 @@ public class ProcessingActivity extends AppCompatActivity {
         setupListener();
     }
     private void initViews() {
+        toolbar = findViewById(R.id.toolbar);
         extractNativeLibs = findViewById(R.id.extract_native_libs);
         outputDir = findViewById(R.id.card_output_directory);
         prefixSuffix = findViewById(R.id.card_file_name_prefix_suffix);
@@ -55,6 +58,7 @@ public class ProcessingActivity extends AppCompatActivity {
     }
 
     private void setupListener() {
+        toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         extractNativeLibs.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setExtractNativeLibs(this, isChecked));
         outputDir.setOnClickListener(v -> showPathDirDialog());
         prefixSuffix.setOnClickListener( v-> showFormatNameDialog());

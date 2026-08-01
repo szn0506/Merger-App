@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Language"
+        android:text="@string/select_language"
         android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="?attr/colorOnSurface"/>
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
-            android:hint="Search Language..."
+            android:hint="@string/search_language_hint"
             android:paddingHorizontal="16dp"
             android:textSize="14dp"
             android:maxLines="1"
@@ -44,28 +44,10 @@
             android:textColorHint="?attr/colorOnSurfaceVariant"/>
     </com.google.android.material.card.MaterialCardView>
 
-    <RadioGroup
-        android:id="@+id/radioGroupLang"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/langRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"/>
 
-        <RadioButton
-            android:text="System"
-            android:padding="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <RadioButton
-            android:text="Indonesia"
-            android:padding="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <RadioButton
-            android:text="English"
-            android:padding="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </RadioGroup>
 </LinearLayout>
