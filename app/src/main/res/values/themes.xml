@@ -84,41 +84,25 @@
         <item name="cornerSizeBottomRight">20dp</item>
     </style>
 
-    <style name="Widget.Card.RoundedTop" parent="Widget.MaterialComponents.CardView">
+    <style name="Widget.Card.RoundedTop" parent="Widget.Material3.CardView.Filled">
         <item name="shapeAppearanceOverlay">@style/Shape.RoundedTop</item>
         <item name="cardBackgroundColor">?attr/colorSurfaceVariant</item>
-        <item name="strokeWidth">0dp</item>
         <item name="cardPreventCornerOverlap">false</item>
-        <item name="android:layout_marginBottom">2dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
     </style>
-    <style name="Widget.Card.FlatMiddle" parent="Widget.MaterialComponents.CardView">
+    <style name="Widget.Card.FlatMiddle" parent="Widget.Material3.CardView.Filled">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginBottom">3dp</item>
-        <item name="cardCornerRadius">4dp</item>
-        <item name="strokeWidth">0dp</item>
         <item name="cardBackgroundColor">?attr/colorSurfaceVariant</item>
     </style>
     <style name="Widget.Card.RoundedMiddle" parent="Widget.Material3.CardView.Filled">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginBottom">3dp</item>
-        <item name="cardCornerRadius">20dp</item>
-        <item name="strokeWidth">0dp</item>
         <item name="cardBackgroundColor">?attr/colorSurfaceVariant</item>
     </style>
     <style name="Widget.Card.RoundedBottom" parent="Widget.Material3.CardView.Filled">
         <item name="shapeAppearanceOverlay">@style/Shape.RoundedBottom</item>
         <item name="cardBackgroundColor">?attr/colorSurfaceVariant</item>
-        <item name="strokeWidth">0dp</item>
-        <item name="contentPaddingTop">-4dp</item>
-        <item name="contentPaddingBottom">-8dp</item>
-        <item name="cardPreventCornerOverlap">false</item>
         <item name="android:layout_marginBottom">2dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
     </style>
     <style name="AppTheme.Dynamic.PureBlack" parent="AppTheme.Dynamic">
         <item name="android:colorBackground">#000000</item>
