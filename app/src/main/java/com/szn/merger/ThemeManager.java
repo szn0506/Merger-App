@@ -1,6 +1,7 @@
 package com.szn.merger;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Looper;
@@ -22,219 +23,245 @@ public class ThemeManager {
     private static final String KEY_MATERIAL_YOU = "material_you_enabled";
     private static final String KEY_PURE_BLACK = "pure_black_enabled";
     private static final String KEY_LANGUAGE = "selected_language";
-    private static final int[] MODE_MAP = {
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
-            AppCompatDelegate.MODE_NIGHT_NO,
-            AppCompatDelegate.MODE_NIGHT_YES
-    };
 
+    private static final int[] MODE_MAP = {AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM, AppCompatDelegate.MODE_NIGHT_NO, AppCompatDelegate.MODE_NIGHT_YES};
     private static final List<Activity> activities = new ArrayList<>();
 
     public static void register(Activity activity) {
-        if (!activities.contains(activity)) {
-            activities.add(activity);
+        try {
+            if (!activities.contains(activity)) activities.add(activity);
+        } catch (Throwable e) {
         }
     }
 
     private static void recreateAll() {
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            for (Activity activity : activities) {
-                if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
-                    activity.recreate();
+
+            List<Activity> snapshot =
+                    new ArrayList<>(activities);
+
+            for (Activity activity : snapshot) {
+
+                if (activity == null ||
+                        activity.isFinishing() ||
+                        activity.isDestroyed()) {
+
+                    activities.remove(activity);
+                    continue;
                 }
+
+                Intent intent =
+                        new Intent(
+                                activity,
+                                activity.getClass()
+                        );
+
+                intent.putExtras(activity.getIntent());
+
+                activity.startActivity(intent);
+
+                activity.overridePendingTransition(
+                        android.R.anim.fade_in,
+                        android.R.anim.fade_out
+                );
+
+                activity.finish();
+
+                activity.overridePendingTransition(
+                        android.R.anim.fade_in,
+                        android.R.anim.fade_out
+                );
             }
-        }, 200);
+
+        }, 400);
     }
 
     public static void applyTheme(Activity activity) {
-        PrefsManager prefs = PrefsManager.getInstance(activity);
+        try {
+            PrefsManager prefs = PrefsManager.getInstance(activity);
+            int mode = prefs.getInt(KEY_THEME, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            boolean materialYou = prefs.getBoolean(KEY_MATERIAL_YOU, false);
+            boolean pureBlack = prefs.getBoolean(KEY_PURE_BLACK, false);
+            boolean isDark = !isCurrentThemeLight(activity, prefs);
 
-        int mode = prefs.getInt(KEY_THEME, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        boolean materialYou = prefs.getBoolean(KEY_MATERIAL_YOU, false);
-        boolean pureBlack = prefs.getBoolean(KEY_PURE_BLACK, false);
+            if (materialYou && pureBlack && isDark) {
+                activity.setTheme(R.style.AppTheme_Dynamic_PureBlack);
+            } else if (materialYou) {
+                activity.setTheme(R.style.AppTheme_Dynamic);
+            } else if (pureBlack && isDark) {
+                activity.setTheme(R.style.AppTheme_PureBlack);
+            } else {
+                activity.setTheme(R.style.AppTheme);
+            }
 
-        // Check if the current screen state is actually in dark/night mode
-        boolean isDark = !isCurrentThemeLight(activity, prefs);
-
-        if (materialYou && pureBlack && isDark) {
-            // IF BOTH ARE ACTIVE (At Night) -> Use AMOLED-ified Dynamic Theme
-            activity.setTheme(R.style.AppTheme_Dynamic_PureBlack);
-        } else if (materialYou) {
-            // Only Material You is active
-            activity.setTheme(R.style.AppTheme_Dynamic);
-        } else if (pureBlack && isDark) {
-            // Only standard Pure Black is active
-            activity.setTheme(R.style.AppTheme_PureBlack);
-        } else {
-            // Default standard mode
-            activity.setTheme(R.style.AppTheme);
+            AppCompatDelegate.setDefaultNightMode(mode);
+        } catch (Throwable e) {
         }
-
-        AppCompatDelegate.setDefaultNightMode(mode);
     }
 
-    public static void setupMaterialYouSwitch(
-            Activity activity,
-            CustomSwitchItem item
-    ) {
-        if (item == null) return;
-
-        PrefsManager prefs =
-                PrefsManager.getInstance(activity);
-
-        item.setChecked(
-                prefs.getBoolean(KEY_MATERIAL_YOU, false)
-        );
-
-        item.setOnCheckedChangeListener((v, isChecked) -> {
-            prefs.saveBoolean(KEY_MATERIAL_YOU, isChecked);
-            recreateAll();
-        });
+    public static void setupMaterialYouSwitch(Activity activity, CustomSwitchItem item) {
+        try {
+            if (item == null) return;
+            PrefsManager prefs = PrefsManager.getInstance(activity);
+            boolean checked = prefs.getBoolean(KEY_MATERIAL_YOU, false);
+            item.setChecked(checked);
+            item.setOnCheckedChangeListener((v, isChecked) -> {
+                try {
+                    prefs.saveBoolean(KEY_MATERIAL_YOU, isChecked);
+                    recreateAll();
+                } catch (Throwable e) {
+                }
+            });
+        } catch (Throwable e) {
+        }
     }
 
-    public static void setupPureBlackSwitch(
-            Activity activity,
-            CustomSwitchItem item
-    ) {
-        if (item == null) return;
+    public static void setupPureBlackSwitch(Activity activity, CustomSwitchItem item) {
+        try {
+            if (item == null) return;
+            PrefsManager prefs = PrefsManager.getInstance(activity);
+            boolean isPureBlackChecked = prefs.getBoolean(KEY_PURE_BLACK, false);
+            boolean isLight = isCurrentThemeLight(activity, prefs);
 
-        PrefsManager prefs = PrefsManager.getInstance(activity);
+            if (isLight) {
+                item.setEnabled(false);
+                item.setAlpha(0.4f);
+                item.setChecked(false);
+                item.setFocusable(false);
+            } else {
+                item.setEnabled(true);
+                item.setAlpha(1.0f);
+                item.setFocusable(true);
+                item.setChecked(isPureBlackChecked);
+            }
 
-        // Retrieve original saved state
-        boolean isPureBlackChecked = prefs.getBoolean(KEY_PURE_BLACK, false);
-
-        if (isCurrentThemeLight(activity, prefs)) {
-            item.setEnabled(false);
-            item.setAlpha(0.4f);
-            item.setChecked(false);
-            item.setFocusable(false);
-        } else {
-            item.setEnabled(true);
-            item.setAlpha(1.0f);
-            item.setFocusable(true);
-            item.setChecked(isPureBlackChecked); // FIX: Only set original checked state if currently in Dark Mode
+            item.setOnCheckedChangeListener((v, isChecked) -> {
+                try {
+                    prefs.saveBoolean(KEY_PURE_BLACK, isChecked);
+                    recreateAll();
+                } catch (Throwable e) {
+                }
+            });
+        } catch (Throwable e) {
         }
-
-        item.setOnCheckedChangeListener((v, isChecked) -> {
-            prefs.saveBoolean(KEY_PURE_BLACK, isChecked);
-            recreateAll();
-        });
     }
 
     private static boolean isCurrentThemeLight(Activity activity, PrefsManager prefs) {
-        int mode = prefs.getInt(KEY_THEME, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        if (mode == AppCompatDelegate.MODE_NIGHT_NO) {
-            return true;
-        } else if (mode == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
-            int currentFollowSystemMode = activity.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-            return currentFollowSystemMode == Configuration.UI_MODE_NIGHT_NO;
+        try {
+            int mode = prefs.getInt(KEY_THEME, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            int uiMode = activity.getResources().getConfiguration().uiMode;
+            int nightMask = uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+            if (mode == AppCompatDelegate.MODE_NIGHT_NO) return true;
+            else if (mode == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                return nightMask == Configuration.UI_MODE_NIGHT_NO;
+            return false;
+        } catch (Throwable e) {
+            return false;
         }
-        return false;
     }
 
-    public static void setupThemePopup(
-            Activity activity,
-            View themeCard,
-            TextView currentThemeText
-    ) {
-        if (themeCard == null || currentThemeText == null)
-            return;
+    public static void setupThemePopup(Activity activity, View themeCard, TextView currentThemeText) {
+        try {
+            if (themeCard == null || currentThemeText == null) return;
+            PrefsManager prefs = PrefsManager.getInstance(activity);
+            int currentMode = prefs.getInt(KEY_THEME, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
-        PrefsManager prefs = PrefsManager.getInstance(activity);
+            if (currentMode == AppCompatDelegate.MODE_NIGHT_NO) {
+                currentThemeText.setText(activity.getString(R.string.theme_light));
+            } else if (currentMode == AppCompatDelegate.MODE_NIGHT_YES) {
+                currentThemeText.setText(activity.getString(R.string.theme_dark));
+            } else {
+                currentThemeText.setText(activity.getString(R.string.theme_system));
+            }
 
-        int currentMode = prefs.getInt(KEY_THEME, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            themeCard.setOnClickListener(anchor -> {
+                try {
+                    View view = activity.getLayoutInflater().inflate(R.layout.theme_sheet, null);
+                    View checkSystem = view.findViewById(R.id.check_system);
+                    View checkLight = view.findViewById(R.id.check_light);
+                    View checkDark = view.findViewById(R.id.check_dark);
+                    View system = view.findViewById(R.id.system);
+                    View light = view.findViewById(R.id.light);
+                    View dark = view.findViewById(R.id.dark);
+                    TextView systemTv = view.findViewById(R.id.system_text);
+                    TextView lightTv = view.findViewById(R.id.light_text);
+                    TextView darkTv = view.findViewById(R.id.dark_text);
 
-        if (currentMode == AppCompatDelegate.MODE_NIGHT_NO) {
-            currentThemeText.setText(activity.getString(R.string.theme_light));
-        } else if (currentMode == AppCompatDelegate.MODE_NIGHT_YES) {
-            currentThemeText.setText(activity.getString(R.string.theme_dark));
-        } else {
-            currentThemeText.setText(activity.getString(R.string.theme_system));
+                    PopupWindow popup = new PopupWindow(view, (int) (220 * activity.getResources().getDisplayMetrics().density), ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+                    checkSystem.setVisibility(currentMode == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM ? View.VISIBLE : View.GONE);
+                    checkLight.setVisibility(currentMode == AppCompatDelegate.MODE_NIGHT_NO ? View.VISIBLE : View.GONE);
+                    checkDark.setVisibility(currentMode == AppCompatDelegate.MODE_NIGHT_YES ? View.VISIBLE : View.GONE);
+
+                    popup.showAsDropDown(anchor, 0, 4, Gravity.END);
+
+                    system.setOnClickListener(v -> {
+                        currentThemeText.setText(systemTv.getText().toString());
+                        updateTheme(activity, popup, MODE_MAP[0], prefs);
+                    });
+
+                    light.setOnClickListener(v -> {
+                        currentThemeText.setText(lightTv.getText().toString());
+                        updateTheme(activity, popup, MODE_MAP[1], prefs);
+                    });
+
+                    dark.setOnClickListener(v -> {
+                        currentThemeText.setText(darkTv.getText().toString());
+                        updateTheme(activity, popup, MODE_MAP[2], prefs);
+                    });
+                } catch (Throwable e) {
+                }
+            });
+        } catch (Throwable e) {
         }
-
-        themeCard.setOnClickListener(anchor -> {
-            View view = activity.getLayoutInflater().inflate(R.layout.theme_sheet, null);
-
-            PopupWindow popup = new PopupWindow(
-                    view,
-                    (int) (220 * activity.getResources().getDisplayMetrics().density),
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    true
-            );
-
-            view.findViewById(R.id.check_system).setVisibility(currentMode == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM ? View.VISIBLE : View.GONE);
-            view.findViewById(R.id.check_light).setVisibility(currentMode == AppCompatDelegate.MODE_NIGHT_NO ? View.VISIBLE : View.GONE);
-            view.findViewById(R.id.check_dark).setVisibility(currentMode == AppCompatDelegate.MODE_NIGHT_YES ? View.VISIBLE : View.GONE);
-
-            popup.showAsDropDown(anchor, 0, 4, Gravity.END);
-
-            TextView systemTv = view.findViewById(R.id.system_text);
-            TextView lightTv = view.findViewById(R.id.light_text);
-            TextView darkTv = view.findViewById(R.id.dark_text);
-
-            view.findViewById(R.id.system).setOnClickListener(v -> {
-                currentThemeText.setText(systemTv.getText().toString());
-                updateTheme(activity, popup, MODE_MAP[0], prefs); // FIX: Pass activity parameter
-            });
-
-            view.findViewById(R.id.light).setOnClickListener(v -> {
-                currentThemeText.setText(lightTv.getText().toString());
-                updateTheme(activity, popup, MODE_MAP[1], prefs); // FIX: Pass activity parameter
-            });
-
-            view.findViewById(R.id.dark).setOnClickListener(v -> {
-                currentThemeText.setText(darkTv.getText().toString());
-                updateTheme(activity, popup, MODE_MAP[2], prefs); // FIX: Pass activity parameter
-            });
-        });
     }
 
-    private static void updateTheme(
-            Activity activity,
-            PopupWindow popup,
-            int mode,
-            PrefsManager prefs
-    ) {
-        prefs.saveInt(KEY_THEME, mode);
+    private static void updateTheme(Activity activity, PopupWindow popup, int mode, PrefsManager prefs) {
+        try {
+            prefs.saveInt(KEY_THEME, mode);
+            boolean light = isCurrentThemeLight(activity, prefs);
+            if (mode == AppCompatDelegate.MODE_NIGHT_NO || light)
+                prefs.saveBoolean(KEY_PURE_BLACK, false);
 
-        // FIX: If switching modes results in a Light Theme (either forced Light or Follow System during daytime), force clear the Pure Black state
-        if (mode == AppCompatDelegate.MODE_NIGHT_NO || isCurrentThemeLight(activity, prefs)) {
-            prefs.saveBoolean(KEY_PURE_BLACK, false);
+            AppCompatDelegate.setDefaultNightMode(mode);
+            popup.dismiss();
+            recreateAll();
+        } catch (Throwable e) {
         }
-
-        AppCompatDelegate.setDefaultNightMode(mode);
-        popup.dismiss();
-        recreateAll();
     }
 
     public static int getLanguage(Activity activity) {
-        return PrefsManager.getInstance(activity).getInt(KEY_LANGUAGE, 0);
+        try {
+            return PrefsManager.getInstance(activity).getInt(KEY_LANGUAGE, 0);
+        } catch (Throwable e) {
+            return 0;
+        }
     }
 
     public static void applyLanguage(Activity activity) {
+        try {
+            int index = getLanguage(activity);
+            String[] codes = activity.getResources().getStringArray(R.array.language_codes);
 
-        int index = getLanguage(activity);
+            if (index < 0 || index >= codes.length) return;
 
-        String[] codes = activity.getResources()
-                .getStringArray(R.array.language_codes);
-
-        if (index == 0) {
-            AppCompatDelegate.setApplicationLocales(
-                    LocaleListCompat.getEmptyLocaleList()
-            );
-        } else {
-            AppCompatDelegate.setApplicationLocales(
-                    LocaleListCompat.forLanguageTags(codes[index])
-            );
+            if (index == 0) {
+                AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList());
+            } else {
+                AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(codes[index]));
+            }
+        } catch (Throwable e) {
         }
     }
 
     public static void setLanguage(Activity activity, int index) {
-        PrefsManager prefs = PrefsManager.getInstance(activity);
-
-        prefs.saveInt(KEY_LANGUAGE, index);
-        applyLanguage(activity);
-
-        recreateAll();
+        try {
+            PrefsManager prefs = PrefsManager.getInstance(activity);
+            prefs.saveInt(KEY_LANGUAGE, index);
+            applyLanguage(activity);
+            recreateAll();
+        } catch (Throwable e) {
+        }
     }
 }
