@@ -1,0 +1,133 @@
+package com.szn.merger.Utils.Adapter;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.szn.merger.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class APKDetailsAdapter extends RecyclerView.Adapter<APKDetailsAdapter.ViewHolder> {
+
+    private final List<String> titles;
+    private final List<Integer> icons;
+    private final List<String[][]> rows;
+
+    public APKDetailsAdapter() {
+        titles = new ArrayList<>();
+        icons = new ArrayList<>();
+        rows = new ArrayList<>();
+    }
+
+    public void addCard(String title, int icon, String[][] cardRows) {
+        titles.add(title);
+        icons.add(icon);
+        rows.add(cardRows);
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(
+            @NonNull ViewGroup parent,
+            int viewType
+    ) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_details_card, parent, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(
+            @NonNull ViewHolder holder,
+            int position
+    ) {
+        holder.cardTitle.setText(titles.get(position));
+        holder.cardIcon.setImageResource(icons.get(position));
+
+        holder.rowsRecycler.setLayoutManager(
+                new LinearLayoutManager(holder.itemView.getContext())
+        );
+
+        holder.rowsRecycler.setAdapter(
+                new RowsAdapter(rows.get(position))
+        );
+    }
+
+    @Override
+    public int getItemCount() {
+        return titles.size();
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView cardIcon;
+        TextView cardTitle;
+        RecyclerView rowsRecycler;
+
+        ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            cardIcon = itemView.findViewById(R.id.cardIcon);
+            cardTitle = itemView.findViewById(R.id.cardTitle);
+            rowsRecycler = itemView.findViewById(R.id.rowsRecycler);
+        }
+    }
+
+    private static class RowsAdapter
+            extends RecyclerView.Adapter<RowsAdapter.ViewHolder> {
+
+        private final String[][] rows;
+
+        RowsAdapter(String[][] rows) {
+            this.rows = rows;
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(
+                @NonNull ViewGroup parent,
+                int viewType
+        ) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_details_row, parent, false);
+
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(
+                @NonNull ViewHolder holder,
+                int position
+        ) {
+            holder.rowTitle.setText(rows[position][0]);
+            holder.rowValue.setText(rows[position][1]);
+        }
+
+        @Override
+        public int getItemCount() {
+            return rows.length;
+        }
+
+        static class ViewHolder extends RecyclerView.ViewHolder {
+
+            TextView rowTitle;
+            TextView rowValue;
+
+            ViewHolder(@NonNull View itemView) {
+                super(itemView);
+
+                rowTitle = itemView.findViewById(R.id.rowTitle);
+                rowValue = itemView.findViewById(R.id.rowValue);
+            }
+        }
+    }
+}
