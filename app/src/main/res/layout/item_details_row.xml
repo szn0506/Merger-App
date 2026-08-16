@@ -9,18 +9,19 @@
     <TextView
         android:id="@+id/rowTitle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:textSize="14sp" />
 
     <TextView
         android:id="@+id/rowValue"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginStart="16dp"
-        android:ellipsize="middle"
         android:gravity="end"
         android:maxLines="1"
+        android:ellipsize="end"
         android:textSize="14sp" />
 
 </LinearLayout>

@@ -1,6 +1,12 @@
 package com.szn.merger.Utils.Adapter;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.text.Layout;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -104,15 +110,57 @@ public class APKDetailsAdapter extends RecyclerView.Adapter<APKDetailsAdapter.Vi
         }
 
         @Override
-        public void onBindViewHolder(
-                @NonNull ViewHolder holder,
-                int position
-        ) {
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             holder.rowTitle.setText(rows[position][0]);
             holder.rowValue.setText(rows[position][1]);
-        }
+            holder.rowValue.setOnTouchListener(new View.OnTouchListener() {
+                final GestureDetector detector = new GestureDetector(
+                        holder.itemView.getContext(),
+                        new GestureDetector.SimpleOnGestureListener() {
 
-        @Override
+                            @Override
+                            public boolean onDown(MotionEvent e) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onLongPress(MotionEvent e) {
+                                String value = holder.rowValue.getText().toString();
+
+                                ClipboardManager clipboard = (ClipboardManager) holder.itemView.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+
+                                clipboard.setPrimaryClip(
+                                        ClipData.newPlainText("Value", value)
+                                );
+                            }
+
+                            @Override
+                            public boolean onDoubleTap(MotionEvent e) {
+                                if (holder.rowValue.getMaxLines() == 1) {
+                                    holder.rowValue.setMaxLines(Integer.MAX_VALUE);
+                                    holder.rowValue.setBreakStrategy(
+                                            Layout.BREAK_STRATEGY_HIGH_QUALITY
+                                    );
+                                    holder.rowValue.setHyphenationFrequency(
+                                            Layout.HYPHENATION_FREQUENCY_NONE
+                                    );
+                                } else {
+                                    holder.rowValue.setMaxLines(1);
+                                }
+
+                                return true;
+                            }
+                        }
+                );
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    detector.onTouchEvent(event);
+                    holder.rowValue.setSelected(true);
+                    return true;
+                }
+            });
+        }        @Override
         public int getItemCount() {
             return rows.length;
         }
