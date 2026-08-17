@@ -19,10 +19,10 @@ import java.util.List;
 
 public class ThemeManager {
 
-    private static final String KEY_THEME = "selected_mode";
-    private static final String KEY_MATERIAL_YOU = "material_you_enabled";
-    private static final String KEY_PURE_BLACK = "pure_black_enabled";
-    private static final String KEY_LANGUAGE = "selected_language";
+    private static final String KEY_THEME = "selected_mode"; //NON-NLS
+    private static final String KEY_MATERIAL_YOU = "material_you_enabled"; //NON-NLS
+    private static final String KEY_PURE_BLACK = "pure_black_enabled"; //NON-NLS
+    private static final String KEY_LANGUAGE = "selected_language"; //NON-NLS
 
     private static final int[] MODE_MAP = {AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM, AppCompatDelegate.MODE_NIGHT_NO, AppCompatDelegate.MODE_NIGHT_YES};
     private static final List<Activity> activities = new ArrayList<>();
