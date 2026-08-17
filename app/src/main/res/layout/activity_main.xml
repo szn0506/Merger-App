@@ -286,7 +286,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_folder"
+                            android:src="@drawable/ic_android"
                             app:tint="?attr/colorPrimary" />
 
                         <TextView
@@ -431,7 +431,7 @@
                                 android:id="@+id/emptyIcon"
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
-                                android:layout_marginTop="50dp"
+                                android:layout_marginTop="80dp"
                                 android:alpha="0.5"
                                 android:src="@drawable/ic_terminal"
                                 app:tint="?attr/colorOnSurface"
@@ -521,7 +521,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bottomBar"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -539,19 +539,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingVertical="0dp">
+            android:orientation="horizontal">
 
-            <!-- BROWSE -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/borwseBtn"
+                android:id="@+id/browseBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
+                android:padding="16dp"
                 android:foreground="?attr/selectableItemBackground"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="30dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp">
 
@@ -572,6 +569,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:textSize="14sp"
                         android:text="@string/browse"
                         android:textColor="?attr/colorOnSurface" />
 
@@ -579,17 +577,14 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-
-            <!-- SHARE -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/shareBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
+                android:padding="16dp"
                 android:foreground="?attr/selectableItemBackground"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="30dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp">
 
@@ -610,6 +605,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:textSize="14sp"
                         android:text="@string/share"
                         android:textColor="?attr/colorOnSurface" />
 
@@ -617,17 +613,14 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-
-            <!-- DETAILS -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/detailsBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
+                android:padding="16dp"
                 android:foreground="?attr/selectableItemBackground"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="30dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp">
 
@@ -648,6 +641,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:textSize="14sp"
                         android:text="@string/details"
                         android:textColor="?attr/colorOnSurface" />
 
@@ -655,17 +649,14 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-
-            <!-- COPY LOG -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/logBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
+                android:padding="16dp"
                 android:foreground="?attr/selectableItemBackground"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="30dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp">
 
@@ -686,6 +677,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:textSize="14sp"
                         android:text="@string/copy_log"
                         android:textColor="?attr/colorOnSurface" />
 

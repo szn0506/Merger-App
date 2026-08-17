@@ -48,6 +48,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
         android:requiresFadingEdge="vertical"
         android:fadingEdgeLength="35dp"
         android:layout_width="match_parent"
@@ -71,10 +72,11 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/layout_language"
+                style="@style/Widget.Card.RoundedTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:clickable="true"
-                android:focusable="true"
-                android:layout_marginBottom="3dp"
-                style="@style/Widget.Card.RoundedTop">
+                android:layout_marginBottom="3dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -167,7 +169,8 @@
 
             <!-- Material You Menu -->
             <com.google.android.material.card.MaterialCardView
-                style="@style/Widget.Card.FlatMiddle">
+                style="@style/Widget.Card.FlatMiddle"
+                android:layout_marginBottom="3dp">
                 <com.szn.merger.CustomSwitchItem
                     android:id="@+id/MaterialYou"
                     android:layout_width="match_parent"
@@ -178,7 +181,9 @@
 
             <!-- Pure Black Menu -->
             <com.google.android.material.card.MaterialCardView
-                style="@style/Widget.Card.RoundedBottom">
+                style="@style/Widget.Card.RoundedBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <com.szn.merger.CustomSwitchItem
                     android:id="@+id/PureBlack"
                     android:layout_width="match_parent"
@@ -199,6 +204,8 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/AutoDevice"
                 style="@style/Widget.Card.RoundedTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -234,6 +241,8 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/AutoInstall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 style="@style/Widget.Card.FlatMiddle"
                 android:layout_marginBottom="3dp">
                 <LinearLayout
@@ -270,6 +279,8 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/Signing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 style="@style/Widget.Card.FlatMiddle"
                 android:layout_marginBottom="3dp">
                 <LinearLayout
@@ -306,6 +317,8 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/Process"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 style="@style/Widget.Card.RoundedBottom"
                 android:layout_marginBottom="3dp">
 

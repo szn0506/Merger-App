@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="20sp"
-                android:text="Merge Details"
+                android:text="@string/merge_details"
                 android:textColor="?attr/colorPrimary"
                 android:textStyle="bold" />
 
@@ -72,7 +72,7 @@
                     android:layout_marginStart="12dp"
                     android:textSize="13sp"
                     android:justificationMode="inter_word"
-                    android:text="Long press to copy the value and Double tap to view the full text.."/>
+                    android:text="@string/full_details_list_info"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

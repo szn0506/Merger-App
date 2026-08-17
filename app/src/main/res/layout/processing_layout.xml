@@ -44,6 +44,8 @@
                 android:layout_marginBottom="20dp" />
 
             <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 style="@style/Widget.Card.RoundedTop">
 
                 <com.szn.merger.CustomSwitchItem
@@ -163,7 +165,8 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.card.MaterialCardView style="@style/Widget.Card.FlatMiddle">
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Card.FlatMiddle">
 
                 <com.szn.merger.CustomSwitchItem
                     android:id="@+id/switch_append_timestamp"

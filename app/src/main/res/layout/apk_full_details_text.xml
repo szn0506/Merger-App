@@ -31,8 +31,7 @@
             android:src="@drawable/ic_copy"
             app:tint="?attr/colorOnSurface"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            android:contentDescription="Copy" />
+            android:padding="8dp" />
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
