@@ -58,8 +58,8 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:background="@null"
-                    android:contentDescription="Copy all"
                     android:src="@drawable/ic_copy"
+                    app:tint="?attr/colorOnSurface"
                     android:padding="0dp" />
 
                 <TextView
@@ -82,5 +82,24 @@
         android:layout_marginTop="16dp"
         android:nestedScrollingEnabled="false"
         tools:listitem="@layout/apk_full_details_text" />
-
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        style="@style/Widget.Card.RoundedMiddle">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_info"
+                app:tint="?attr/colorOnSurface"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Long press to select text of any list"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>
