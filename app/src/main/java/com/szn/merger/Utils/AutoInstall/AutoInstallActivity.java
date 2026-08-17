@@ -16,6 +16,7 @@ public class AutoInstallActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.applyTheme(this);
         ThemeManager.applyLanguage(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auto_install_layout);
