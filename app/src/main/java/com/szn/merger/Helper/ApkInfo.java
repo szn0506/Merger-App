@@ -2,13 +2,10 @@ package com.szn.merger.Helper;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
-import android.content.pm.ServiceInfo;
 
 import com.android.apksig.ApkVerifier;
 import com.szn.merger.MergeTaskManager;
@@ -38,8 +35,8 @@ public class ApkInfo {
 
     public static void init(Context context) {
         PackageManager pm = context.getPackageManager();
-        INFO = pm.getPackageArchiveInfo(OUTPUT.getAbsolutePath(), PackageManager.GET_META_DATA);
-
+        int flags = PackageManager.GET_META_DATA | PackageManager.GET_PERMISSIONS | PackageManager.GET_ACTIVITIES | PackageManager.GET_RECEIVERS | PackageManager.GET_SERVICES | PackageManager.GET_PROVIDERS;
+        INFO = pm.getPackageArchiveInfo(OUTPUT.getAbsolutePath(), flags);
         try {
             INSTALLED_INFO = pm.getPackageInfo(INFO.packageName, PackageManager.GET_META_DATA);
             ApkVerifier verifier = new ApkVerifier.Builder(OUTPUT).build();
@@ -116,64 +113,98 @@ public class ApkInfo {
 
     // === MANIFEST COMPONENTS ===
     public static String getPermissionCount() {
-        return String.valueOf(INFO.requestedPermissions.length);
+        return String.valueOf(
+                INFO.requestedPermissions == null
+                        ? 0
+                        : INFO.requestedPermissions.length
+        );
     }
+
     public static String getReceiversCount() {
-        return String.valueOf(INFO.receivers.length);
+        return String.valueOf(
+                INFO.receivers == null
+                        ? 0
+                        : INFO.receivers.length
+        );
     }
+
     public static String getActivitiesCount() {
-        return String.valueOf(INFO.activities.length);
+        return String.valueOf(
+                INFO.activities == null
+                        ? 0
+                        : INFO.activities.length
+        );
     }
+
     public static String getProvidersCount() {
-        return String.valueOf(INFO.providers.length);
+        return String.valueOf(
+                INFO.providers == null
+                        ? 0
+                        : INFO.providers.length
+        );
     }
+
     public static String getServicesCount() {
-        return String.valueOf(INFO.services.length);
-    }
-    public static String getPermission() {
-        return INFO.requestedPermissions != null ? String.join("\n", INFO.requestedPermissions) : "";
+        return String.valueOf(
+                INFO.services == null
+                        ? 0
+                        : INFO.services.length
+        );
     }
 
-    public static String getReceivers() {
-        if (INFO.receivers == null) return "";
-        StringBuilder result = new StringBuilder();
-        for (ActivityInfo receiver : INFO.receivers) {
-            if (result.length() > 0) result.append("\n");
-            result.append(receiver.name);
+    public static String[] getPermission() {
+        return INFO.requestedPermissions != null
+                ? INFO.requestedPermissions
+                : new String[0];
+    }
+
+    public static String[] getReceivers() {
+        if (INFO.receivers == null) return new String[0];
+
+        String[] result = new String[INFO.receivers.length];
+
+        for (int i = 0; i < INFO.receivers.length; i++) {
+            result[i] = INFO.receivers[i].name;
         }
-        return result.toString();
+
+        return result;
     }
 
-    public static String getActivities() {
-        if (INFO.activities == null) return "";
-        StringBuilder result = new StringBuilder();
-        for (ActivityInfo info : INFO.activities) {
-            if (result.length() > 0) result.append("\n");
-            result.append(info.name);
+    public static String[] getActivities() {
+        if (INFO.activities == null) return new String[0];
+
+        String[] result = new String[INFO.activities.length];
+
+        for (int i = 0; i < INFO.activities.length; i++) {
+            result[i] = INFO.activities[i].name;
         }
-        return result.toString();
+
+        return result;
     }
 
-    public static String getServices() {
-        if (INFO.services == null) return "";
-        StringBuilder result = new StringBuilder();
-        for (ServiceInfo info : INFO.services) {
-            if (result.length() > 0) result.append("\n");
-            result.append(info.name);
+    public static String[] getServices() {
+        if (INFO.services == null) return new String[0];
+
+        String[] result = new String[INFO.services.length];
+
+        for (int i = 0; i < INFO.services.length; i++) {
+            result[i] = INFO.services[i].name;
         }
-        return result.toString();
+
+        return result;
     }
 
-    public static String getProviders() {
-        if (INFO.providers == null) return "";
-        StringBuilder result = new StringBuilder();
-        for (ProviderInfo info : INFO.providers) {
-            if (result.length() > 0) result.append("\n");
-            result.append(info.name);
+    public static String[] getProviders() {
+        if (INFO.providers == null) return new String[0];
+
+        String[] result = new String[INFO.providers.length];
+
+        for (int i = 0; i < INFO.providers.length; i++) {
+            result[i] = INFO.providers[i].name;
         }
-        return result.toString();
-    }
 
+        return result;
+    }
     // === SIGNATURE INFO ===
 
     public static String getSigned() {
