@@ -30,7 +30,7 @@ public class MergeTaskManager {
     private ValueAnimator bottomAnimator;
     private final TextView loadingTime;
     private final StableScrollView scrollCard;
-    private final ViewGroup logCard;
+    private ValueAnimator progressAnimator;
     private final ViewGroup logContainer;
     private final LinearProgressIndicator loadingBar;
     private final OnMergeCompletedListener listener;
@@ -44,11 +44,10 @@ public class MergeTaskManager {
     private static Runnable timerRunnable;
     public static File finalOutput;
 
-    public MergeTaskManager(Activity activity, ViewGroup logContainer, StableScrollView scrollCard, ViewGroup logCard, LinearProgressIndicator loadingBar, OnMergeCompletedListener listener, TextView loadingPercent, TextView loadingTime) {
+    public MergeTaskManager(Activity activity, ViewGroup logContainer, StableScrollView scrollCard, LinearProgressIndicator loadingBar, OnMergeCompletedListener listener, TextView loadingPercent, TextView loadingTime) {
         this.activity = activity;
         this.logContainer = logContainer;
         this.scrollCard = scrollCard;
-        this.logCard = logCard;
         this.loadingBar = loadingBar;
         this.listener = listener;
         this.loadingPercent = loadingPercent;
@@ -200,9 +199,25 @@ public class MergeTaskManager {
     private void animateProgress(int target) {
         if (target <= currentProgress) return;
 
+        if (progressAnimator != null) {
+            progressAnimator.cancel();
+        }
+
+        int start = loadingBar.getProgress();
+
+        progressAnimator = ValueAnimator.ofInt(start, target);
+        progressAnimator.setDuration((target - start) * 50L);
+
+        progressAnimator.addUpdateListener(animation -> {
+            int progress = (int) animation.getAnimatedValue();
+
+            loadingPercent.setText(progress + "%");
+            loadingBar.setProgressCompat(progress, false);
+        });
+
+        progressAnimator.start();
+
         currentProgress = target;
-        loadingPercent.setText(currentProgress + "%");
-        loadingBar.setProgressCompat(currentProgress, true);
     }
 
     public void startMergeFlow(File selectedInputFile, EditText editFilePath) {

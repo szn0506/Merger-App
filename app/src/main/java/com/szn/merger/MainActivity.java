@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements SAFHelper.OnFileP
 
         safHelper = new SAFHelper(this, this);
         appsDialog = new AppsDialog(this, this);
-        mergeTaskManager = new MergeTaskManager(this, logContainer, scrollCard, logCard, loadingBar, this, loadingPercent, loadingTime);
+        mergeTaskManager = new MergeTaskManager(this, logContainer, scrollCard, loadingBar, this, loadingPercent, loadingTime);
     }
 
     private void initViews() {
@@ -140,14 +140,12 @@ public class MainActivity extends AppCompatActivity implements SAFHelper.OnFileP
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Utils.applyCardRadiusChangeShape(MainActivity.this, inputCard, R.style.Shape_RoundedTop);
                 setPathInfo();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().trim().isEmpty()) {
-                }
+
             }
         });
         btnDelete.setOnClickListener(v -> {
@@ -361,7 +359,7 @@ public class MainActivity extends AppCompatActivity implements SAFHelper.OnFileP
                 "application/zip",
                 "application/x-rar-compressed",
                 "application/x-7z-compressed",
-                "text/plain"
+                    "text/plain"
         };
 
         intent.putExtra(Intent.EXTRA_MIME_TYPES, allowedMimeTypes);
@@ -440,12 +438,23 @@ public class MainActivity extends AppCompatActivity implements SAFHelper.OnFileP
 
         return count;
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        editFilePath.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                textInputLayout.setHint("");
+            } else if (editFilePath.getText().length() == 0) {
+                textInputLayout.setHint(R.string.paste_path);
+            }
+        });
+    }
 
     @Override
     public void onMergeCompleted() {
-        loadDetailsData();
         Utils.applyLayoutTransition(bottomBar);
         bottomBar.setVisibility(View.VISIBLE);
+        loadDetailsData();
     }
 
     @Override
@@ -494,14 +503,5 @@ public class MainActivity extends AppCompatActivity implements SAFHelper.OnFileP
     @Override
     public void onError(String errorMsg) {
         Utils.toast(this, getString(R.string.failed_to_process_file, errorMsg));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        if (item.getItemId() == R.id.menu_settings) {
-            startActivity(new android.content.Intent(this, SettingsActivity.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
