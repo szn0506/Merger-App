@@ -255,7 +255,7 @@ public class APKDetailsAdapter
                                                 if (clipboard != null) {
                                                     clipboard.setPrimaryClip(
                                                             ClipData.newPlainText(
-                                                                    "Value",
+                                                                    "Value", //NON-NLS
                                                                     value
                                                             )
                                                     );
@@ -395,7 +395,7 @@ public class APKDetailsAdapter
                                 .getSystemService(Context.CLIPBOARD_SERVICE);
 
                 ClipData clip = ClipData.newPlainText(
-                        "Permission",
+                        "Value", //NON-NLS
                         items[position]
                 );
 

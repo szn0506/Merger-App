@@ -41,10 +41,10 @@ public final class KeystoreGenerator {
 
     public String commonName = "";
 
-    public String organizationUnit = "Android";
-    public String organization = "Android";
-    public String locality = "Unknown";
-    public String state = "Unknown";
+    public String organizationUnit = "Android"; //NON-NLS
+    public String organization = "Android"; //NON-NLS
+    public String locality = "Unknown"; //NON-NLS
+    public String state = "Unknown"; //NON-NLS
     public String country = "US";
 
 
@@ -94,7 +94,7 @@ public final class KeystoreGenerator {
 
 
         Log.d(
-                "KEYSTORE",
+                "KEYSTORE", //NON-NLS
                 "Output: " + output.getAbsolutePath()
         );
 
@@ -163,12 +163,12 @@ public final class KeystoreGenerator {
 
         X500Name subject =
                 new X500Name(
-                        "CN=" + cn +
-                                ", OU=" + organizationUnit +
-                                ", O=" + organization +
+                        "CN=" + cn + //NON-NLS
+                                ", OU=" + organizationUnit + //NON-NLS
+                                ", O=" + organization + //NON-NLS //NON-NLS
                                 ", L=" + locality +
-                                ", ST=" + state +
-                                ", C=" + country
+                                ", ST=" + state + //NON-NLS
+                                ", C=" + country //NON-NLS
                 );
 
 

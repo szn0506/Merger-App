@@ -17,17 +17,17 @@ import java.util.Collections;
 public class SigningManager {
     private static File ksFile;
 
-    private static String DEFAULT_ALIAS = "androiddebugkey";
+    private static String DEFAULT_ALIAS = "androiddebugkey"; //NON-NLS
     private static final String KEYSTORE_TYPE = "PKCS12";
-    private static final char[] PASSWORD = "android".toCharArray();
+    private static final char[] PASSWORD = "android".toCharArray(); //NON-NLS
 
-    public static final String KEY_AUTO_SIGN = "auto_sign";
+    public static final String KEY_AUTO_SIGN = "auto_sign"; //NON-NLS
     public static final String KEYSTORE_FILE = "debug.keystore";
 
-    public static final String KEY_V1 = "v1";
-    public static final String KEY_V2 = "v2";
-    public static final String KEY_V3 = "v3";
-    public static final String KEY_V4 = "v4";
+    public static final String KEY_V1 = "v1"; //NON-NLS
+    public static final String KEY_V2 = "v2"; //NON-NLS
+    public static final String KEY_V3 = "v3"; //NON-NLS
+    public static final String KEY_V4 = "v4"; //NON-NLS
 
     public static boolean isSignEnabled(Context context) {
         return PrefsManager.getInstance(context)

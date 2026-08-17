@@ -1,15 +1,18 @@
 package com.szn.merger;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.transition.AutoTransition;
-import android.transition.TransitionManager;
+import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.core.widget.NestedScrollView;
-
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.reandroid.apkeditor.merge.MergerOptions;
 import com.szn.merger.Helper.Merger;
 import com.szn.merger.Utils.AutoInstall.AutoInstallManager;
@@ -23,54 +26,194 @@ import java.io.IOException;
 public class MergeTaskManager {
 
     private final Activity activity;
-    private final TextView logText;
-    private final NestedScrollView scrollCard;
+    private final TextView loadingPercent;
+    private ValueAnimator bottomAnimator;
+    private final TextView loadingTime;
+    private final StableScrollView scrollCard;
     private final ViewGroup logCard;
-    private boolean isManualScroll = false;
-    public MergeTaskManager(
-            Activity activity,
-            TextView logText,
-            NestedScrollView scrollCard,
-            ViewGroup logCard
-    ) {
+    private final ViewGroup logContainer;
+    private final LinearProgressIndicator loadingBar;
+    private final OnMergeCompletedListener listener;
+    private static final Handler timerHandler = new Handler(Looper.getMainLooper());
+
+    private boolean userTouchingScroll;
+    private boolean bottomLocked = true;
+    private int touchSlop;
+    private int currentProgress;
+    private long startTime;
+    private static Runnable timerRunnable;
+    public static File finalOutput;
+
+    public MergeTaskManager(Activity activity, ViewGroup logContainer, StableScrollView scrollCard, ViewGroup logCard, LinearProgressIndicator loadingBar, OnMergeCompletedListener listener, TextView loadingPercent, TextView loadingTime) {
         this.activity = activity;
-        this.logText = logText;
+        this.logContainer = logContainer;
         this.scrollCard = scrollCard;
         this.logCard = logCard;
-
-        setupScrollTouchListener();
+        this.loadingBar = loadingBar;
+        this.listener = listener;
+        this.loadingPercent = loadingPercent;
+        this.loadingTime = loadingTime;
+        touchSlop = ViewConfiguration.get(activity).getScaledTouchSlop();
+        setupScrollLock();
     }
 
-    private void setupScrollTouchListener() {
-        scrollCard.setOnTouchListener((v, event) -> {
-            switch (event.getAction()) {
-                case android.view.MotionEvent.ACTION_DOWN:
-                case android.view.MotionEvent.ACTION_MOVE:
-                    isManualScroll = true;
-                    break;
+    private void setupScrollLock() {
+        scrollCard.setOnTouchListener(new View.OnTouchListener() {
+            private float downY;
 
-                case android.view.MotionEvent.ACTION_UP:
-                case android.view.MotionEvent.ACTION_CANCEL:
-                    scrollCard.postDelayed(
-                            () -> isManualScroll = false,
-                            1000
-                    );
-                    break;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        userTouchingScroll = true;
+                        downY = event.getY();
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+                        if (Math.abs(event.getY() - downY) > touchSlop)
+                            bottomLocked = false;
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        userTouchingScroll = false;
+                        if (isAtBottom()) {
+                            bottomLocked = true;
+                            forceBottom();
+                        } else {
+                            bottomLocked = false;
+                        }
+                        break;
+                }
+
+                return false;
             }
-            return false;
+        });
+
+        scrollCard.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            if (!bottomLocked || userTouchingScroll) return;
+            forceBottom();
+        });
+
+        scrollCard.post(() -> {
+            bottomLocked = true;
+            forceBottom();
         });
     }
 
+    private boolean isAtBottom() {
+        View child = scrollCard.getChildAt(0);
+        if (child == null) return true;
+
+        int maxScroll = Math.max(0, child.getHeight() - scrollCard.getHeight());
+        return scrollCard.getScrollY() >= maxScroll - touchSlop;
+    }
+
+    private void forceBottom() {
+        if (!bottomLocked || userTouchingScroll) return;
+
+        View child = scrollCard.getChildAt(0);
+        if (child == null) return;
+
+        int maxScroll = Math.max(
+                0,
+                child.getHeight() - scrollCard.getHeight()
+        );
+
+        int currentY = scrollCard.getScrollY();
+
+        if (currentY == maxScroll) return;
+
+        if (bottomAnimator != null) {
+            bottomAnimator.cancel();
+        }
+
+        bottomAnimator = ValueAnimator.ofInt(currentY, maxScroll);
+        bottomAnimator.setDuration(180);
+
+        bottomAnimator.addUpdateListener(animation -> {
+            if (!bottomLocked || userTouchingScroll) {
+                animation.cancel();
+                return;
+            }
+
+            scrollCard.scrollTo(
+                    0,
+                    (int) animation.getAnimatedValue()
+            );
+        });
+
+        bottomAnimator.start();
+    }
+
+    private void startTimer() {
+        startTime = System.currentTimeMillis();
+
+        timerRunnable = new Runnable() {
+            @Override
+            public void run() {
+                long elapsed = System.currentTimeMillis() - startTime;
+                long totalSeconds = elapsed / 1000;
+                long minutes = totalSeconds / 60;
+                long seconds = totalSeconds % 60;
+
+                loadingTime.setText(String.format("%02d:%02d", minutes, seconds));
+                timerHandler.postDelayed(this, 1000);
+            }
+        };
+
+        timerHandler.post(timerRunnable);
+    }
+
+    private static void stopTimer() {
+        if (timerRunnable == null) return;
+
+        timerHandler.removeCallbacks(timerRunnable);
+        timerRunnable = null;
+    }
+
+    private void updateProgress(String msg) {
+        String log = msg.trim();
+        int progress;
+
+        if (log.startsWith("Extracting to:")) progress = 5;
+        else if (log.startsWith("Searching apk")) progress = 10;
+        else if (log.startsWith("Found apk")) progress = 15;
+        else if (log.startsWith("Found modules:")) progress = 20;
+        else if (log.startsWith("Merging:")) progress = 40;
+        else if (log.startsWith("Added [")) progress = 50;
+        else if (log.startsWith("Sanitizing manifest")) progress = 60;
+        else if (log.startsWith("Removed-attribute")) progress = 65;
+        else if (log.startsWith("Removed-element")) progress = 70;
+        else if (log.startsWith("Removed-table-entry")) progress = 75;
+        else if (log.startsWith("Applying:")) progress = 80;
+        else if (log.startsWith("Writing APK")) progress = 85;
+        else if (log.startsWith("Buffering compress")) progress = 88;
+        else if (log.startsWith("Writing files:")) progress = 93;
+        else if (log.startsWith("Writing signature")) progress = 97;
+        else if (log.startsWith("Saved to:")) progress = 100;
+        else return;
+
+        animateProgress(progress);
+    }
+
+    private void animateProgress(int target) {
+        if (target <= currentProgress) return;
+
+        currentProgress = target;
+        loadingPercent.setText(currentProgress + "%");
+        loadingBar.setProgressCompat(currentProgress, true);
+    }
+
     public void startMergeFlow(File selectedInputFile, EditText editFilePath) {
+        currentProgress = 0;
         Utils.hideKeyboard(activity);
 
         File inputFile;
 
         if (selectedInputFile != null && selectedInputFile.exists()) {
             inputFile = selectedInputFile;
-
         } else {
-
             if (!Utils.hasStoragePermission(activity)) {
                 Utils.requestStoragePermission(activity);
                 return;
@@ -86,58 +229,73 @@ public class MergeTaskManager {
             inputFile = new File(path);
         }
 
-        /*
-         * The APK version is only available after merger.runCommand()
-         * because ProcessingManager.getVersion(...) is called inside
-         * Merger after the merged module has been created.
-         *
-         * Therefore, the final output filename cannot be created here.
-         *
-         * Use a temporary file for the merge output instead.
-         */
         String outputDir = ProcessingManager.getDirPath(activity);
-
         File tempOutput = new File(outputDir, ".temp_merged.apk");
 
         runMerge(inputFile, tempOutput);
     }
 
+    public static void stopMerge() {
+        Merger.stopMerge();
+        stopTimer();
+    }
+
+    public interface OnMergeCompletedListener {
+        void onMergeCompleted();
+    }
+
+    private void addLogView(String msg) {
+        TextView logView = new TextView(activity);
+        logView.setText(msg.trim());
+        logView.setTextSize(13);
+        logView.setTypeface(Typeface.MONOSPACE);
+        logView.setPadding(20, 0, 20, 0);
+        logView.setTextIsSelectable(true);
+        logView.setAlpha(0f);
+        logContainer.addView(logView);
+
+        logView.animate()
+                .alpha(1f)
+                .setDuration(250)
+                .start();
+
+        logView.post(() -> {
+            if (!bottomLocked || userTouchingScroll) return;
+            forceBottom();
+        });
+    }
+
     private void runMerge(File input, File tempOutput) {
-        isManualScroll = false;
+        startTimer();
+
         new Thread(() -> {
             try {
                 MergerOptions options = new MergerOptions();
                 options.inputFile = input;
                 options.outputFile = tempOutput;
-                // FEATURE
                 options.extractNativeLibs = ProcessingManager.isExtractNativeLibs(activity);
 
-                StringBuilder logBuffer = new StringBuilder();
+                activity.runOnUiThread(() -> {
+                    bottomLocked = true;
+                    userTouchingScroll = false;
+                    logContainer.removeAllViews();
+                    scrollCard.resetScrollbarSize();
+                    scrollCard.scrollTo(0, 0);
+                });
 
-                activity.runOnUiThread(() -> logText.setText(""));
-
-                Merger merger = new Merger(activity, options, ProcessingManager.getLogType(activity)) {
+                Merger merger = new Merger(
+                        activity,
+                        options
+                ) {
                     @Override
                     protected void onLog(String msg) {
+                        if (Merger.stopped) return;
                         activity.runOnUiThread(() -> {
-                            logBuffer.append(msg).append("\n");
-
-                            TransitionManager.beginDelayedTransition(logCard, new AutoTransition());
-
-                            logText.setText(logBuffer.toString());
-
-                            scrollCard.postOnAnimation(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (!isManualScroll) {
-                                        scrollCard.fullScroll(View.FOCUS_DOWN);
-                                        scrollCard.postOnAnimation(this);
-                                    }
-                                }
-                            });
+                            if (Merger.stopped) return;
+                            addLogView(msg);
+                            updateProgress(msg);
                         });
 
-                        // DELAY PER LOG DITAROH DISINI (Misal 200ms per baris)
                         try {
                             Thread.sleep(200);
                         } catch (InterruptedException ignored) {
@@ -146,121 +304,56 @@ public class MergeTaskManager {
                 };
 
                 merger.setEnableLog(true);
-
-                /*
-                 * MERGE
-                 *
-                 * Inside runCommand():
-                 *
-                 * 1. mergedModule is created
-                 * 2. ProcessingManager.getVersion(...)
-                 * 3. The merged APK is written to tempOutput
-                 */
                 merger.runCommand();
 
-                /*
-                 * At this point:
-                 *
-                 * Merger.versionName
-                 * is already available.
-                 *
-                 * Now we can create the final output filename.
-                 */
+                stopTimer();
 
                 String inputFileName = input.getName();
-
                 int lastDot = inputFileName.lastIndexOf(".");
+                String baseName = lastDot != -1 ? inputFileName.substring(0, lastDot) : inputFileName;
 
-                String baseName = (lastDot != -1) ? inputFileName.substring(0, lastDot) : inputFileName;
+                String outputName = ProcessingManager.getPrefix(activity)
+                        + baseName
+                        + ProcessingManager.getSuffix(activity)
+                        + ProcessingManager.getVersion(activity)
+                        + ProcessingManager.getTimestamp(activity)
+                        + ".apk";
 
-                String outputName = ProcessingManager.getPrefix(activity) + baseName + ProcessingManager.getSuffix(activity) + ProcessingManager.getVersion(activity) + ProcessingManager.getTimestamp(activity) + ".apk";
-                File finalOutput = new File(ProcessingManager.getDirPath(activity), outputName);
+                finalOutput = new File(
+                        ProcessingManager.getDirPath(activity),
+                        outputName
+                );
 
-                /*
-                 * Delete the final output if it already exists.
-                 */
-                if (finalOutput.exists()) {
-                    if (!finalOutput.delete()) {
-                        throw new IOException(
-                                "Failed to delete existing output: "
-                                        + finalOutput
-                        );
-                    }
-                }
+                if (finalOutput.exists() && !finalOutput.delete())
+                    throw new IOException("Failed to delete existing output: " + finalOutput);
 
-                /*
-                 * Rename the temporary merged APK
-                 * to the final output filename.
-                 */
-                if (!tempOutput.renameTo(finalOutput)) {
-                    throw new IOException(
-                            "Failed to rename merged APK to: "
-                                    + finalOutput.getAbsolutePath()
-                    );
-                }
+                if (!tempOutput.renameTo(finalOutput))
+                    throw new IOException("Failed to rename merged APK to: " + finalOutput.getAbsolutePath());
 
-                // WE CALL IT FROM HERE BECAUSE MERGER CLASS DOESN'T KNOW THE FINAL FILE
                 merger.logSavedFile(finalOutput);
 
-                /*
-                 * Stop auto-scroll after the merge is complete.
-                 */
+                SigningManager.signApk(activity, finalOutput);
+                String packageName = Merger.packageName;
+
                 activity.runOnUiThread(() -> {
+                    scrollCard.postDelayed(() -> {
+                        Utils.toast(activity, "Success: " + finalOutput.getName());
+                        AutoInstallManager.setupCall(activity, finalOutput, packageName);
 
-                    if (scrollCard.getHandler() != null) {
-                        scrollCard
-                                .getHandler()
-                                .removeCallbacksAndMessages(null);
-                    }
-
-                    scrollCard.fullScroll(
-                            View.FOCUS_UP
-                    );
-                });
-
-                /*
-                 * SIGN
-                 *
-                 * Signing now uses the final output file
-                 * with the correct version in its filename.
-                 */
-                File signedOutput = SigningManager.signApk(activity, finalOutput);
-
-                String packageName =
-                        Merger.packageName;
-
-                /*
-                 * INSTALL
-                 */
-                activity.runOnUiThread(() -> {
-
-                    scrollCard.postDelayed(
-                            () -> {
-
-                                Utils.toast(
-                                        activity,
-                                        "Success: "
-                                                + signedOutput.getName()
-                                );
-
-                                AutoInstallManager.setupCall(activity, signedOutput, packageName);
-                            }, 300
-                    );
+                        if (listener != null)
+                            listener.onMergeCompleted();
+                    }, 300);
                 });
 
             } catch (Exception e) {
-
-                e.printStackTrace();
-
-                if (tempOutput.exists()) {
+                if (tempOutput.exists())
                     tempOutput.delete();
-                }
 
-                activity.runOnUiThread(
-                        () -> Utils.toast(activity, "Error: " + e.getMessage())
-                );
+                activity.runOnUiThread(() -> {
+                    if (e.getMessage() != null && !"Merge stopped".equals(e.getMessage()))
+                        Utils.toast(activity, "Error: " + e.getMessage());
+                });
             }
-
         }).start();
     }
 }

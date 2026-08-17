@@ -42,7 +42,6 @@ public class SigningActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeManager.register(this);
         ThemeManager.applyTheme(this);
         ThemeManager.applyLanguage(this);
         super.onCreate(savedInstanceState);

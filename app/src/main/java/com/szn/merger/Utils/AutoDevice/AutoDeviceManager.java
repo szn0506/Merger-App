@@ -16,12 +16,12 @@ public class AutoDeviceManager {
     public static final int ABI = 0;
     public static final int DPI = 1;
     public static final int LANGUAGE = 2;
-    private static final String KEY_AUTO_DETECT = "is_auto_detect_enabled";
-    private static final String KEY_AUTO_CONFIG = "is_auto_config_enabled";
-    private static final String KEY_ABI = "auto_device_abi";
-    private static final String KEY_DPI = "auto_device_dpi";
-    private static final String KEY_LANGUAGE = "auto_device_language";
-    public static final String MODE_DISABLED = "disabled";
+    private static final String KEY_AUTO_DETECT = "is_auto_detect_enabled"; //NON-NLS
+    private static final String KEY_AUTO_CONFIG = "is_auto_config_enabled"; //NON-NLS
+    private static final String KEY_ABI = "auto_device_abi"; //NON-NLS
+    private static final String KEY_DPI = "auto_device_dpi"; //NON-NLS
+    private static final String KEY_LANGUAGE = "auto_device_language"; //NON-NLS
+    public static final String MODE_DISABLED = "disabled"; //NON-NLS
     public static final String MODE_FROM_DEVICE = "fromDevice";
 
     public static boolean isAutoDetectEnabled(Context context) {
@@ -89,9 +89,9 @@ public class AutoDeviceManager {
         if (!selectedSplits.isEmpty() && !selectedSplits.contains(entryName.toLowerCase(Locale.ROOT))) {
             return false;
         }
-        List<String> ARCH_FILTERS = Arrays.asList("v7a", "v8a", "x86", "arm");
-        List<String> DPI_FILTERS = Arrays.asList("ldpi", "mdpi", "tvdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi", "nodpi", "anydpi");
-        List<String> BASE_FILTERS = Arrays.asList("base", "master", "com");
+        List<String> ARCH_FILTERS = Arrays.asList("v7a", "v8a", "x86", "arm"); //NON-NLS //NON-NLS //NON-NLS //NON-NLS //NON-NLS
+        List<String> DPI_FILTERS = Arrays.asList("ldpi", "mdpi", "tvdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi", "nodpi", "anydpi"); //NON-NLS //NON-NLS //NON-NLS //NON-NLS //NON-NLS //NON-NLS //NON-NLS //NON-NLS //NON-NLS //NON-NLS
+        List<String> BASE_FILTERS = Arrays.asList("base", "master", "com"); //NON-NLS
 
         String name = entryName.toLowerCase();
 
@@ -105,9 +105,9 @@ public class AutoDeviceManager {
         String targetLANGUAGEDevice = getDefaultLanguage();
 
         boolean isBaseApk = BASE_FILTERS.stream().anyMatch(name::contains);
-        boolean isABIFile = ARCH_FILTERS.stream().anyMatch(name::contains);
+        boolean isABIFile = ARCH_FILTERS.stream().anyMatch(name::contains); //NON-NLS
         boolean isDpiFile = DPI_FILTERS.stream().anyMatch(name::contains);
-        boolean isLanguageFile = name.contains("config") && ARCH_FILTERS.stream().noneMatch(name::contains) && DPI_FILTERS.stream().noneMatch(name::contains);
+        boolean isLanguageFile = name.contains("config") && ARCH_FILTERS.stream().noneMatch(name::contains) && DPI_FILTERS.stream().noneMatch(name::contains); //NON-NLS
 
         // base apk wajib lolos dalam kondisi apapun dan kalau fitur mati atau semua mode disabled semua akan lolos
         if (isBaseApk || featureDisabled) return true;
@@ -141,25 +141,25 @@ public class AutoDeviceManager {
 
     public static String getScreenDPIBucket(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        int densityDPI = displayMetrics.densityDpi;
+        int densityDPI = displayMetrics.densityDpi; //NON-NLS //NON-NLS
 
         switch (densityDPI) {
             case DisplayMetrics.DENSITY_LOW:
-                return "ldpi";
+                return "ldpi"; //NON-NLS
             case DisplayMetrics.DENSITY_MEDIUM:
-                return "mdpi";
-            case DisplayMetrics.DENSITY_TV:
-                return "tvdpi";
+                return "mdpi"; //NON-NLS
+            case DisplayMetrics.DENSITY_TV: //NON-NLS
+                return "tvdpi"; //NON-NLS
             case DisplayMetrics.DENSITY_HIGH:
-                return "hdpi";
-            case DisplayMetrics.DENSITY_XHIGH:
-                return "xhdpi";
-            case DisplayMetrics.DENSITY_XXHIGH:
-                return "xxhdpi";
-            case DisplayMetrics.DENSITY_XXXHIGH:
+                return "hdpi"; //NON-NLS
+            case DisplayMetrics.DENSITY_XHIGH: //NON-NLS
+                return "xhdpi"; //NON-NLS
+            case DisplayMetrics.DENSITY_XXHIGH: //NON-NLS //NON-NLS
+                return "xxhdpi"; //NON-NLS
+            case DisplayMetrics.DENSITY_XXXHIGH: //NON-NLS
                 return "xxxhdpi";
             default:
-                return "nodpi";
+                return "nodpi"; //NON-NLS
         }
     }
 

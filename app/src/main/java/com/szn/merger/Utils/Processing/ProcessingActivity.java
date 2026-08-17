@@ -32,7 +32,6 @@ public class ProcessingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeManager.register(this);
         ThemeManager.applyTheme(this);
         ThemeManager.applyLanguage(this);
         super.onCreate(savedInstanceState);
@@ -118,7 +117,7 @@ public class ProcessingActivity extends AppCompatActivity {
         confirm.setOnClickListener( v-> {
             String selectedValue = adapter.getSelectedValue();
             int compressionLevel = Integer.parseInt(
-                    selectedValue.replaceAll("\\D+", "")
+                    selectedValue.replaceAll("\\D+", "") //NON-NLS
             );
             ProcessingManager.saveCompressionLevel(this, compressionLevel);
             currentCompressionLevel.setText(String.valueOf(compressionLevel));
@@ -144,7 +143,7 @@ public class ProcessingActivity extends AppCompatActivity {
         btnConfirm.setOnClickListener(v -> {
             String path = input.getText().toString().trim();
             if (path.isEmpty()) {
-                path = "/storage/emulated/0/Download";
+                path = "/storage/emulated/0/Download"; //NON-NLS
                 ProcessingManager.saveDirPath(this, path);
                 currentPath.setText(path);
                 input.setText(path);

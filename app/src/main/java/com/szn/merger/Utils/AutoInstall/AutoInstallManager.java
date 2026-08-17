@@ -20,9 +20,9 @@ import java.io.File;
 public class AutoInstallManager {
     public static boolean waitingPermissionResult = false;
     public static boolean granted;
-    private static final String KEY_AUTO_INSTALL = "KEY_AUTO_INSTALL";
-    private static final String KEY_UNINSTALL_APP = "KEY_UNINSTALL_APP";
-    private static final String KEY_DELETE_AFTER = "KEY_DELETE_AFTER";
+    private static final String KEY_AUTO_INSTALL = "KEY_AUTO_INSTALL"; //NON-NLS
+    private static final String KEY_UNINSTALL_APP = "KEY_UNINSTALL_APP"; //NON-NLS
+    private static final String KEY_DELETE_AFTER = "KEY_DELETE_AFTER"; //NON-NLS
 
     public static boolean isAutoInstallEnabled(Context context) {
         return PrefsManager.getInstance(context)
@@ -156,7 +156,7 @@ public class AutoInstallManager {
 
         Intent intent = new Intent(
                 Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
-                Uri.parse("package:" + activity.getPackageName())
+                Uri.parse("package:" + activity.getPackageName()) //NON-NLS
         );
 
         waitingPermissionResult = true;
@@ -193,7 +193,7 @@ public class AutoInstallManager {
 
             intent.setDataAndType(
                     uri,
-                    "application/vnd.android.package-archive"
+                    "application/vnd.android.package-archive" //NON-NLS
             );
 
             activity.startActivity(intent);
@@ -204,7 +204,7 @@ public class AutoInstallManager {
     public static void uninstallApp(Activity activity, String packageName) {
         try {
             Intent intent = new Intent(Intent.ACTION_DELETE);
-            intent.setData(Uri.parse("package:" + packageName));
+            intent.setData(Uri.parse("package:" + packageName)); //NON-NLS
             activity.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();

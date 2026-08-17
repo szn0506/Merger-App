@@ -48,7 +48,7 @@ public final class KeystoreManager {
         File folder =
                 new File(
                         context.getFilesDir(),
-                        "keystores"
+                        "keystores" //NON-NLS
                 );
 
         if (!folder.exists()) {
@@ -75,10 +75,10 @@ public final class KeystoreManager {
         Properties props = new Properties();
 
         props.setProperty("id", item.id);
-        props.setProperty("name", item.name);
+        props.setProperty("name", item.name); //NON-NLS
         props.setProperty("fileName", item.fileName);
-        props.setProperty("alias", item.alias);
-        props.setProperty("password", item.password);
+        props.setProperty("alias", item.alias); //NON-NLS
+        props.setProperty("password", item.password); //NON-NLS
         props.setProperty("type", item.type);
 
         try (FileOutputStream fos =
@@ -101,10 +101,10 @@ public final class KeystoreManager {
         Item item = new Item();
 
         item.id = props.getProperty("id");
-        item.name = props.getProperty("name");
-        item.fileName = props.getProperty("fileName");
+        item.name = props.getProperty("name"); //NON-NLS
+        item.fileName = props.getProperty("fileName"); //NON-NLS
         item.alias = props.getProperty("alias");
-        item.password = props.getProperty("password");
+        item.password = props.getProperty("password"); //NON-NLS
         item.type = props.getProperty("type");
 
         return item;

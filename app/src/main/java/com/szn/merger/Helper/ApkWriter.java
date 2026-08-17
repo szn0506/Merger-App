@@ -71,7 +71,7 @@ public abstract class ApkWriter<T extends ZipOutput, OUT extends OutputSource> i
 
     private void writeApkList(OUT[] outputList) throws IOException {
         int length = outputList.length;
-        logMessage("Writing files: " + length);
+        logMessage("Writing files: " + length); //NON-NLS
         APKLogger logger = this.getApkLogger();
         ZipAligner zipAligner = getZipAligner();
         for (int i = 0; i < length; i++) {
@@ -106,11 +106,11 @@ public abstract class ApkWriter<T extends ZipOutput, OUT extends OutputSource> i
         Zip64Record zip64Record = endRecord.getZip64Record();
         if (zip64Record != null) {
             long offsetOfRecord = position();
-            logMessage("ZIP64: " + zip64Record);
+            logMessage("ZIP64: " + zip64Record); //NON-NLS
             zip64Record.writeBytes(outputStream);
             Zip64Locator zip64Locator = endRecord.getZip64Locator();
             zip64Locator.setOffsetZip64Record(offsetOfRecord);
-            logMessage("ZIP64: " + zip64Locator);
+            logMessage("ZIP64: " + zip64Locator); //NON-NLS
             zip64Locator.writeBytes(outputStream);
         }
         endRecord.writeBytes(getOutputStream());
@@ -178,10 +178,10 @@ public abstract class ApkWriter<T extends ZipOutput, OUT extends OutputSource> i
         if (signatureBlock == null) {
             return;
         }
-        logMessage("Writing signature block ...");
+        logMessage("Writing signature block ..."); //NON-NLS
         long offset = position();
         if (ZipHeader.isZip64Length(offset)) {
-            logMessage("ZIP64 mode, skip writing signature block!");
+            logMessage("ZIP64 mode, skip writing signature block!"); //NON-NLS
             return;
         }
         int alignment = 4096;

@@ -35,6 +35,7 @@ import com.reandroid.arsc.chunk.xml.ResXmlElement;
 import com.reandroid.arsc.container.SpecTypePair;
 import com.reandroid.arsc.model.ResourceEntry;
 import com.reandroid.arsc.value.Entry;
+import com.reandroid.arsc.value.ResConfig;
 import com.reandroid.arsc.value.ResValue;
 import com.reandroid.arsc.value.ValueType;
 import com.reandroid.utils.HexUtil;
@@ -49,170 +50,212 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 public class Merger extends CommandExecutor<MergerOptions> {
-    public static final String LOG_DEFAULT = "Default";
-    public static final String LOG_SIMPLE = "Simple";
     public static String packageName;
     public static String versionName;
-    private final String logMode;
+    public static String DPI;
+    public static String LANGUAGE;
+    public static int compressionLevel;
+    public static int splitCount;
+    public static int dexCount;
+    public static int resourcesCount;
+    public static volatile boolean stopped = false;
     private final Context mContext; //  CONTEXT
     private List<String> allEntries = new ArrayList<>();
+    private static long outputSize;
 
-    public Merger(Context context, MergerOptions options, String logMode) {
+    public Merger(Context context, MergerOptions options) {
         super(options, "[MERGE] ");
         this.mContext = context;
-        this.logMode = logMode;
     }
 
     @Override
     public void logMessage(String message) {
-        if (LOG_DEFAULT.equals(logMode)) {
-            super.logMessage(message);
-            onLog(message);
-        }
+        super.logMessage(message);
+        onLog(message);
     }
 
-    private void simpleLog(String message) {
-        if (LOG_SIMPLE.equals(logMode)) {
-            super.logMessage(message);
-            onLog(message);
+    public static void stopMerge() {
+        stopped = true;
+    }
+
+    private void checkStopped() throws IOException {
+        if (stopped) {
+            throw new IOException("Merge stopped");
         }
     }
 
     public void logSavedFile(File file) {
         logMessage("Saved to: " + file.getAbsolutePath());
-
-        if (LOG_SIMPLE.equals(logMode)) {
-            onLog("Saved APK        : " + file.getAbsolutePath());
-        }
     }
+
     @Override
     public void runCommand() throws IOException {
+        stopped = false;
+
+        checkStopped();
 
         MergerOptions options = getOptions();
 
         delete(options.outputFile);
+        checkStopped();
 
         File dir = options.inputFile;
         boolean extracted = false;
 
         if (dir.isFile()) {
+            checkStopped();
             dir = extractFile(dir);
+            checkStopped();
             extracted = true;
         }
+
+        checkStopped();
         logMessage("Searching apk files ...");
 
         ApkBundle bundle = new ApkBundle();
+        checkStopped();
+
         bundle.setAPKLogger(this);
+        checkStopped();
+
         bundle.loadApkDirectory(dir, extracted);
+        checkStopped();
 
         logMessage("Found modules: " + bundle.getApkModuleList().size());
+        checkStopped();
 
         for (ApkModule apkModule : bundle.getApkModuleList()) {
+
+            checkStopped();
+
             String protect = Util.isProtected(apkModule);
+            checkStopped();
 
             if (protect != null) {
                 logMessage(options.inputFile.getAbsolutePath());
+                checkStopped();
+
                 logMessage(protect);
+                checkStopped();
+
                 return;
             }
         }
 
+        checkStopped();
+
         ApkModule mergedModule = bundle.mergeModules(options.validateModules);
 
-        // =========================
-        // APP INFORMATION
-        // =========================
+        checkStopped();
 
-        String appName = getAppName(mergedModule);
         packageName = mergedModule.getAndroidManifest().getPackageName();
+        checkStopped();
+
         versionName = mergedModule.getAndroidManifest().getVersionName();
-        int splitCount = getSplitCount(bundle);
-        int dexCount = getDexCount(mergedModule);
+        checkStopped();
 
-        simpleLog("App Name              : " + appName);
+        DPI = getDPI(mergedModule);
+        checkStopped();
 
-        simpleLog("Package               : " + packageName);
+        LANGUAGE = getLanguage(mergedModule);
+        checkStopped();
 
-        simpleLog("Version Name          : " + versionName);
+        splitCount = getSplitCount(bundle);
+        checkStopped();
 
-        simpleLog("Splits                : " + splitCount);
+        dexCount = getDexCount(mergedModule);
+        checkStopped();
 
-        simpleLog("DEX Files             : " + dexCount);
-
-        // =========================
-        // PROCESSING
-        // =========================
+        resourcesCount = getResourceCount(mergedModule);
+        checkStopped();
 
         if (options.resDirName != null) {
-            logMessage("Renaming resources root dir: " + options.resDirName);
 
-            mergedModule.setResourcesRootDir(options.resDirName);
+            checkStopped();
+
+            logMessage(
+                    "Renaming resources root dir: "
+                            + options.resDirName
+            );
+            checkStopped();
+
+            mergedModule.setResourcesRootDir(
+                    options.resDirName
+            );
+            checkStopped();
         }
 
         if (options.validateResDir) {
+
+            checkStopped();
+
             logMessage("Validating resources dir ...");
+            checkStopped();
 
             mergedModule.validateResourcesDir();
+            checkStopped();
         }
 
         if (options.cleanMeta) {
+
+            checkStopped();
+
             logMessage("Clearing META-INF ...");
+            checkStopped();
 
             clearMeta(mergedModule);
+            checkStopped();
         }
 
+        checkStopped();
+
         sanitizeManifest(mergedModule);
+        checkStopped();
 
         mergedModule.refreshTable();
+        checkStopped();
+
         mergedModule.refreshManifest();
-
-        // =========================
-        // EXTRACT NATIVE LIBS
-        // =========================
-
-        String extractNativeLibs = options.extractNativeLibs;
-
-        simpleLog("Extract Native Libs   : " + extractNativeLibs);
+        checkStopped();
 
         applyExtractNativeLibs(mergedModule, options.getExtractNativeLibs());
 
-        // =========================
-        // COMPRESSION
-        // =========================
+        checkStopped();
 
-        int compressionLevel = ProcessingManager.getCompressionLevel(mContext);
+        compressionLevel = ProcessingManager.getCompressionLevel(mContext);
+        checkStopped();
 
         ApkWriter.compressionLevel = compressionLevel;
 
-        simpleLog("Compression Level     : " + compressionLevel);
-
-        // =========================
-        // WRITE APK
-        // =========================
+        checkStopped();
 
         logMessage("Writing APK ...");
+        checkStopped();
 
-        mergedModule.writeApk(
-                options.outputFile
-        );
+        mergedModule.writeApk(options.outputFile);
+        checkStopped();
 
-        long outputSize = options.outputFile.length();
+        outputSize = options.outputFile.length();
 
-        simpleLog("File Size             : " + formatFileSize(outputSize));
-
-        // =========================
-        // CLOSE
-        // =========================
+        checkStopped();
 
         mergedModule.close();
+        checkStopped();
+
         bundle.close();
+        checkStopped();
 
         if (extracted) {
+
+            checkStopped();
+
             Util.deleteDir(dir);
+            checkStopped();
+
             dir.deleteOnExit();
+            checkStopped();
         }
     }
-
     private String getAppName(ApkModule apkModule) {
         if (!apkModule.hasAndroidManifest()) return "Unknown";
 
@@ -223,7 +266,6 @@ public class Merger extends CommandExecutor<MergerOptions> {
         ResXmlAttribute label = application.searchAttributeByResourceId(AndroidManifest.ID_label);
         if (label == null) return "Unknown";
 
-        // 1. Jika bernilai STRING murni (langsung tertulis di manifest)
         if (label.getValueType() == ValueType.STRING) {
             String str = label.getValueAsString();
             if (str != null && !str.isEmpty()) return str;
@@ -250,19 +292,74 @@ public class Merger extends CommandExecutor<MergerOptions> {
         String fallback = label.getValueAsString();
         return fallback != null ? fallback : "Unknown";
     }
+    private String getDPI(ApkModule apkModule) {
+        if (apkModule == null) return "";
+        StringBuilder result = new StringBuilder();
+        Iterator<ResConfig> iterator = apkModule.getTableBlock().getResConfigs();
+        while (iterator.hasNext()) {
+            ResConfig config = iterator.next();
+            ResConfig.Density density = config.getDensity();
+            if (density != null) {
+                String value = density.toString();
+                if (result.indexOf(value) == -1) {
+                    if (result.length() > 0) result.append(", ");
+                    result.append(value);
+                }
+            }
+        }
+        return result.toString();
+    }
 
+    private String getLanguage(ApkModule apkModule) {
+        if (!apkModule.hasTableBlock()) return "";
+
+        StringBuilder result = new StringBuilder();
+
+        Iterator<ResConfig> iterator =
+                apkModule.getTableBlock().getResConfigs();
+
+        while (iterator.hasNext()) {
+            ResConfig config = iterator.next();
+            String language = config.getLanguage();
+
+            if (language != null && !language.isEmpty()) {
+                if (result.indexOf(language) == -1) {
+                    if (result.length() > 0) result.append(", ");
+                    result.append(language);
+                }
+            }
+        }
+
+        return result.toString();
+    }
+
+    private int getResourceCount(ApkModule apkModule) {
+        if (apkModule == null || !apkModule.hasTableBlock()) {
+            return 0;
+        }
+
+        int count = 0;
+        Iterator<ResourceEntry> iterator =
+                apkModule.getTableBlock().getResources();
+
+        while (iterator.hasNext()) {
+            iterator.next();
+            count++;
+        }
+
+        return count;
+    }
     private int getDexCount(ApkModule apkModule) {
         if (apkModule == null) return 0;
 
-        // REAndroid menyediakan API bawaan untuk mendaftar seluruh DEX file
         return apkModule.listDexFiles().size();
     }
 
-    private String formatFileSize(long bytes) {
-        if (bytes < 1024) return bytes + " B";
-        if (bytes < 1024 * 1024) return String.format("%.2f KB", bytes / 1024.0);
-        if (bytes < 1024L * 1024L * 1024L) return String.format("%.2f MB", bytes / (1024.0 * 1024.0));
-        return String.format("%.2f GB", bytes / (1024.0 * 1024.0 * 1024.0)
+    public static String formatFileSize() {
+        if (outputSize < 1024) return outputSize + " B";
+        if (outputSize < 1024 * 1024) return String.format("%.2f KB", outputSize / 1024.0);
+        if (outputSize < 1024L * 1024L * 1024L) return String.format("%.2f MB", outputSize / (1024.0 * 1024.0));
+        return String.format("%.2f GB", outputSize / (1024.0 * 1024.0 * 1024.0)
         );
     }
 
@@ -335,23 +432,15 @@ public class Merger extends CommandExecutor<MergerOptions> {
         AndroidManifestBlock manifest = apkModule.getAndroidManifest();
         logMessage("Sanitizing manifest ...");
 
-        AndroidManifestHelper.removeAttributeFromManifestById(manifest,
-                AndroidManifest.ID_requiredSplitTypes, this);
-        AndroidManifestHelper.removeAttributeFromManifestById(manifest,
-                AndroidManifest.ID_splitTypes, this);
-        AndroidManifestHelper.removeAttributeFromManifestByName(manifest,
-                AndroidManifest.NAME_splitTypes, this);
+        AndroidManifestHelper.removeAttributeFromManifestById(manifest, AndroidManifest.ID_requiredSplitTypes, this);
+        AndroidManifestHelper.removeAttributeFromManifestById(manifest, AndroidManifest.ID_splitTypes, this);
+        AndroidManifestHelper.removeAttributeFromManifestByName(manifest, AndroidManifest.NAME_splitTypes, this);
 
-        AndroidManifestHelper.removeAttributeFromManifestByName(manifest,
-                AndroidManifest.NAME_requiredSplitTypes, this);
-        AndroidManifestHelper.removeAttributeFromManifestByName(manifest,
-                AndroidManifest.NAME_splitTypes, this);
-        AndroidManifestHelper.removeAttributeFromManifestAndApplication(manifest,
-                AndroidManifest.ID_isSplitRequired,
-                this, AndroidManifest.NAME_isSplitRequired);
+        AndroidManifestHelper.removeAttributeFromManifestByName(manifest, AndroidManifest.NAME_requiredSplitTypes, this);
+        AndroidManifestHelper.removeAttributeFromManifestByName(manifest, AndroidManifest.NAME_splitTypes, this);
+        AndroidManifestHelper.removeAttributeFromManifestAndApplication(manifest, AndroidManifest.ID_isSplitRequired, this, AndroidManifest.NAME_isSplitRequired);
         ResXmlElement application = manifest.getApplicationElement();
-        List<ResXmlElement> splitMetaDataElements =
-                AndroidManifestHelper.listSplitRequired(application);
+        List<ResXmlElement> splitMetaDataElements = AndroidManifestHelper.listSplitRequired(application);
         boolean splits_removed = false;
         for(ResXmlElement meta : splitMetaDataElements){
             if(!splits_removed){

@@ -11,17 +11,17 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ProcessingManager {
-    private static final String KEY_OUTPUT_DIRECTORY_PATH = "output_directory_path";
-    private static final String KEY_FORMAT_NAME = "format_name";
-    private static final String KEY_COMPRESSION_LEVEL = "compression_level";
-    private static final String KEY_APPEND_TIMESTAMP = "is_append_timestamp_enabled";
-    private static final String KEY_APPEND_VERSION = "is_append_version_enabled";
-    private static final String KEY_LOG_TYPE = "log_type";
+    private static final String KEY_OUTPUT_DIRECTORY_PATH = "output_directory_path"; //NON-NLS
+    private static final String KEY_FORMAT_NAME = "format_name"; //NON-NLS
+    private static final String KEY_COMPRESSION_LEVEL = "compression_level"; //NON-NLS
+    private static final String KEY_APPEND_TIMESTAMP = "is_append_timestamp_enabled"; //NON-NLS
+    private static final String KEY_APPEND_VERSION = "is_append_version_enabled"; //NON-NLS
+    private static final String KEY_LOG_TYPE = "log_type"; //NON-NLS
     private static final String KEY_EXTRACT_NATIVE_LIBS = "extract_native_libs";
 
     public static String getDirPath(Context context) {
         return PrefsManager.getInstance(context)
-                .getString(KEY_OUTPUT_DIRECTORY_PATH, "/storage/emulated/0/Download");
+                .getString(KEY_OUTPUT_DIRECTORY_PATH, "/storage/emulated/0/Download"); //NON-NLS
     }
 
     public static void saveDirPath(Context context, String value) {
@@ -84,7 +84,7 @@ public class ProcessingManager {
     }
 
     public static String isExtractNativeLibs(Context context) {
-        return PrefsManager.getInstance(context).getString(KEY_EXTRACT_NATIVE_LIBS, "false");
+        return PrefsManager.getInstance(context).getString(KEY_EXTRACT_NATIVE_LIBS, "false"); //NON-NLS
     }
     public static void setExtractNativeLibs(Context context, boolean enabled) {
         PrefsManager.getInstance(context).saveString(KEY_EXTRACT_NATIVE_LIBS, String.valueOf(enabled));
@@ -112,7 +112,7 @@ public class ProcessingManager {
     }
     public static String getTimestamp(Context context) {
         if (!isAppendTimestampEnabled(context)) return "";
-        return "_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        return "_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date()); //NON-NLS
     }
     public static String getVersion(Context context) {
         if (!isAppendVersionEnabled(context)) return "";

@@ -1,18 +1,22 @@
 package com.szn.merger;
 
 import android.net.Uri;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.documentfile.provider.DocumentFile;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class SAFHelper {
 
     public interface OnFilePickedListener {
-        void onFilePicked(File file, String fileName);
+        void onFilePicked(File file, String fileName, int splitsCount);
         void onError(String errorMsg);
     }
 
@@ -52,14 +56,37 @@ public class SAFHelper {
                     fos.write(buffer, 0, read);
                 }
             }
+            int splitCount = getSplitCount(tempFile);
 
             if (listener != null) {
-                listener.onFilePicked(tempFile, fileName);
+                listener.onFilePicked(tempFile, fileName, splitCount);
             }
         } catch (Exception e) {
             if (listener != null) {
                 listener.onError(e.getMessage());
             }
         }
+    }
+
+    private int getSplitCount(File apksFile) {
+        int count = 0;
+
+        try (ZipFile zipFile = new ZipFile(apksFile)) {
+            java.util.Enumeration<? extends ZipEntry> entries = zipFile.entries();
+
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+
+                if (!entry.isDirectory()
+                        && entry.getName().toLowerCase().endsWith(".apk")
+                        && !entry.getName().equalsIgnoreCase("base.apk")) {
+                    count++;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return count;
     }
 }

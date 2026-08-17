@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private MaterialCardView languageButton;
     private MaterialCardView themeCard;
-
+    private NestedScrollView scroll;
     private TextView currentTheme;
     private TextView currentLang;
     private MaterialCardView autoDetect, autoInstall, sign, process;
@@ -38,7 +39,6 @@ public class SettingsActivity extends AppCompatActivity {
         ThemeManager.applyLanguage(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
         initViews();
         setupListeners();
     }

@@ -40,7 +40,7 @@ public class AppsDialog {
 
     public interface OnAppExtractedListener {
         void onAppExtractionStart(String message);
-        void onAppExtractionSuccess(File file, String fileName);
+        void onAppExtractionSuccess(File file, String fileName, int splitCount);
         void onAppExtractionFailed(String errorMsg);
     }
 
@@ -385,6 +385,7 @@ public class AppsDialog {
         if (listener != null) {
             listener.onAppExtractionStart("Extracting " + appInfo.loadLabel(activity.getPackageManager()) + "...");
         }
+        final int splitCount = appInfo.splitSourceDirs != null ? appInfo.splitSourceDirs.length : 0;
 
         new Thread(() -> {
             try {
@@ -423,7 +424,7 @@ public class AppsDialog {
                 }
 
                 if (listener != null) {
-                    uiHandler.post(() -> listener.onAppExtractionSuccess(tempFile, outputFileName));
+                    uiHandler.post(() -> listener.onAppExtractionSuccess(tempFile, outputFileName, splitCount));
                 }
 
             } catch (Exception e) {

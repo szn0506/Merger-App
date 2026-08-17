@@ -85,7 +85,7 @@ public class RadioAdapter extends RecyclerView.Adapter<RadioAdapter.ViewHolder> 
             String item = items.get(i);
 
             if (item.equals(value) ||
-                    item.replaceAll("\\D+", "").equals(value)) {
+                    item.replaceAll("\\D+", "").equals(value)) { //NON-NLS
 
                 selectedPosition = i;
                 notifyDataSetChanged();

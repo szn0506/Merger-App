@@ -44,7 +44,7 @@ public final class KeystoreImporter {
         return result;
     }
     public KeystoreManager.Item importKeystore(Uri uri, String name, String password, String type) throws Exception {
-        File folder = new File(context.getFilesDir(),"keystores");
+        File folder = new File(context.getFilesDir(),"keystores"); //NON-NLS
 
         if (!folder.exists()) folder.mkdirs();
 

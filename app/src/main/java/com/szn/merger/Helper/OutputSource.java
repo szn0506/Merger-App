@@ -171,7 +171,7 @@ class OutputSource {
             return;
         }
         long size = getLocalFileHeader().getDataSize();
-        logVerbose("Write [" + FileUtil.toReadableFileSize(size) + "] " +
+        logVerbose("Write [" + FileUtil.toReadableFileSize(size) + "] " + //NON-NLS
                 getInputSource().getAlias());
     }
 
