@@ -5,17 +5,23 @@ import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,20 +31,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.textfield.TextInputLayout;
 import com.szn.merger.Helper.ApkInfo;
 import com.szn.merger.Utils.Adapter.APKDetailsAdapter;
+import com.szn.merger.Utils.Adapter.InstalledAppsManager;
 import com.szn.merger.Utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class MainActivity extends AppCompatActivity implements SAFHelper.OnFilePickedListener, AppsDialog.OnAppExtractedListener, MergeTaskManager.OnMergeCompletedListener {
+public class MainActivity extends AppCompatActivity implements SAFHelper.OnFilePickedListener, MergeTaskManager.OnMergeCompletedListener {
 
     private ImageButton btnPaste, btnPicker, btnDelete;
     private TextView textValid, textInvalid, splitsFound, emptyText, loadingPercent, loadingTime;
@@ -49,11 +58,11 @@ public class MainActivity extends AppCompatActivity implements SAFHelper.OnFileP
     private TextInputLayout textInputLayout;
     private File selectedInputFile;
     private SAFHelper safHelper;
-    private AppsDialog appsDialog;
     private NestedScrollView scrollView;
     private StableScrollView scrollCard;
     private MergeTaskManager mergeTaskManager;
     private LinearProgressIndicator loadingBar;
+    private final Handler uiHandler = new Handler(Looper.getMainLooper());
     private Object[][] appDetails;
     private Object[][] outputDetails;
     private Object[][] securityDetails;
@@ -79,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements SAFHelper.OnFileP
         });
 
         safHelper = new SAFHelper(this, this);
-        appsDialog = new AppsDialog(this, this);
         mergeTaskManager = new MergeTaskManager(this, logContainer, scrollCard, loadingBar, this, loadingPercent, loadingTime);
     }
 
@@ -177,9 +185,74 @@ public class MainActivity extends AppCompatActivity implements SAFHelper.OnFileP
             });
         });
 
-        btnExtract.setOnClickListener(v -> appsDialog.show());
+        btnExtract.setOnClickListener(v -> showInstalledAppsDialog());
     }
 
+    private void showInstalledAppsDialog() {
+        View view = getLayoutInflater().inflate(R.layout.installed_app_list_dialog, null);
+
+        AlertDialog dialog = new AlertDialog.Builder(this).setView(view).create();
+
+        MaterialButton cancel = view.findViewById(R.id.btnCancelDialog);
+        MaterialButton confirm = view.findViewById(R.id.btnExtractConfirm);
+        RecyclerView appListView = view.findViewById(R.id.appsListView);
+        EditText searchInput = view.findViewById(R.id.search_app);
+
+        searchInput.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                searchInput.setHint("");
+            } else if (searchInput.getText().length() == 0) {
+                searchInput.setHint(R.string.search_app);
+            }
+        });
+
+        InstalledAppsManager manager = new InstalledAppsManager(this, new InstalledAppsManager.OnAppExtractionListener() {
+            @Override
+            public void onAppExtractionStart(String message) {
+                runOnUiThread(() -> Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onAppExtractionSuccess(File file, String fileName, int splitCount) {
+                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Extracted " + fileName, Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onAppExtractionFailed(String errorMsg) {
+                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Extraction failed: " + errorMsg, Toast.LENGTH_LONG).show());
+            }
+        });
+
+        List<ApplicationInfo> apps = InstalledAppsManager.getInstalledApps(this);
+
+        final ApplicationInfo[] selectedApp = {null};
+
+        InstalledAppsManager.InstalledAppsAdapter adapter =
+                new InstalledAppsManager.InstalledAppsAdapter(this, apps, app -> {
+                    selectedApp[0] = app;
+                    Utils.animateButtonState(confirm, app != null);
+                });
+        Utils.animateTextChange(
+                searchInput,
+                appListView,
+                300,
+                adapter::filter
+        );
+
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setBackgroundDrawableResource(android.R.color.transparent);
+
+        appListView.setLayoutManager(new LinearLayoutManager(this));
+        appListView.setAdapter(adapter);
+
+        cancel.setOnClickListener(v -> dialog.dismiss());
+
+        confirm.setOnClickListener(v -> {
+            manager.extract(selectedApp[0]);
+            dialog.dismiss();
+        });
+    }
     private void loadDetailsData() {
         ApkInfo.init(this);
 
@@ -471,33 +544,48 @@ public class MainActivity extends AppCompatActivity implements SAFHelper.OnFileP
         Utils.toast(this, getString(R.string.selected_file, fileName));
     }
 
-    @Override
-    public void onAppExtractionStart(String message) {
-        runOnUiThread(() -> {
-            editFilePath.setText(R.string.extracting);
-            Utils.toast(this, message);
-        });
-    }
-
-    @Override
-    public void onAppExtractionSuccess(File file, String fileName, int splitCount) {
+    public void onAppExtractionSuccess(
+            File file,
+            String fileName,
+            int splitCount
+    ) {
         selectedInputFile = file;
         editFilePath.setText(fileName);
 
         splitsFound.setVisibility(View.VISIBLE);
-        splitsFound.setText(getString(R.string.splits_found, splitCount));
+        splitsFound.setText(
+                getString(
+                        R.string.splits_found,
+                        splitCount
+                )
+        );
+
         textValid.setVisibility(View.VISIBLE);
         imageValid.setVisibility(View.VISIBLE);
+
         textInvalid.setVisibility(View.GONE);
         imageInvalid.setVisibility(View.GONE);
 
-        Utils.toast(this, getString(R.string.successfully_extracted, fileName));
+        Utils.toast(
+                this,
+                getString(
+                        R.string.successfully_extracted,
+                        fileName
+                )
+        );
     }
 
-    @Override
     public void onAppExtractionFailed(String errorMsg) {
+
         editFilePath.setText("");
-        Utils.toast(this, getString(R.string.failed_to_extract, errorMsg));
+
+        Utils.toast(
+                this,
+                getString(
+                        R.string.failed_to_extract,
+                        errorMsg
+                )
+        );
     }
 
     @Override
