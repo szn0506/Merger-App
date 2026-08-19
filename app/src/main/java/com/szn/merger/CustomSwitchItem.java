@@ -61,12 +61,10 @@ public class CustomSwitchItem extends LinearLayout {
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-
         switchButton.setEnabled(enabled);
-
+        root.setEnabled(enabled);
         setClickable(enabled);
         setFocusable(enabled);
-
         setAlpha(enabled ? 1f : 0.5f);
     }
     public void setChecked(boolean checked) {
