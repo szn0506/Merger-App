@@ -189,69 +189,135 @@ public class MainActivity extends AppCompatActivity implements SAFHelper.OnFileP
     }
 
     private void showInstalledAppsDialog() {
-        View view = getLayoutInflater().inflate(R.layout.installed_app_list_dialog, null);
+        View view = getLayoutInflater().inflate(
+                R.layout.installed_app_list_dialog,
+                null
+        );
 
-        AlertDialog dialog = new AlertDialog.Builder(this).setView(view).create();
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
 
-        MaterialButton cancel = view.findViewById(R.id.btnCancelDialog);
-        MaterialButton confirm = view.findViewById(R.id.btnExtractConfirm);
-        RecyclerView appListView = view.findViewById(R.id.appsListView);
-        EditText searchInput = view.findViewById(R.id.search_app);
+        MaterialButton cancel =
+                view.findViewById(R.id.btnCancelDialog);
 
-        searchInput.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                searchInput.setHint("");
-            } else if (searchInput.getText().length() == 0) {
-                searchInput.setHint(R.string.search_app);
-            }
-        });
+        MaterialButton confirm =
+                view.findViewById(R.id.btnExtractConfirm);
 
-        InstalledAppsManager manager = new InstalledAppsManager(this, new InstalledAppsManager.OnAppExtractionListener() {
-            @Override
-            public void onAppExtractionStart(String message) {
-                runOnUiThread(() -> Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show());
-            }
+        RecyclerView skeletonListView =
+                view.findViewById(R.id.appsSkeletonListView);
 
-            @Override
-            public void onAppExtractionSuccess(File file, String fileName, int splitCount) {
-                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Extracted " + fileName, Toast.LENGTH_SHORT).show());
-            }
+        RecyclerView appListView =
+                view.findViewById(R.id.appsListView);
 
-            @Override
-            public void onAppExtractionFailed(String errorMsg) {
-                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Extraction failed: " + errorMsg, Toast.LENGTH_LONG).show());
-            }
-        });
+        EditText searchInput =
+                view.findViewById(R.id.search_app);
 
-        List<ApplicationInfo> apps = InstalledAppsManager.getInstalledApps(this);
+        InstalledAppsManager manager =
+                new InstalledAppsManager(
+                        this,
+                        new InstalledAppsManager.OnAppExtractionListener() {
 
-        final ApplicationInfo[] selectedApp = {null};
+                            @Override
+                            public void onAppExtractionStart(String message) {
+                                runOnUiThread(() ->
+                                        Toast.makeText(
+                                                MainActivity.this,
+                                                message,
+                                                Toast.LENGTH_SHORT
+                                        ).show()
+                                );
+                            }
 
-        InstalledAppsManager.InstalledAppsAdapter adapter =
-                new InstalledAppsManager.InstalledAppsAdapter(this, apps, app -> {
-                    selectedApp[0] = app;
-                    Utils.animateButtonState(confirm, app != null);
-                });
-        Utils.animateTextChange(
-                searchInput,
-                appListView,
-                300,
-                adapter::filter
+                            @Override
+                            public void onAppExtractionSuccess(
+                                    File file,
+                                    String fileName,
+                                    int splitCount
+                            ) {
+                                runOnUiThread(() ->
+                                        Toast.makeText(
+                                                MainActivity.this,
+                                                "Extracted " + fileName,
+                                                Toast.LENGTH_SHORT
+                                        ).show()
+                                );
+                            }
+
+                            @Override
+                            public void onAppExtractionFailed(
+                                    String errorMsg
+                            ) {
+                                runOnUiThread(() ->
+                                        Toast.makeText(
+                                                MainActivity.this,
+                                                "Extraction failed: " + errorMsg,
+                                                Toast.LENGTH_LONG
+                                        ).show()
+                                );
+                            }
+                        }
+                );
+
+        List<ApplicationInfo> apps =
+                InstalledAppsManager.getInstalledApps(this);
+
+        skeletonListView.setLayoutManager(
+                new LinearLayoutManager(this)
+        );
+
+        appListView.setLayoutManager(
+                new LinearLayoutManager(this)
         );
 
         dialog.show();
+
         Window window = dialog.getWindow();
-        window.setBackgroundDrawableResource(android.R.color.transparent);
+        window.setLayout(
+                (int) (getResources().getDisplayMetrics().widthPixels * 0.92f),
+                WindowManager.LayoutParams.WRAP_CONTENT
+        );
+        if (window != null) {
+            window.setBackgroundDrawableResource(
+                    android.R.color.transparent
+            );
+        }
 
-        appListView.setLayoutManager(new LinearLayoutManager(this));
-        appListView.setAdapter(adapter);
+        manager.showInstalledApps(
+                skeletonListView,
+                appListView,
+                apps,
+                app -> Utils.animateButtonState(
+                        confirm,
+                        app != null
+                ),
+                adapter -> {
 
-        cancel.setOnClickListener(v -> dialog.dismiss());
+                    Utils.animateTextChange(
+                            searchInput,
+                            appListView,
+                            300,
+                            adapter::filter
+                    );
 
-        confirm.setOnClickListener(v -> {
-            manager.extract(selectedApp[0]);
-            dialog.dismiss();
-        });
+                    confirm.setOnClickListener(v -> {
+
+                        ApplicationInfo selectedApp =
+                                adapter.getSelectedApp();
+
+                        if (selectedApp == null) {
+                            return;
+                        }
+
+                        manager.extract(selectedApp);
+                        dialog.dismiss();
+                    });
+                }
+        );
+
+        cancel.setOnClickListener(
+                v -> dialog.dismiss()
+        );
     }
     private void loadDetailsData() {
         ApkInfo.init(this);

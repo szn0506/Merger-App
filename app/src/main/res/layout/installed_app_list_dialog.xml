@@ -50,21 +50,39 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/appsListView"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="380dp"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:listSelector="@android:color/transparent"
-            android:scrollbars="vertical"
-            android:scrollbarThumbVertical="@drawable/slider_apps_list"
-            android:scrollbarStyle="outsideOverlay"
-            android:requiresFadingEdge="vertical"
-            android:fadingEdgeLength="35dp"
-            tools:itemCount="5"
-            tools:listitem="@layout/item_installed_app" />
+            android:layout_height="380dp">
 
+            <!-- SKELETON LIST -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/appsSkeletonListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:visibility="visible"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_installed_skeleton" />
+
+            <!-- REAL LIST -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/appsListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:listSelector="@android:color/transparent"
+                android:scrollbars="vertical"
+                android:scrollbarThumbVertical="@drawable/slider_apps_list"
+                android:scrollbarStyle="outsideOverlay"
+                android:requiresFadingEdge="vertical"
+                android:fadingEdgeLength="35dp"
+                android:visibility="gone"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_installed_app" />
+
+        </FrameLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

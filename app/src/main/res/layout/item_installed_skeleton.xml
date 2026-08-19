@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="0dp"
+    app:cardBackgroundColor="?attr/colorSurface">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <!-- APP ICON SKELETON -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/skeletonIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="14dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp"
+            app:cardBackgroundColor="?attr/colorSurfaceVariant" />
+
+        <!-- TEXT AREA -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- APP NAME SKELETON -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/skeletonName"
+                android:layout_width="150dp"
+                android:layout_height="14dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="?attr/colorSurfaceVariant" />
+
+            <!-- SIZE SKELETON -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/skeletonSize"
+                android:layout_width="90dp"
+                android:layout_height="11dp"
+                android:layout_marginTop="7dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="?attr/colorSurfaceVariant" />
+
+        </LinearLayout>
+
+        <!-- BUTTON SKELETON -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/skeletonSplits"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="50dp"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp"
+            app:cardBackgroundColor="?attr/colorSurfaceVariant" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

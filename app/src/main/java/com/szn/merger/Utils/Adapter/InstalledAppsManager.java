@@ -1,10 +1,15 @@
 package com.szn.merger.Utils.Adapter;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
+import android.graphics.LinearGradient;
+import android.graphics.Paint;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
@@ -13,6 +18,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -387,6 +393,45 @@ public class InstalledAppsManager {
         }
     }
 
+    public interface OnAppsLoadedListener {
+        void onAppsLoaded(InstalledAppsAdapter adapter);
+    }
+
+    public void showInstalledApps(
+            RecyclerView skeletonRecyclerView,
+            RecyclerView recyclerView,
+            List<ApplicationInfo> apps,
+            InstalledAppsAdapter.OnAppClickListener clickListener,
+            OnAppsLoadedListener loadedListener
+    ) {
+        skeletonRecyclerView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+
+        skeletonRecyclerView.setAdapter(
+                new InstalledAppsSkeletonAdapter(
+                        Math.max(5, Math.min(apps.size(), 8))
+                )
+        );
+
+        preloadApps(apps, () -> {
+            InstalledAppsAdapter adapter =
+                    new InstalledAppsAdapter(
+                            context,
+                            apps,
+                            this,
+                            clickListener
+                    );
+
+            recyclerView.setAdapter(adapter);
+
+            skeletonRecyclerView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+
+            if (loadedListener != null) {
+                loadedListener.onAppsLoaded(adapter);
+            }
+        });
+    }
     public static class InstalledAppsAdapter extends RecyclerView.Adapter<InstalledAppsAdapter.ViewHolder> {
 
         public interface OnAppClickListener {
@@ -405,25 +450,48 @@ public class InstalledAppsManager {
         private int expandedPosition = RecyclerView.NO_POSITION;
         private int selectedPosition = RecyclerView.NO_POSITION;
 
-        public InstalledAppsAdapter(Context context, List<ApplicationInfo> apps, OnAppClickListener listener) {
+        public InstalledAppsAdapter(
+                Context context,
+                List<ApplicationInfo> apps,
+                InstalledAppsManager manager,
+                OnAppClickListener listener
+        ) {
             this.context = context;
             this.apps = apps;
             this.originalApps = new ArrayList<>(apps);
-            this.manager = new InstalledAppsManager(context, null);
+            this.manager = manager;
             this.listener = listener;
 
             TypedValue surface = new TypedValue();
             TypedValue surfaceVariant = new TypedValue();
 
-            context.getTheme().resolveAttribute(com.google.android.material.R.attr.colorSurface, surface, true);
-            context.getTheme().resolveAttribute(com.google.android.material.R.attr.colorSurfaceVariant, surfaceVariant, true);
+            context.getTheme().resolveAttribute(
+                    com.google.android.material.R.attr.colorSurface,
+                    surface,
+                    true
+            );
+
+            context.getTheme().resolveAttribute(
+                    com.google.android.material.R.attr.colorSurfaceVariant,
+                    surfaceVariant,
+                    true
+            );
 
             this.surfaceColor = surface.data;
             this.surfaceVariantColor = surfaceVariant.data;
-
-            manager.preloadApps(this.originalApps, this::notifyDataSetChanged);
         }
 
+        public ApplicationInfo getSelectedApp() {
+            if (selectedPosition == RecyclerView.NO_POSITION) {
+                return null;
+            }
+
+            if (selectedPosition < 0 || selectedPosition >= apps.size()) {
+                return null;
+            }
+
+            return apps.get(selectedPosition);
+        }
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -471,7 +539,7 @@ public class InstalledAppsManager {
                         splitView.setTextColor(context.getColor(com.google.android.material.R.color.material_on_surface_emphasis_medium));
                         splitView.setTextSize(12);
 
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                         params.topMargin = 5;
                         splitView.setLayoutParams(params);
 
@@ -607,6 +675,294 @@ public class InstalledAppsManager {
                 infoBaseSize = itemView.findViewById(R.id.infoBaseSize);
                 infoTotalSize = itemView.findViewById(R.id.infoTotalSize);
                 splitList = itemView.findViewById(R.id.splitList);
+            }
+
+        }
+    }
+
+    public static class InstalledAppsSkeletonAdapter
+            extends RecyclerView.Adapter<InstalledAppsSkeletonAdapter.ViewHolder> {
+
+        private final int itemCount;
+
+        public InstalledAppsSkeletonAdapter(int itemCount) {
+            this.itemCount = itemCount;
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(
+                @NonNull ViewGroup parent,
+                int viewType
+        ) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(
+                            R.layout.item_installed_skeleton,
+                            parent,
+                            false
+                    );
+
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(
+                @NonNull ViewHolder holder,
+                int position
+        ) {
+            holder.startShimmer();
+        }
+
+        @Override
+        public void onViewAttachedToWindow(
+                @NonNull ViewHolder holder
+        ) {
+            super.onViewAttachedToWindow(holder);
+            holder.startShimmer();
+        }
+
+        @Override
+        public void onViewDetachedFromWindow(
+                @NonNull ViewHolder holder
+        ) {
+            holder.stopShimmer();
+            super.onViewDetachedFromWindow(holder);
+        }
+
+        @Override
+        public void onViewRecycled(
+                @NonNull ViewHolder holder
+        ) {
+            holder.stopShimmer();
+            super.onViewRecycled(holder);
+        }
+
+        @Override
+        public int getItemCount() {
+            return itemCount;
+        }
+
+        static class ViewHolder extends RecyclerView.ViewHolder {
+
+            private final MaterialCardView skeletonIcon;
+            private final MaterialCardView skeletonName;
+            private final MaterialCardView skeletonSize;
+            private final MaterialCardView skeletonSplits;
+
+            private ValueAnimator animator;
+
+            ViewHolder(@NonNull View itemView) {
+                super(itemView);
+
+                skeletonIcon = itemView.findViewById(R.id.skeletonIcon);
+                skeletonName = itemView.findViewById(R.id.skeletonName);
+                skeletonSize = itemView.findViewById(R.id.skeletonSize);
+                skeletonSplits = itemView.findViewById(R.id.skeletonSplits);
+            }
+
+            void startShimmer() {
+                stopShimmer();
+
+                Context context = itemView.getContext();
+
+                TypedValue surfaceVariantValue = new TypedValue();
+                TypedValue surfaceValue = new TypedValue();
+
+                context.getTheme().resolveAttribute(
+                        com.google.android.material.R.attr.colorSurfaceVariant,
+                        surfaceVariantValue,
+                        true
+                );
+
+                context.getTheme().resolveAttribute(
+                        com.google.android.material.R.attr.colorSurface,
+                        surfaceValue,
+                        true
+                );
+
+                int surfaceVariant = surfaceVariantValue.data;
+                int surface = surfaceValue.data;
+
+                ShimmerDrawable iconDrawable =
+                        new ShimmerDrawable(
+                                24f,
+                                surfaceVariant,
+                                surface
+                        );
+
+                ShimmerDrawable nameDrawable =
+                        new ShimmerDrawable(
+                                7f,
+                                surfaceVariant,
+                                surface
+                        );
+
+                ShimmerDrawable sizeDrawable =
+                        new ShimmerDrawable(
+                                6f,
+                                surfaceVariant,
+                                surface
+                        );
+
+                ShimmerDrawable splitsDrawable =
+                        new ShimmerDrawable(
+                                12f,
+                                surfaceVariant,
+                                surface
+                        );
+
+                skeletonIcon.setBackground(iconDrawable);
+                skeletonName.setBackground(nameDrawable);
+                skeletonSize.setBackground(sizeDrawable);
+                skeletonSplits.setBackground(splitsDrawable);
+
+                ShimmerDrawable[] drawables = {
+                        iconDrawable,
+                        nameDrawable,
+                        sizeDrawable,
+                        splitsDrawable
+                };
+
+                animator = ValueAnimator.ofFloat(-1f, 1f);
+                animator.setDuration(1200);
+                animator.setInterpolator(new LinearInterpolator());
+                animator.setRepeatCount(ValueAnimator.INFINITE);
+
+                animator.addUpdateListener(animation -> {
+
+                    float progress =
+                            (float) animation.getAnimatedValue();
+
+                    for (ShimmerDrawable drawable : drawables) {
+                        drawable.setProgress(progress);
+                    }
+                });
+
+                animator.start();
+            }
+
+            void stopShimmer() {
+                if (animator != null) {
+                    animator.cancel();
+                    animator.removeAllUpdateListeners();
+                    animator = null;
+                }
+            }
+        }
+
+        private static class ShimmerDrawable extends Drawable {
+
+            private final Paint paint =
+                    new Paint(Paint.ANTI_ALIAS_FLAG);
+
+            private final float cornerRadius;
+            private final int surfaceVariant;
+            private final int surface;
+
+            private float progress;
+
+            ShimmerDrawable(
+                    float cornerRadius,
+                    int surfaceVariant,
+                    int surface
+            ) {
+                this.cornerRadius = cornerRadius;
+                this.surfaceVariant = surfaceVariant;
+                this.surface = surface;
+            }
+
+            void setProgress(float progress) {
+                this.progress = progress;
+                invalidateSelf();
+            }
+
+            @Override
+            public void draw(@NonNull Canvas canvas) {
+
+                float width = getBounds().width();
+                float height = getBounds().height();
+
+                if (width <= 0 || height <= 0) {
+                    return;
+                }
+
+                float diagonal =
+                        (float) Math.sqrt(
+                                width * width +
+                                        height * height
+                        );
+
+                float offset =
+                        progress * diagonal * 1.5f;
+
+                float centerX =
+                        width / 2f + offset;
+
+                float centerY =
+                        height / 2f + offset;
+
+                float half =
+                        diagonal * 0.45f;
+
+                LinearGradient gradient =
+                        new LinearGradient(
+                                centerX - half,
+                                centerY - half,
+                                centerX + half,
+                                centerY + half,
+                                new int[]{
+                                        surfaceVariant,
+                                        surface,
+                                        surfaceVariant
+                                },
+                                new float[]{
+                                        0f,
+                                        0.5f,
+                                        1f
+                                },
+                                Shader.TileMode.CLAMP
+                        );
+
+                paint.setShader(gradient);
+
+                canvas.drawRoundRect(
+                        0,
+                        0,
+                        width,
+                        height,
+                        cornerRadius,
+                        cornerRadius,
+                        paint
+                );
+
+                paint.setShader(null);
+            }
+
+            @Override
+            protected void onBoundsChange(
+                    android.graphics.Rect bounds
+            ) {
+                super.onBoundsChange(bounds);
+                invalidateSelf();
+            }
+
+            @Override
+            public void setAlpha(int alpha) {
+                paint.setAlpha(alpha);
+                invalidateSelf();
+            }
+
+            @Override
+            public void setColorFilter(
+                    android.graphics.ColorFilter colorFilter
+            ) {
+                paint.setColorFilter(colorFilter);
+                invalidateSelf();
+            }
+
+            @Override
+            public int getOpacity() {
+                return android.graphics.PixelFormat.TRANSLUCENT;
             }
         }
     }
