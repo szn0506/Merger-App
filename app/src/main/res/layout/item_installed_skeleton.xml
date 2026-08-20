@@ -62,7 +62,7 @@
             android:id="@+id/skeletonSplits"
             android:layout_width="60dp"
             android:layout_height="35dp"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="8dp"
             app:cardCornerRadius="14dp"
             app:cardElevation="0dp"
             app:strokeWidth="0dp"

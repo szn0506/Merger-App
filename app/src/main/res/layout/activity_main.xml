@@ -68,7 +68,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 style="@style/Widget.Card.RoundedTop"
-                app:cardElevation="4dp"
                 app:strokeWidth="0dp"
                 app:layout_constraintTop_toBottomOf="@id/title"
                 app:layout_constraintStart_toStartOf="parent"
@@ -129,9 +128,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 style="@style/Widget.Card.RoundedBottom"
-                android:layout_marginHorizontal="15dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="2dp"
-                android:elevation="8dp"
                 app:layout_constraintTop_toBottomOf="@id/inputCard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
@@ -193,7 +191,6 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginHorizontal="16dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
                 style="@style/Widget.Material3.CardView.Elevated"
                 app:cardBackgroundColor="?attr/colorPrimary"
                 app:layout_constraintTop_toBottomOf="@id/infoCard">
@@ -264,7 +261,6 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
                 app:layout_constraintTop_toBottomOf="@id/orDivider">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -325,7 +321,6 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="35dp"
                 style="@style/Widget.Card.RoundedTop"
-                app:cardElevation="4dp"
                 app:cardBackgroundColor="?attr/colorSurfaceVariant"
                 app:strokeWidth="0dp"
                 app:layout_constraintTop_toBottomOf="@id/btnExtract">
@@ -395,7 +390,6 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="2dp"
                 style="@style/Widget.Card.FlatMiddle"
-                app:cardElevation="4dp"
                 app:cardBackgroundColor="?attr/colorSurfaceVariant"
                 app:strokeWidth="0dp"
                 app:layout_constraintTop_toBottomOf="@id/logHeader">
@@ -471,7 +465,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                app:cardElevation="4dp"
                 app:strokeWidth="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -528,7 +521,6 @@
         android:layout_marginBottom="16dp"
         android:layout_marginTop="30dp"
         app:cardCornerRadius="30dp"
-        app:cardElevation="4dp"
         app:strokeWidth="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -549,7 +541,6 @@
                 android:padding="16dp"
                 android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="30dp"
-                app:cardElevation="0dp"
                 app:strokeWidth="0dp">
 
                 <LinearLayout
@@ -585,7 +576,6 @@
                 android:padding="16dp"
                 android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="30dp"
-                app:cardElevation="0dp"
                 app:strokeWidth="0dp">
 
                 <LinearLayout
@@ -621,7 +611,6 @@
                 android:padding="16dp"
                 android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="30dp"
-                app:cardElevation="0dp"
                 app:strokeWidth="0dp">
 
                 <LinearLayout
@@ -657,7 +646,6 @@
                 android:padding="16dp"
                 android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="30dp"
-                app:cardElevation="0dp"
                 app:strokeWidth="0dp">
 
                 <LinearLayout
