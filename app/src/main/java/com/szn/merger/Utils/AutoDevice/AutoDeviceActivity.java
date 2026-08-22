@@ -343,13 +343,17 @@ public class AutoDeviceActivity extends AppCompatActivity {
         ABILinear.setAlpha(ruleEnabled ? 1f : 0.5f);
         DPILinear.setAlpha(ruleEnabled ? 1f : 0.5f);
         LANGUAGELinear.setAlpha(ruleEnabled ? 1f : 0.5f);
+        ABILinear.setClickable(ruleEnabled);
+        DPILinear.setClickable(ruleEnabled);
+        LANGUAGELinear.setClickable(ruleEnabled);
+        ABILinear.setFocusable(ruleEnabled);
+        DPILinear.setFocusable(ruleEnabled);
+        LANGUAGELinear.setFocusable(ruleEnabled);
 
         gotoABI.setClickable(ruleEnabled);
         gotoABI.setFocusable(ruleEnabled);
-
         gotoDPI.setClickable(ruleEnabled);
         gotoDPI.setFocusable(ruleEnabled);
-
         gotoLANGUAGE.setClickable(ruleEnabled);
         gotoLANGUAGE.setFocusable(ruleEnabled);
 
