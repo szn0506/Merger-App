@@ -67,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/desc_detection_rules"
                 android:textSize="14sp"
-                android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"/>
 
             <com.google.android.material.card.MaterialCardView

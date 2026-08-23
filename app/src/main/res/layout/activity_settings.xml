@@ -120,9 +120,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_theme"
                 style="@style/Widget.Card.FlatMiddle"
-                android:clickable="true"
-                android:layout_marginBottom="1dp"
-                android:focusable="true">
+                android:layout_marginBottom="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -157,7 +155,6 @@
                             android:id="@+id/text_current_theme"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
                             android:text="@string/theme_system"
                             android:textSize="14sp"
                             android:textColor="?attr/colorOnSurfaceVariant"/>
