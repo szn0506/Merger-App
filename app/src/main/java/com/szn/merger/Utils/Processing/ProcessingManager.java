@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.szn.merger.Helper.Merger;
 import com.szn.merger.PrefsManager;
-import com.szn.merger.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,11 +13,19 @@ public class ProcessingManager {
     private static final String KEY_OUTPUT_DIRECTORY_PATH = "output_directory_path"; //NON-NLS
     private static final String KEY_FORMAT_NAME = "format_name"; //NON-NLS
     private static final String KEY_COMPRESSION_LEVEL = "compression_level"; //NON-NLS
-    private static final String KEY_APPEND_TIMESTAMP = "is_append_timestamp_enabled"; //NON-NLS
-    private static final String KEY_APPEND_VERSION = "is_append_version_enabled"; //NON-NLS
-    private static final String KEY_LOG_TYPE = "log_type"; //NON-NLS
+    static final String KEY_APPEND_PACKAGENAME = "is_append_package_name";
+    private static final String KEY_APPEND_VERSIONNAME = "is_append_version_enabled"; //NON-NLS
+    private static final String KEY_APPEND_VERSIONCODE = "is_append_version_code";
+    private static final String KEY_APPEND_ABI = "is_append_abi";
+    private static final String KEY_APPEND_DPI = "is_append_dpi";
+    private static final String KEY_APPEND_LANGUAGE = "is_append_language";
+    private static final String KEY_APPEND_SIGNINGSTATUS = "is_append_signing_status";
+    private static final String KEY_APPEND_SIGNINGSCHEMES = "is_append_signing_schemes";
+    private static final String KEY_APPEND_TIMESTAMP = "is_append_timestamp";
+    private static final String KEY_APPEND_SDKVERSIONS = "is_append_sdk_versions";
     private static final String KEY_EXTRACT_NATIVE_LIBS = "extract_native_libs";
-
+    private static final String KEY_PREFIX = "prefix";
+    private static final String KEY_SUFFIX = "suffix";
     public static String getDirPath(Context context) {
         return PrefsManager.getInstance(context)
                 .getString(KEY_OUTPUT_DIRECTORY_PATH, "/storage/emulated/0/Download"); //NON-NLS
@@ -39,8 +46,7 @@ public class ProcessingManager {
             value = value.substring(0, value.length() - 4);
         }
 
-        PrefsManager.getInstance(context)
-                .saveString(KEY_FORMAT_NAME, value);
+        PrefsManager.getInstance(context).saveString(KEY_FORMAT_NAME, value);
     }
 
     public static int getCompressionLevel(Context context) {
@@ -53,36 +59,81 @@ public class ProcessingManager {
                 .saveInt(KEY_COMPRESSION_LEVEL, value);
     }
 
+    public static boolean isAppendVersionNameEnabled(Context context) {
+        return PrefsManager.getInstance(context)
+                .getBoolean(KEY_APPEND_VERSIONNAME, false);
+    }
+
+    public static void setAppendVersionNameEnabled(Context context, boolean enabled) {
+        PrefsManager.getInstance(context)
+                .saveBoolean(KEY_APPEND_VERSIONNAME, enabled);
+    }
+    public static boolean isAppendVersioncCodeEnabled(Context context) {
+        return PrefsManager.getInstance(context).getBoolean(KEY_APPEND_VERSIONCODE, false);
+    }
+    public static void setAppendVersioncode(Context context, boolean enabled) {
+        PrefsManager.getInstance(context).saveBoolean(KEY_APPEND_VERSIONCODE, enabled);
+    }
+    public static boolean isAppendPackageNameEnabled(Context context) {
+        return PrefsManager.getInstance(context).getBoolean(KEY_APPEND_PACKAGENAME, false);
+    }
+    public static void setAppendPackageName(Context context, boolean enabled) {
+        PrefsManager.getInstance(context).saveBoolean(KEY_APPEND_PACKAGENAME, enabled);
+    }
+    public static boolean isAppendABIEnabled(Context context) {
+        return PrefsManager.getInstance(context).getBoolean(KEY_APPEND_ABI, false);
+    }
+    public static void setAppendABI(Context context, boolean enabled) {
+        PrefsManager.getInstance(context).saveBoolean(KEY_APPEND_ABI, enabled);
+    }
+
+    public static boolean isAppendDPIEnabled(Context context) {
+        return PrefsManager.getInstance(context).getBoolean(KEY_APPEND_DPI, false);
+    }
+
+    public static void setAppendDPI(Context context, boolean enabled) {
+        PrefsManager.getInstance(context).saveBoolean(KEY_APPEND_DPI, enabled);
+    }
+
+    public static boolean isAppendLanguageEnabled(Context context) {
+        return PrefsManager.getInstance(context).getBoolean(KEY_APPEND_LANGUAGE, false);
+    }
+
+    public static void setAppendLanguage(Context context, boolean enabled) {
+        PrefsManager.getInstance(context).saveBoolean(KEY_APPEND_LANGUAGE, enabled);
+    }
+
+    public static boolean isAppendSigningStatusEnabled(Context context) {
+        return PrefsManager.getInstance(context).getBoolean(KEY_APPEND_SIGNINGSTATUS, false);
+    }
+
+    public static void setAppendSigningStatus(Context context, boolean enabled) {
+        PrefsManager.getInstance(context).saveBoolean(KEY_APPEND_SIGNINGSTATUS, enabled);
+    }
+
+    public static boolean isAppendSigningSchemesEnabled(Context context) {
+        return PrefsManager.getInstance(context).getBoolean(KEY_APPEND_SIGNINGSCHEMES, false);
+    }
+
+    public static void setAppendSigningSchemes(Context context, boolean enabled) {
+        PrefsManager.getInstance(context).saveBoolean(KEY_APPEND_SIGNINGSCHEMES, enabled);
+    }
+
     public static boolean isAppendTimestampEnabled(Context context) {
-        return PrefsManager.getInstance(context)
-                .getBoolean(KEY_APPEND_TIMESTAMP, false);
+        return PrefsManager.getInstance(context).getBoolean(KEY_APPEND_TIMESTAMP, false);
     }
 
-    public static void setAppendTimestampEnabled(Context context, boolean enabled) {
-        PrefsManager.getInstance(context)
-                .saveBoolean(KEY_APPEND_TIMESTAMP, enabled);
+    public static void setAppendTimestamp(Context context, boolean enabled) {
+        PrefsManager.getInstance(context).saveBoolean(KEY_APPEND_TIMESTAMP, enabled);
     }
 
-    public static boolean isAppendVersionEnabled(Context context) {
-        return PrefsManager.getInstance(context)
-                .getBoolean(KEY_APPEND_VERSION, false);
+    public static boolean isAppendSDKVersionsEnabled(Context context) {
+        return PrefsManager.getInstance(context).getBoolean(KEY_APPEND_SDKVERSIONS, false);
     }
 
-    public static void setAppendVersionEnabled(Context context, boolean enabled) {
-        PrefsManager.getInstance(context)
-                .saveBoolean(KEY_APPEND_VERSION, enabled);
+    public static void setAppendSDKVersions(Context context, boolean enabled) {
+        PrefsManager.getInstance(context).saveBoolean(KEY_APPEND_SDKVERSIONS, enabled);
     }
-
-    public static String getLogType(Context context) {
-        return PrefsManager.getInstance(context)
-                .getString(KEY_LOG_TYPE, context.getString(R.string.log_type_default));
-    }
-
-    public static void saveLogType(Context context, String value) {
-        PrefsManager.getInstance(context)
-                .saveString(KEY_LOG_TYPE, value);
-    }
-
     public static String isExtractNativeLibs(Context context) {
         return PrefsManager.getInstance(context).getString(KEY_EXTRACT_NATIVE_LIBS, "false"); //NON-NLS
     }
@@ -90,32 +141,40 @@ public class ProcessingManager {
         PrefsManager.getInstance(context).saveString(KEY_EXTRACT_NATIVE_LIBS, String.valueOf(enabled));
     }
     public static String getPrefix(Context context) {
-        String formatName = getFormatName(context);
-        int index = formatName.indexOf("MyApp");
-
-        if (index == -1) {
-            return "";
-        }
-
-        return formatName.substring(0, index);
+        return PrefsManager.getInstance(context).getString(KEY_PREFIX, "");
+    }
+    public static void setPrefix(Context context, String prefix) {
+        PrefsManager.getInstance(context).saveString(KEY_PREFIX, prefix);
     }
 
     public static String getSuffix(Context context) {
-        String formatName = getFormatName(context);
-        int index = formatName.indexOf("MyApp");
+        return PrefsManager.getInstance(context).getString(KEY_SUFFIX, "");
+    }
 
-        if (index == -1) {
-            return "";
-        }
-
-        return formatName.substring(index + "MyApp".length());
+    public static void setSuffix(Context context, String suffix) {
+        PrefsManager.getInstance(context).saveString(KEY_SUFFIX, suffix);
     }
     public static String getTimestamp(Context context) {
         if (!isAppendTimestampEnabled(context)) return "";
         return "_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date()); //NON-NLS
     }
-    public static String getVersion(Context context) {
-        if (!isAppendVersionEnabled(context)) return "";
-        return "_" + Merger.versionName;
+    public static String getVersionName() {
+        return Merger.versionName;
     }
+    public static String getVersionCode() {
+        return Merger.versionCode;
+    }
+    public static String getPackageName() {
+        return Merger.packageName;
+    }
+    public static String getDPI() {
+        return Merger.DPI;
+    }
+    public static String getABI() {
+        return Merger.ABI;
+    }
+    public static String getLanguage() {
+        return Merger.LANGUAGE;
+    }
+
 }

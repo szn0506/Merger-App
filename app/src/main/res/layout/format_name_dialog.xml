@@ -142,6 +142,7 @@
             android:layout_marginTop="16dp"/>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/packageName"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         style="@style/Widget.Card.RoundedTop"
@@ -155,6 +156,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/versionName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
@@ -167,6 +169,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/versionCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.Card.RoundedBottom">
@@ -186,6 +189,7 @@
             android:textStyle="bold" />
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/ABI"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.Card.RoundedTop"
@@ -198,6 +202,7 @@
             app:itemTitle="Append ABI" />
     </com.google.android.material.card.MaterialCardView>
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/DPI"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
@@ -210,6 +215,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/LANGUAGE"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.Card.RoundedBottom">
@@ -229,6 +235,7 @@
             android:textStyle="bold" />
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/signingStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
@@ -243,6 +250,7 @@
     </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/signingSchemes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Card.RoundedBottom">
@@ -263,6 +271,7 @@
             android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/timestamp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -277,6 +286,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/sdkVersions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Card.RoundedBottom">
