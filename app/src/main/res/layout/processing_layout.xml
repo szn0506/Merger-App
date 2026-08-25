@@ -44,26 +44,10 @@
                 android:layout_marginBottom="20dp" />
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.Card.RoundedTop">
-
-                <com.szn.merger.CustomSwitchItem
-                    android:id="@+id/extract_native_libs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:itemTitle="Extract Native Libs"
-                    app:itemIcon="@drawable/ic_file" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_output_directory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                style="@style/Widget.Card.FlatMiddle">
+                style="@style/Widget.Card.RoundedTop">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -107,8 +91,21 @@
                         android:src="@drawable/ic_back"
                         android:rotation="180"
                         app:tint="?attr/colorOnSurfaceVariant" />
-
                 </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Card.FlatMiddle">
+
+                <com.szn.merger.CustomSwitchItem
+                    android:id="@+id/extract_native_libs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:itemTitle="Extract Native Libs"
+                    app:itemIcon="@drawable/ic_file" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -166,34 +163,10 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                style="@style/Widget.Card.FlatMiddle">
-
-                <com.szn.merger.CustomSwitchItem
-                    android:id="@+id/switch_append_timestamp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:itemTitle="@string/append_timestamps"
-                    app:itemIcon="@drawable/ic_time" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView style="@style/Widget.Card.FlatMiddle">
-
-                <com.szn.merger.CustomSwitchItem
-                    android:id="@+id/switch_append_version_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:itemTitle="@string/append_version_name"
-                    app:itemIcon="@drawable/ic_code" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_compression_level"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.Card.FlatMiddle">
+                style="@style/Widget.Card.RoundedBottom">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -227,60 +200,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/compression_level_default"
-                            android:textSize="12sp" />
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_back"
-                        android:rotation="180"
-                        app:tint="?attr/colorOnSurfaceVariant" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_log_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.Card.RoundedBottom">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:tint="?attr/colorOnSurface"
-                        android:src="@drawable/ic_terminal" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="16dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/log_type"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/current_log_type"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/log_type_default"
                             android:textSize="12sp" />
 
                     </LinearLayout>
