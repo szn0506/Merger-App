@@ -27,6 +27,7 @@ import com.reandroid.apkeditor.merge.MergerOptions;
 import com.reandroid.app.AndroidManifest;
 import com.reandroid.archive.ArchiveEntry;
 import com.reandroid.archive.ArchiveFile;
+import com.reandroid.archive.InputSource;
 import com.reandroid.archive.ZipEntryMap;
 import com.reandroid.arsc.chunk.TableBlock;
 import com.reandroid.arsc.chunk.xml.AndroidManifestBlock;
@@ -42,6 +43,7 @@ import com.reandroid.utils.HexUtil;
 import com.szn.merger.Utils.AutoDevice.AutoDeviceActivity;
 import com.szn.merger.Utils.AutoDevice.AutoDeviceManager;
 import com.szn.merger.Utils.Processing.ProcessingManager;
+import com.szn.merger.Utils.Signing.SigningManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,8 +54,14 @@ import java.util.function.Predicate;
 public class Merger extends CommandExecutor<MergerOptions> {
     public static String packageName;
     public static String versionName;
+    public static String versionCode;
+
     public static String DPI;
+    public static String ABI;
     public static String LANGUAGE;
+    public static String signed;
+    public static String signingSchemes;
+    public static String sdkVersion;
     public static int compressionLevel;
     public static int splitCount;
     public static int dexCount;
@@ -154,10 +162,22 @@ public class Merger extends CommandExecutor<MergerOptions> {
         versionName = mergedModule.getAndroidManifest().getVersionName();
         checkStopped();
 
+        versionCode = mergedModule.getAndroidManifest().getVersionCode().toString();
+        checkStopped();
+
         DPI = getDPI(mergedModule);
         checkStopped();
 
+        ABI = getABI(mergedModule);
+        checkStopped();
+
         LANGUAGE = getLanguage(mergedModule);
+        checkStopped();
+
+        int minSdk = mergedModule.getAndroidManifest().getMinSdkVersion();
+        int targetSdk = mergedModule.getAndroidManifest().getTargetSdkVersion();
+
+        sdkVersion = minSdk + "-" + targetSdk;
         checkStopped();
 
         splitCount = getSplitCount(bundle);
@@ -235,6 +255,22 @@ public class Merger extends CommandExecutor<MergerOptions> {
         mergedModule.writeApk(options.outputFile);
         checkStopped();
 
+        SigningManager.signApk(mContext, options.outputFile);
+
+        signed = String.valueOf(SigningManager.isSignEnabled(mContext));
+
+        StringBuilder schemes = new StringBuilder();
+
+        if (SigningManager.isV1Enabled(mContext)) schemes.append("V1, ");
+        if (SigningManager.isV2Enabled(mContext)) schemes.append("V2, ");
+        if (SigningManager.isV3Enabled(mContext)) schemes.append("V3, ");
+        if (SigningManager.isV4Enabled(mContext)) schemes.append("V4, ");
+
+        if (schemes.length() > 0) {
+            schemes.setLength(schemes.length() - 2);
+        }
+
+        signingSchemes = schemes.toString();
         outputSize = options.outputFile.length();
 
         checkStopped();
@@ -292,21 +328,78 @@ public class Merger extends CommandExecutor<MergerOptions> {
         String fallback = label.getValueAsString();
         return fallback != null ? fallback : "Unknown";
     }
-    private String getDPI(ApkModule apkModule) {
+
+    private String getABI(ApkModule apkModule) {
         if (apkModule == null) return "";
+
         StringBuilder result = new StringBuilder();
-        Iterator<ResConfig> iterator = apkModule.getTableBlock().getResConfigs();
+
+        Iterator<InputSource> iterator =
+                apkModule.getZipEntryMap().iterator();
+
         while (iterator.hasNext()) {
-            ResConfig config = iterator.next();
-            ResConfig.Density density = config.getDensity();
-            if (density != null) {
+            InputSource input = iterator.next();
+            String name = input.getName();
+
+            if (!name.startsWith("lib/")) continue;
+
+            String[] parts = name.split("/");
+
+            if (parts.length < 3) continue;
+
+            String abi = parts[1];
+
+            if (result.indexOf(abi) == -1) {
+                if (result.length() > 0) {
+                    result.append(", ");
+                }
+
+                result.append(abi);
+            }
+        }
+
+        return result.toString();
+    }
+    private String getDPI(ApkModule apkModule) {
+        if (apkModule == null || !apkModule.hasTableBlock()) {
+            return "";
+        }
+
+        StringBuilder result = new StringBuilder();
+        TableBlock tableBlock = apkModule.getTableBlock();
+
+        Iterator<ResourceEntry> resources = tableBlock.getResources();
+
+        while (resources.hasNext()) {
+            ResourceEntry resource = resources.next();
+
+            for (Entry entry : resource) {
+                if (entry == null || entry.getResValue() == null) {
+                    continue;
+                }
+
+                ResConfig config = entry.getResConfig();
+                if (config == null) {
+                    continue;
+                }
+
+                ResConfig.Density density = config.getDensity();
+                if (density == null) {
+                    continue;
+                }
+
                 String value = density.toString();
+
                 if (result.indexOf(value) == -1) {
-                    if (result.length() > 0) result.append(", ");
+                    if (result.length() > 0) {
+                        result.append(", ");
+                    }
+
                     result.append(value);
                 }
             }
         }
+
         return result.toString();
     }
 

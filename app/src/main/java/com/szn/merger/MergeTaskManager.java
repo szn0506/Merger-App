@@ -17,7 +17,6 @@ import com.reandroid.apkeditor.merge.MergerOptions;
 import com.szn.merger.Helper.Merger;
 import com.szn.merger.Utils.AutoInstall.AutoInstallManager;
 import com.szn.merger.Utils.Processing.ProcessingManager;
-import com.szn.merger.Utils.Signing.SigningManager;
 import com.szn.merger.Utils.Utils;
 
 import java.io.File;
@@ -327,17 +326,9 @@ public class MergeTaskManager {
                 int lastDot = inputFileName.lastIndexOf(".");
                 String baseName = lastDot != -1 ? inputFileName.substring(0, lastDot) : inputFileName;
 
-                String outputName = ProcessingManager.getPrefix(activity)
-                        + baseName
-                        + ProcessingManager.getSuffix(activity)
-                        + ProcessingManager.getVersion(activity)
-                        + ProcessingManager.getTimestamp(activity)
-                        + ".apk";
+                String outputName = ProcessingManager.getFinalOutputName(activity, baseName);
 
-                finalOutput = new File(
-                        ProcessingManager.getDirPath(activity),
-                        outputName
-                );
+                finalOutput = new File(ProcessingManager.getDirPath(activity), outputName);
 
                 if (finalOutput.exists() && !finalOutput.delete())
                     throw new IOException("Failed to delete existing output: " + finalOutput);
@@ -347,7 +338,6 @@ public class MergeTaskManager {
 
                 merger.logSavedFile(finalOutput);
 
-                SigningManager.signApk(activity, finalOutput);
                 String packageName = Merger.packageName;
 
                 activity.runOnUiThread(() -> {
