@@ -64,7 +64,7 @@ public class ProcessingManager {
                 .getBoolean(KEY_APPEND_VERSIONNAME, false);
     }
 
-    public static void setAppendVersionNameEnabled(Context context, boolean enabled) {
+    public static void setAppendVersionName(Context context, boolean enabled) {
         PrefsManager.getInstance(context)
                 .saveBoolean(KEY_APPEND_VERSIONNAME, enabled);
     }
@@ -154,27 +154,52 @@ public class ProcessingManager {
     public static void setSuffix(Context context, String suffix) {
         PrefsManager.getInstance(context).saveString(KEY_SUFFIX, suffix);
     }
+
+    public static String getPackageName(Context context) {
+        return isAppendPackageNameEnabled(context) ? "_" + Merger.packageName : "";
+    }
+    public static String getVersionName(Context context) {
+        return isAppendVersionNameEnabled(context) ? "_" + Merger.versionName : "";
+    }
+    public static String getVersionCode(Context context) {
+        return isAppendVersioncCodeEnabled(context) ? "_" + Merger.versionCode : "";
+    }
+    public static String getDPI(Context context) {
+        return isAppendDPIEnabled(context) ? "_" + Merger.DPI : "";
+    }
+    public static String getABI(Context context) {
+        return isAppendABIEnabled(context) ? "_" + Merger.ABI : "";
+    }
+    public static String getLanguage(Context context) {
+        return isAppendLanguageEnabled(context) ? "_" + Merger.LANGUAGE : "";
+    }
+    public static String getSigningStatus(Context context) {
+        return isAppendSigningStatusEnabled(context) ? "_" + Merger.signed : "";
+    }
+    public static String getSigningSChemes(Context context) {
+        return isAppendSigningSchemesEnabled(context) ? "_" + Merger.signingSchemes : "";
+    }
+
     public static String getTimestamp(Context context) {
-        if (!isAppendTimestampEnabled(context)) return "";
-        return "_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date()); //NON-NLS
+        return isAppendTimestampEnabled(context) ? "_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date()) : ""; //NON-NLS
     }
-    public static String getVersionName() {
-        return Merger.versionName;
+    public static String getSDKVersions(Context context) {
+        return isAppendSDKVersionsEnabled(context) ? "_" + Merger.sdkVersion : "";
     }
-    public static String getVersionCode() {
-        return Merger.versionCode;
-    }
-    public static String getPackageName() {
-        return Merger.packageName;
-    }
-    public static String getDPI() {
-        return Merger.DPI;
-    }
-    public static String getABI() {
-        return Merger.ABI;
-    }
-    public static String getLanguage() {
-        return Merger.LANGUAGE;
+    public static String getFinalOutputName(Context context, String basename) {
+        return getPrefix(context)
+                + basename
+                + getSuffix(context)
+                + getPackageName(context)
+                + getVersionName(context)
+                + getVersionCode(context)
+                + getABI(context)
+                + getDPI(context)
+                + getLanguage(context)
+                + getSigningStatus(context)
+                + getSigningSChemes(context)
+                + getTimestamp(context)
+                + getSDKVersions(context) + ".apk";
     }
 
 }
