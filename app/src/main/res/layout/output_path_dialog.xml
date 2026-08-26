@@ -23,6 +23,20 @@
         android:text="@string/desc_output_directory"
         android:textSize="14sp" />
 
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        style="@style/Widget.Card.RoundedMiddle">
+
+        <com.szn.merger.CustomSwitchItem
+            android:id="@+id/saveToOriginalPath"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:itemIcon="@drawable/ic_folder"
+            app:itemTitle="@string/save_to_original_file_location"/>
+    </com.google.android.material.card.MaterialCardView>
+
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.Merger.TextInput"
         android:layout_width="match_parent"
