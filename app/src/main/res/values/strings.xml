@@ -319,7 +319,6 @@
     <string name="signature_scheme_v3">V3</string>
     <string name="signature_scheme_v31">V3.1</string>
     <string name="signature_scheme_v4">V4</string>
-    <string name="splits_found">%1$d splits found</string>
     <string name="app">App</string>
     <string name="output">Output</string>
     <string name="manifest">Manifest</string>
@@ -337,8 +336,6 @@
     <string name="file_size">File Size</string>
     <string name="abi">ABI</string>
     <string name="dpi">DPI</string>
-    <string name="language">Language</string>
-    <string name="compression_level">Compression Level</string>
     <string name="splits_count">Splits Count</string>
     <string name="dex_count">Dex Count</string>
     <string name="resources_merged">Resources Merged</string>
@@ -348,7 +345,6 @@
     <string name="activities">Activities</string>
     <string name="services">Services</string>
     <string name="signed">Signed</string>
-    <string name="signing_schemes">Signing Schemes</string>
     <string name="signed_source_stamp">Signed Source Stamp</string>
     <string name="signer">Signer</string>
     <string name="sha256">SHA-256</string>
@@ -382,4 +378,53 @@
     <string name="successfully_extracted">Successfully extracted: %1$s</string>
     <string name="failed_to_extract">Failed to extract: %1$s</string>
     <string name="failed_to_process_file">Failed to process file: %1$s</string>
+
+    <string name="application">APPLICATION</string>
+    <string name="android">ANDROID</string>
+    <string name="apk_content">APK CONTENT</string>
+
+    <string name="info_package">Package: %1$s</string>
+    <string name="info_version">Version: %1$s</string>
+    <string name="info_version_code">Version Code: %1$d</string>
+    <string name="info_min_sdk">Min SDK: %1$d</string>
+    <string name="info_target_sdk">Target SDK: %1$d</string>
+    <string name="info_base_apk">Base APK: %1$s</string>
+    <string name="info_total_size">Total Size: %1$s</string>
+    <string name="info_split">Split: %1$s (%2$s)</string>
+
+    <string name="info_package_default">Package: com.example.app</string>
+    <string name="info_version_default">Version: 1.0</string>
+    <string name="info_version_code_default">Version Code: 1</string>
+    <string name="info_min_sdk_default">Min SDK: 26</string>
+    <string name="info_target_sdk_default">Target SDK: 35</string>
+    <string name="info_base_apk_default">Base APK: 100 MB</string>
+    <string name="info_total_size_default">Total Size: 120 MB</string>
+    <string name="extracting_app">Extracting %1$s...</string>
+    <string name="unknown_extraction_error">Unknown extraction error</string>
+    <string name="apk_file_not_found">APK file not found: %1$s</string>
+
+    <string name="output_name_format_title">Output Name Format</string>
+    <string name="output_name_format_subtitle">Customize the name of the merged APK file.</string>
+    <string name="keep_file_original_name">Keep File Original Name</string>
+
+    <string name="prefix_suffix">Prefix &amp; Suffix</string>
+    <string name="output_prefix_hint">Prefix</string>
+    <string name="output_prefix_helper">Text added before the file name.</string>
+    <string name="output_suffix_hint">Suffix</string>
+    <string name="output_suffix_helper">Text added after the file name.</string>
+    <string name="app_information">App Information</string>
+    <string name="append_package_name">Append Package Name</string>
+    <string name="append_version_name">Append Version Name</string>
+    <string name="append_version_code">Append Version Code</string>
+    <string name="device_configuration">Device Configuration</string>
+    <string name="append_abi">Append ABI</string>
+    <string name="append_dpi">Append DPI</string>
+    <string name="append_language">Append Language</string>
+    <string name="signing">Signing</string>
+    <string name="append_signing_status">Append Signing Status</string>
+    <string name="append_signing_schemes">Append Signing Schemes</string>
+    <string name="other">Other</string>
+    <string name="append_timestamp">Append Timestamp</string>
+    <string name="append_sdk_versions">Append SDK Versions</string>
+    <string name="preview_format">Preview: %1$s</string>
 </resources>

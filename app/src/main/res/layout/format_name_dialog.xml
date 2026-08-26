@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemIcon="@drawable/ic_desc"
-                app:itemTitle="Keep File Original Name" />
+                app:itemTitle="@string/keep_file_original_name" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Prefix &amp; Suffix"
+            android:text="@string/prefix_suffix"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -139,7 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemIcon="@drawable/ic_android"
-                app:itemTitle="Append Package Name" />
+                app:itemTitle="@string/append_package_name" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -154,7 +154,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemIcon="@drawable/ic_label"
-                app:itemTitle="Append Version Name" />
+                app:itemTitle="@string/append_version_name" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -168,7 +168,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemIcon="@drawable/ic_number"
-                app:itemTitle="Append Version Code" />
+                app:itemTitle="@string/append_version_code" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -193,7 +193,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemIcon="@drawable/ic_memory"
-                app:itemTitle="Append ABI" />
+                app:itemTitle="@string/append_abi" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -208,7 +208,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemIcon="@drawable/ic_display"
-                app:itemTitle="Append DPI" />
+                app:itemTitle="@string/append_dpi" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -222,7 +222,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemIcon="@drawable/ic_language"
-                app:itemTitle="Append Language" />
+                app:itemTitle="@string/append_language" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -247,7 +247,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemIcon="@drawable/ic_verified"
-                app:itemTitle="Append Signing Status" />
+                app:itemTitle="@string/append_signing_status" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -261,7 +261,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemIcon="@drawable/ic_security"
-                app:itemTitle="Append Signing Schemes" />
+                app:itemTitle="@string/append_signing_schemes" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -286,7 +286,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemIcon="@drawable/ic_schedule"
-                app:itemTitle="Append Timestamp" />
+                app:itemTitle="@string/append_timestamp" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -300,7 +300,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemIcon="@drawable/ic_layers"
-                app:itemTitle="Append SDK Versions" />
+                app:itemTitle="@string/append_sdk_versions" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -319,10 +319,11 @@
                 app:cardCornerRadius="16dp">
 
                 <TextView
+                    android:id="@+id/preview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="12dp"
-                    android:text="Preview : MyApp.apk"
+                    android:text="@string/preview_format"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
