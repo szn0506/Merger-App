@@ -28,6 +28,7 @@ public class ProcessingManager {
     private static final String KEY_EXTRACT_NATIVE_LIBS = "extract_native_libs";
     private static final String KEY_PREFIX = "prefix";
     private static final String KEY_SUFFIX = "suffix";
+    private static final String KEY_SAVE_TO_ORIGINAL_PATH = "save_to_original_path";
     public static String getDirPath(Context context) {
         return PrefsManager.getInstance(context)
                 .getString(KEY_OUTPUT_DIRECTORY_PATH, "/storage/emulated/0/Download"); //NON-NLS
@@ -145,6 +146,14 @@ public class ProcessingManager {
 
     public static void setKeepOriginalName(Context context, boolean enabled) {
         PrefsManager.getInstance(context).saveBoolean(KEY_KEEP_ORIGINAL_NAME, enabled);
+    }
+
+    public static boolean isSaveToOriginalPathEnabled(Context context) {
+        return PrefsManager.getInstance(context).getBoolean(KEY_SAVE_TO_ORIGINAL_PATH, true);
+    }
+
+    public static void setSaveToOriginalPath(Context context, boolean enabled) {
+        PrefsManager.getInstance(context).saveBoolean(KEY_SAVE_TO_ORIGINAL_PATH, enabled);
     }
     public static String getPrefix(Context context) {
         return PrefsManager.getInstance(context).getString(KEY_PREFIX, "");

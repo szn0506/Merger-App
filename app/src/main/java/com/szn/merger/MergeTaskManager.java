@@ -243,7 +243,7 @@ public class MergeTaskManager {
             inputFile = new File(path);
         }
 
-        String outputDir = ProcessingManager.getDirPath(activity);
+        String outputDir = ProcessingManager.isSaveToOriginalPathEnabled(activity) ? inputFile.getParent() : ProcessingManager.getDirPath(activity);
         File tempOutput = new File(outputDir, ".temp_merged.apk");
 
         runMerge(inputFile, tempOutput);
@@ -328,7 +328,7 @@ public class MergeTaskManager {
 
                 String outputName = ProcessingManager.getFinalOutputName(activity, baseName);
 
-                finalOutput = new File(ProcessingManager.getDirPath(activity), outputName);
+                finalOutput = new File(ProcessingManager.isSaveToOriginalPathEnabled(activity) ? input.getParent() : ProcessingManager.getDirPath(activity), outputName);
 
                 if (finalOutput.exists() && !finalOutput.delete())
                     throw new IOException("Failed to delete existing output: " + finalOutput);

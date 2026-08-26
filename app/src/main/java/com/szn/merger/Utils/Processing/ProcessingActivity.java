@@ -1,6 +1,8 @@
 package com.szn.merger.Utils.Processing;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -59,7 +61,7 @@ public class ProcessingActivity extends AppCompatActivity {
     }
 
     private void loadState() {
-        currentPath.setText(ProcessingManager.getDirPath(this));
+        currentPath.setText(ProcessingManager.isSaveToOriginalPathEnabled(this) ? getString(R.string.save_to_original_path_preview) : ProcessingManager.getDirPath(this));
         currentFormatName.setText(getString(R.string.preview_format) + " " + ProcessingManager.getFormatName(this));
         currentCompressionLevel.setText(String.valueOf(ProcessingManager.getCompressionLevel(this)));
     }
@@ -96,37 +98,70 @@ public class ProcessingActivity extends AppCompatActivity {
     }
 
     private void showPathDirDialog() {
-        View view = this.getLayoutInflater().inflate(R.layout.output_path_dialog, null);
+        View view = getLayoutInflater().inflate(R.layout.output_path_dialog, null);
+
         TextInputEditText input = view.findViewById(R.id.input);
         MaterialButton btnConfirm = view.findViewById(R.id.buttonConfirm);
         MaterialButton btnCancel = view.findViewById(R.id.buttonCancel);
+        CustomSwitchItem saveToOriginalPath = view.findViewById(R.id.saveToOriginalPath);
+
+        final boolean[] saveOriginal = {
+                ProcessingManager.isSaveToOriginalPathEnabled(this)
+        };
+
+        saveToOriginalPath.setChecked(saveOriginal[0]);
+
+        saveToOriginalPath.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            saveOriginal[0] = isChecked;
+
+            ProcessingManager.setSaveToOriginalPath(this, isChecked);
+
+            if (isChecked) {
+                input.setText("");
+            }
+        });
+
+        input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0 && saveOriginal[0]) {
+                    saveToOriginalPath.setChecked(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(view)
                 .create();
 
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        input.setText(ProcessingManager.getDirPath(this));
         dialog.show();
-        dialog.getWindow().setLayout(
-                (int) (getResources().getDisplayMetrics().widthPixels * 0.92f),
-                WindowManager.LayoutParams.WRAP_CONTENT
-        );
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialog.getWindow().setLayout(
+                    (int) (getResources().getDisplayMetrics().widthPixels * 0.92f),
+                    WindowManager.LayoutParams.WRAP_CONTENT
+            );
+        }
 
         btnCancel.setOnClickListener(v -> dialog.dismiss());
+
         btnConfirm.setOnClickListener(v -> {
             String path = input.getText().toString().trim();
-            if (path.isEmpty()) {
-                path = "/storage/emulated/0/Download"; //NON-NLS
+
+            if (!path.isEmpty()) {
                 ProcessingManager.saveDirPath(this, path);
                 currentPath.setText(path);
-                input.setText(path);
-                dialog.dismiss();
-                return;
             }
-            ProcessingManager.saveDirPath(this, path);
-            currentPath.setText(path);
-            input.setText(path);
+
             dialog.dismiss();
         });
     }
