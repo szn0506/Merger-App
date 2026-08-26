@@ -138,7 +138,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/file_name_prefix_suffix"
+                            android:text="@string/format_name_title"
                             android:textStyle="bold"
                             android:textSize="16sp" />
 
@@ -146,7 +146,7 @@
                             android:id="@+id/current_file_name_prefix_suffix"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/file_name_prefix_suffix_default"
+                            android:text="@string/format_name_subtitle"
                             android:textSize="12sp" />
 
                     </LinearLayout>

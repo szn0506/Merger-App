@@ -107,20 +107,6 @@
     <string name="output_directory_default">storage/emulated/0/Download</string>
     <string name="info_processing">These options control how the merged APK is generated and processed.</string>
 
-    <string name="output_name_format_title">File Name Format</string>
-    <string name="output_name_format_subtitle">Customize the name of your merged APK using a prefix and suffix.</string>
-    <string name="output_prefix_hint">Prefix</string>
-    <string name="output_prefix_helper">Text added before the app name</string>
-    <string name="output_app_name_hint">App Name</string>
-    <string name="output_suffix_hint">Suffix</string>
-    <string name="output_suffix_helper">Text added after the app name</string>
-    <string name="output_preview_label">Preview</string>
-    <string name="output_preview_default">MyApp.apk</string>
-    <string name="file_name_prefix_suffix">File Name Prefix &amp; Suffix</string>
-    <string name="file_name_prefix_suffix_default">Default</string>
-    <string name="append_timestamps">Append Timestamps</string>
-    <string name="append_version_name">Append Version Name</string>
-
     <string name="compression_level">Compression Level</string>
     <string name="compression_level_desc">Select a compression level for the output file.</string>
     <string name="compression_level_default">Default Level</string>
@@ -406,7 +392,8 @@
     <string name="output_name_format_title">Output Name Format</string>
     <string name="output_name_format_subtitle">Customize the name of the merged APK file.</string>
     <string name="keep_file_original_name">Keep File Original Name</string>
-
+    <string name="format_name_title">Format Name</string>
+    <string name="format_name_subtitle">Customize Output File Name</string>
     <string name="prefix_suffix">Prefix &amp; Suffix</string>
     <string name="output_prefix_hint">Prefix</string>
     <string name="output_prefix_helper">Text added before the file name.</string>
@@ -426,5 +413,16 @@
     <string name="other">Other</string>
     <string name="append_timestamp">Append Timestamp</string>
     <string name="append_sdk_versions">Append SDK Versions</string>
-    <string name="preview_format">Preview: %1$s</string>
+    <string name="preview_format">Preview</string>
+    <string name="preview_package_name">&lt;Package Name&gt;</string>
+    <string name="preview_version_name">&lt;Version Name&gt;</string>
+    <string name="preview_version_code">&lt;Version Code&gt;</string>
+    <string name="preview_abi">&lt;ABI&gt;</string>
+    <string name="preview_dpi">&lt;DPI&gt;</string>
+    <string name="preview_language">&lt;Language&gt;</string>
+    <string name="preview_signing_status">&lt;Signing Status&gt;</string>
+    <string name="preview_signing_schemes">&lt;Signing Schemes&gt;</string>
+    <string name="preview_timestamp">&lt;Timestamp&gt;</string>
+    <string name="preview_sdk_versions">&lt;SDK Versions&gt;</string>
+    <string name="format_name_info">Keep Original File Name must be enabled if any other option is disabled.</string>
 </resources>
