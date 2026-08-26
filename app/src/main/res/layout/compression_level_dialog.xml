@@ -20,7 +20,6 @@
         android:id="@+id/subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/compression_level_desc"
         android:textSize="14sp" />
 
@@ -28,7 +27,9 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="12dp"
+        tools:listitem="@layout/item_radio"
+        tools:itemCount="5"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -44,6 +45,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/cancel_app"
             android:textSize="12sp"
+            app:cornerRadius="16dp"
             android:background="@android:color/transparent"
             app:layout_constraintEnd_toStartOf="@id/buttonConfirm"
             tools:ignore="MissingConstraints" />
@@ -55,6 +57,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/btn_save"
             android:textSize="12sp"
+            app:cornerRadius="16dp"
             android:layout_marginStart="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints" />
