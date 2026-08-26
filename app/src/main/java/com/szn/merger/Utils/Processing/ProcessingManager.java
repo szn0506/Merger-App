@@ -46,8 +46,7 @@ public class ProcessingManager {
         PrefsManager.getInstance(context).saveString(KEY_EXTRACT_NATIVE_LIBS, String.valueOf(enabled));
     }
     public static String getFormatName(Context context) {
-        return PrefsManager.getInstance(context)
-                .getString(KEY_FORMAT_NAME, "");
+        return PrefsManager.getInstance(context).getString(KEY_FORMAT_NAME, "MyApp.apk");
     }
 
     public static void saveFormatName(Context context, String value) {
@@ -148,14 +147,14 @@ public class ProcessingManager {
         PrefsManager.getInstance(context).saveBoolean(KEY_KEEP_ORIGINAL_NAME, enabled);
     }
     public static String getPrefix(Context context) {
-        return PrefsManager.getInstance(context).getString(KEY_PREFIX, "") + "_";
+        return PrefsManager.getInstance(context).getString(KEY_PREFIX, "");
     }
     public static void setPrefix(Context context, String prefix) {
         PrefsManager.getInstance(context).saveString(KEY_PREFIX, prefix);
     }
 
     public static String getSuffix(Context context) {
-        return "_" + PrefsManager.getInstance(context).getString(KEY_SUFFIX, "");
+        return PrefsManager.getInstance(context).getString(KEY_SUFFIX, "");
     }
 
     public static void setSuffix(Context context, String suffix) {
@@ -181,7 +180,7 @@ public class ProcessingManager {
         return isAppendLanguageEnabled(context) ? "_" + Merger.LANGUAGE : "";
     }
     public static String getSigningStatus(Context context) {
-        return isAppendSigningStatusEnabled(context) ? "_" + (Merger.signed ? R.string.signed : "") : "";
+        return isAppendSigningStatusEnabled(context) ? "_" + (Merger.signed ? R.string.signed : R.string.not_signed) : "";
     }
     public static String getSigningSChemes(Context context) {
         return isAppendSigningSchemesEnabled(context) ? "_" + Merger.signingSchemes : "";
@@ -195,9 +194,9 @@ public class ProcessingManager {
     }
 
     public static String getFinalOutputName(Context context, String basename) {
-        return getPrefix(context)
+        return getPrefix(context) + "_"
                 + (isKeepOriginalNameEnabled(context) ? basename : "")
-                + getSuffix(context)
+                + "_" + getSuffix(context)
                 + getPackageName(context)
                 + getVersionName(context)
                 + getVersionCode(context)

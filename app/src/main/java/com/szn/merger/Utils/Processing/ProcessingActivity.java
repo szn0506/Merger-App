@@ -50,7 +50,6 @@ public class ProcessingActivity extends AppCompatActivity {
     }
 
     private void setupListener() {
-        currentFormatName.setText(ProcessingManager.getFormatName(this));
         toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         extractNativeLibs.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setExtractNativeLibs(this, isChecked));
         outputDir.setOnClickListener(v -> showPathDirDialog());
@@ -60,7 +59,7 @@ public class ProcessingActivity extends AppCompatActivity {
 
     private void loadState() {
         currentPath.setText(ProcessingManager.getDirPath(this));
-        currentFormatName.setText(ProcessingManager.getFormatName(this));
+        currentFormatName.setText(getString(R.string.preview_format) + " " + ProcessingManager.getFormatName(this));
         currentCompressionLevel.setText(String.valueOf(ProcessingManager.getCompressionLevel(this)));
     }
 
@@ -147,17 +146,71 @@ public class ProcessingActivity extends AppCompatActivity {
         TextView previewText = view.findViewById(R.id.preview);
 
         // init
-        keepOriginalName.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setKeepOriginalName(this, isChecked));
-        packageName.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendPackageName(this, isChecked));
-        versionName.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendVersionName(this, isChecked));
-        versionCode.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendVersioncode(this, isChecked));
-        ABI.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendABI(this, isChecked));
-        DPI.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendDPI(this, isChecked));
-        LANGUAGE.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendLanguage(this, isChecked));
-        signingStatus.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendSigningStatus(this, isChecked));
-        signingSchemes.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendSigningSchemes(this, isChecked));
-        timestamp.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendTimestamp(this, isChecked));
-        sdkVersions.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendSDKVersions(this, isChecked));
+        keepOriginalName.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setKeepOriginalName(this, isChecked);
+            updateState(keepOriginalName);
+            previewText.setText(refreshFormatPreview());
+        });
+
+        packageName.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendPackageName(this, isChecked);
+            updateState(keepOriginalName);
+            previewText.setText(refreshFormatPreview());
+        });
+
+        versionName.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendVersionName(this, isChecked);
+            updateState(keepOriginalName);
+            previewText.setText(refreshFormatPreview());
+        });
+
+        versionCode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendVersioncode(this, isChecked);
+            updateState(keepOriginalName);
+            previewText.setText(refreshFormatPreview());
+        });
+
+        ABI.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendABI(this, isChecked);
+            updateState(keepOriginalName);
+            previewText.setText(refreshFormatPreview());
+        });
+
+        DPI.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendDPI(this, isChecked);
+            updateState(keepOriginalName);
+            previewText.setText(refreshFormatPreview());
+        });
+
+        LANGUAGE.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendLanguage(this, isChecked);
+            updateState(keepOriginalName);
+            previewText.setText(refreshFormatPreview());
+        });
+
+        signingStatus.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendSigningStatus(this, isChecked);
+            updateState(keepOriginalName);
+            previewText.setText(refreshFormatPreview());
+        });
+
+        signingSchemes.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendSigningSchemes(this, isChecked);
+            updateState(keepOriginalName);
+            previewText.setText(refreshFormatPreview());
+        });
+
+        timestamp.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendTimestamp(this, isChecked);
+            updateState(keepOriginalName);
+            previewText.setText(refreshFormatPreview());
+        });
+
+        sdkVersions.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendSDKVersions(this, isChecked);
+            updateState(keepOriginalName);
+            previewText.setText(refreshFormatPreview());
+        });
 
         // restore state
         keepOriginalName.setChecked(ProcessingManager.isKeepOriginalNameEnabled(this));
@@ -172,10 +225,46 @@ public class ProcessingActivity extends AppCompatActivity {
         timestamp.setChecked(ProcessingManager.isAppendTimestampEnabled(this));
         sdkVersions.setChecked(ProcessingManager.isAppendSDKVersionsEnabled(this));
 
+        prefix.setText(ProcessingManager.getPrefix(this));
+        suffix.setText(ProcessingManager.getSuffix(this));
+
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        dialog.setContentView(view);
+        dialog.show();
+
+        cancel.setOnClickListener( v -> dialog.dismiss());
+        confirm.setOnClickListener(v -> {
+                ProcessingManager.setPrefix(this, prefix.getText().toString().trim());
+                ProcessingManager.setSuffix(this, suffix.getText().toString().trim());
+                ProcessingManager.saveFormatName(this, refreshFormatPreview());
+                currentFormatName.setText((refreshFormatPreview()));
+                dialog.dismiss();
+        });
+    }
+    void updateState(CustomSwitchItem keepOriginalName) {
+        boolean isAnyFeatureEnabled =
+                ProcessingManager.isAppendPackageNameEnabled(this)
+                        || ProcessingManager.isAppendVersionNameEnabled(this)
+                        || ProcessingManager.isAppendVersionCodeEnabled(this)
+                        || ProcessingManager.isAppendABIEnabled(this)
+                        || ProcessingManager.isAppendDPIEnabled(this)
+                        || ProcessingManager.isAppendLanguageEnabled(this)
+                        || ProcessingManager.isAppendSigningStatusEnabled(this)
+                        || ProcessingManager.isAppendSigningSchemesEnabled(this)
+                        || ProcessingManager.isAppendTimestampEnabled(this)
+                        || ProcessingManager.isAppendSDKVersionsEnabled(this);
+
+        keepOriginalName.setEnabled(isAnyFeatureEnabled);
+        if (!isAnyFeatureEnabled) {
+            ProcessingManager.setKeepOriginalName(this, true);
+            keepOriginalName.setChecked(true);
+        }
+    }
+    String refreshFormatPreview() {
         String defaultPreview[] = {"MyApp", ".apk"};
-        // set preview
         StringBuilder preview = new StringBuilder();
-        preview.append(defaultPreview[0]);
+        preview.append(!ProcessingManager.getPrefix(this).isEmpty() ? ProcessingManager.getPrefix(this) + "_" : "");
+        preview.append(ProcessingManager.isKeepOriginalNameEnabled(this) ? defaultPreview[0] : "");
         preview.append(ProcessingManager.isAppendPackageNameEnabled(this) ? getString(R.string.preview_package_name) : "");
         preview.append(ProcessingManager.isAppendVersionNameEnabled(this) ? getString(R.string.preview_version_name) : "");
         preview.append(ProcessingManager.isAppendVersionCodeEnabled(this) ? getString(R.string.preview_version_code) : "");
@@ -186,23 +275,8 @@ public class ProcessingActivity extends AppCompatActivity {
         preview.append(ProcessingManager.isAppendSigningSchemesEnabled(this) ? getString(R.string.preview_signing_schemes) : "");
         preview.append(ProcessingManager.isAppendTimestampEnabled(this) ? getString(R.string.preview_timestamp) : "");
         preview.append(ProcessingManager.isAppendSDKVersionsEnabled(this) ? getString(R.string.preview_sdk_versions) : "");
+        preview.append(!ProcessingManager.getSuffix(this).isEmpty() ? "_" + ProcessingManager.getSuffix(this) : "");
         preview.append(defaultPreview[1]);
-        previewText.setText(preview);
-
-        prefix.setText(ProcessingManager.getPrefix(this));
-        suffix.setText(ProcessingManager.getSuffix(this));
-
-        BottomSheetDialog dialog = new BottomSheetDialog(this);
-        dialog.setContentView(view);
-        dialog.show();
-
-        cancel.setOnClickListener( v -> dialog.dismiss());
-        confirm.setOnClickListener(v -> {
-            ProcessingManager.setPrefix(this, prefix.getText().toString().trim());
-            ProcessingManager.setSuffix(this, suffix.getText().toString().trim());
-            ProcessingManager.saveFormatName(this, preview.toString());
-            currentFormatName.setText(preview);
-            dialog.dismiss();
-        });
+        return preview.toString();
     }
 }
