@@ -47,7 +47,8 @@
                 android:id="@+id/card_output_directory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.Card.RoundedTop">
+                style="@style/Widget.Card.RoundedTop"
+                android:layout_marginBottom="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -98,7 +99,8 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.Card.FlatMiddle">
+                style="@style/Widget.Card.FlatMiddle"
+                android:layout_marginBottom="1dp">
 
                 <com.szn.merger.CustomSwitchItem
                     android:id="@+id/extract_native_libs"
@@ -113,7 +115,8 @@
                 android:id="@+id/card_file_name_prefix_suffix"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.Card.FlatMiddle">
+                style="@style/Widget.Card.FlatMiddle"
+                android:layout_marginBottom="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
