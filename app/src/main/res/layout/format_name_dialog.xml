@@ -1,42 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/bg_popup"
         android:padding="20dp">
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/output_name_format_title"
-        android:textAppearance="?attr/textAppearanceHeadlineSmall"
-        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/subtitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="@string/output_name_format_subtitle"
-        android:textAppearance="?attr/textAppearanceBodyMedium" />
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Card.RoundedMiddle">
-
-        <com.szn.merger.CustomSwitchItem
+        <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:itemIcon="@drawable/ic_desc"
-            app:itemTitle="Keep File Original Name"/>
+            android:text="@string/output_name_format_title"
+            android:textAppearance="?attr/textAppearanceHeadlineSmall"
+            android:textStyle="bold" />
 
-    </com.google.android.material.card.MaterialCardView>
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="@string/output_name_format_subtitle"
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+        <!-- Keep Original Name -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Card.RoundedMiddle">
+
+            <com.szn.merger.CustomSwitchItem
+                android:id="@+id/keepFileOriginalName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemIcon="@drawable/ic_desc"
+                app:itemTitle="Keep File Original Name" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Prefix & Suffix -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,233 +51,83 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Card.RoundedMiddle"
-        android:layout_marginTop="16dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/prefixLayout"
-                style="@style/Widget.Merger.TextInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/output_prefix_hint"
-                app:boxBackgroundMode="outline"
-                app:endIconMode="clear_text"
-
-                app:helperText="@string/output_prefix_helper">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/inputPrefix"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:inputType="text" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/suffixLayout"
-                style="@style/Widget.Merger.TextInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:hint="@string/output_suffix_hint"
-                app:boxBackgroundMode="outline"
-                app:endIconMode="clear_text"
-                app:helperText="@string/output_suffix_helper">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/inputSuffix"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:inputType="text" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="0dp"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="14dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/output_preview_label"
-                android:textAppearance="?attr/textAppearanceLabelMedium" />
-
-            <TextView
-                android:id="@+id/outputPreview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/output_preview_default"
-                android:textAppearance="?attr/textAppearanceBodyLarge"
-                android:ellipsize="middle"
-                android:maxLines="1" />
-
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="App Information"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"/>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/packageName"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="@style/Widget.Card.RoundedTop"
-        android:layout_marginBottom="1dp"
-        android:layout_marginTop="16dp">
-        <com.szn.merger.CustomSwitchItem
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:itemTitle="Append Package Name"
-            app:itemIcon="@drawable/ic_android"/>
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/versionName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        style="@style/Widget.Card.FlatMiddle">
-        <com.szn.merger.CustomSwitchItem
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:itemIcon="@drawable/ic_label"
-            app:itemTitle="Append Version Name" />
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/versionCode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Card.RoundedBottom">
-        <com.szn.merger.CustomSwitchItem
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:itemIcon="@drawable/ic_number"
-            app:itemTitle="Append Version Code"/>
-    </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Device Configuration"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/ABI"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Card.RoundedTop"
-        android:layout_marginBottom="1dp"
-        android:layout_marginTop="16dp">
-        <com.szn.merger.CustomSwitchItem
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:itemIcon="@drawable/ic_memory"
-            app:itemTitle="Append ABI" />
-    </com.google.android.material.card.MaterialCardView>
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/DPI"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        style="@style/Widget.Card.FlatMiddle">
-        <com.szn.merger.CustomSwitchItem
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:itemIcon="@drawable/ic_display"
-            app:itemTitle="Append DPI"/>
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/LANGUAGE"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Card.RoundedBottom">
-        <com.szn.merger.CustomSwitchItem
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:itemIcon="@drawable/ic_language"
-            app:itemTitle="Append Language" />
-    </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Signing"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/signingStatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        style="@style/Widget.Card.RoundedTop"
-        android:layout_marginTop="16dp">
-
-        <com.szn.merger.CustomSwitchItem
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:itemIcon="@drawable/ic_verified"
-            app:itemTitle="Append Signing Status" />
-    </com.google.android.material.card.MaterialCardView>
-
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/signingSchemes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.Card.RoundedBottom">
+            android:layout_marginTop="16dp"
+            style="@style/Widget.Card.RoundedTop">
 
-            <com.szn.merger.CustomSwitchItem
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:itemIcon="@drawable/ic_security"
-                app:itemTitle="Append Signing Schemes" />
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/prefixLayout"
+                    style="@style/Widget.Merger.TextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/output_prefix_hint"
+                    app:boxBackgroundMode="outline"
+                    app:endIconMode="clear_text"
+                    app:helperText="@string/output_prefix_helper">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputPrefix"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:singleLine="true" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            style="@style/Widget.Card.RoundedBottom">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/suffixLayout"
+                    style="@style/Widget.Merger.TextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/output_suffix_hint"
+                    app:boxBackgroundMode="outline"
+                    app:endIconMode="clear_text"
+                    app:helperText="@string/output_suffix_helper">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputSuffix"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:singleLine="true" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <!-- App Information -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Other"
             android:layout_marginTop="16dp"
+            android:text="App Information"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/timestamp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -279,25 +135,176 @@
             style="@style/Widget.Card.RoundedTop">
 
             <com.szn.merger.CustomSwitchItem
+                android:id="@+id/packageName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:itemIcon="@drawable/ic_schedule"
-                app:itemTitle="Append Timestamp" />
+                app:itemIcon="@drawable/ic_android"
+                app:itemTitle="Append Package Name" />
+
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/sdkVersions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            style="@style/Widget.Card.FlatMiddle">
+
+            <com.szn.merger.CustomSwitchItem
+                android:id="@+id/versionName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemIcon="@drawable/ic_label"
+                app:itemTitle="Append Version Name" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Card.RoundedBottom">
 
             <com.szn.merger.CustomSwitchItem
+                android:id="@+id/versionCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemIcon="@drawable/ic_number"
+                app:itemTitle="Append Version Code" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Device Configuration -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Device Configuration"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="1dp"
+            style="@style/Widget.Card.RoundedTop">
+
+            <com.szn.merger.CustomSwitchItem
+                android:id="@+id/ABI"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemIcon="@drawable/ic_memory"
+                app:itemTitle="Append ABI" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            style="@style/Widget.Card.FlatMiddle">
+
+            <com.szn.merger.CustomSwitchItem
+                android:id="@+id/DPI"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemIcon="@drawable/ic_display"
+                app:itemTitle="Append DPI" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Card.RoundedBottom">
+
+            <com.szn.merger.CustomSwitchItem
+                android:id="@+id/LANGUAGE"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemIcon="@drawable/ic_language"
+                app:itemTitle="Append Language" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Signing -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Signing"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="1dp"
+            style="@style/Widget.Card.RoundedTop">
+
+            <com.szn.merger.CustomSwitchItem
+                android:id="@+id/signingStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemIcon="@drawable/ic_verified"
+                app:itemTitle="Append Signing Status" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Card.RoundedBottom">
+
+            <com.szn.merger.CustomSwitchItem
+                android:id="@+id/signingSchemes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemIcon="@drawable/ic_security"
+                app:itemTitle="Append Signing Schemes" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Other -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Other"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="1dp"
+            style="@style/Widget.Card.RoundedTop">
+
+            <com.szn.merger.CustomSwitchItem
+                android:id="@+id/timestamp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemIcon="@drawable/ic_schedule"
+                app:itemTitle="Append Timestamp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Card.RoundedBottom">
+
+            <com.szn.merger.CustomSwitchItem
+                android:id="@+id/sdkVersions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemIcon="@drawable/ic_layers"
                 app:itemTitle="Append SDK Versions" />
+
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Bottom Actions -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -308,23 +315,18 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                style="@style/Widget.Card.RoundedMiddle">
+                style="@style/Widget.Card.RoundedMiddle"
+                app:cardCornerRadius="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="12dp"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:text="Preview : MyApp.apk" />
+                    android:text="Preview : MyApp.apk"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
             </com.google.android.material.card.MaterialCardView>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonCancel"
@@ -332,19 +334,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                app:cornerRadius="16dp"
                 android:text="@string/cancel_app"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                app:cornerRadius="16dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonConfirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                app:cornerRadius="16dp"
                 android:text="@string/btn_save"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                app:cornerRadius="16dp" />
 
         </LinearLayout>
+
     </LinearLayout>
+
 </androidx.core.widget.NestedScrollView>

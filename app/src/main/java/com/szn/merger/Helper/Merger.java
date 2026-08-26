@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.function.Predicate;
 public class Merger extends CommandExecutor<MergerOptions> {
     public static String packageName;
@@ -59,7 +60,7 @@ public class Merger extends CommandExecutor<MergerOptions> {
     public static String DPI;
     public static String ABI;
     public static String LANGUAGE;
-    public static String signed;
+    public static boolean signed;
     public static String signingSchemes;
     public static String sdkVersion;
     public static int compressionLevel;
@@ -257,22 +258,19 @@ public class Merger extends CommandExecutor<MergerOptions> {
 
         SigningManager.signApk(mContext, options.outputFile);
 
-        signed = String.valueOf(SigningManager.isSignEnabled(mContext));
+        signed = SigningManager.isSignEnabled(mContext);
 
-        StringBuilder schemes = new StringBuilder();
+        StringJoiner schemes = new StringJoiner("-");
 
-        if (SigningManager.isV1Enabled(mContext)) schemes.append("V1, ");
-        if (SigningManager.isV2Enabled(mContext)) schemes.append("V2, ");
-        if (SigningManager.isV3Enabled(mContext)) schemes.append("V3, ");
-        if (SigningManager.isV4Enabled(mContext)) schemes.append("V4, ");
-
-        if (schemes.length() > 0) {
-            schemes.setLength(schemes.length() - 2);
-        }
+        if (SigningManager.isV1Enabled(mContext)) schemes.add("V1");
+        if (SigningManager.isV2Enabled(mContext)) schemes.add("V2");
+        if (SigningManager.isV3Enabled(mContext)) schemes.add("V3");
+        if (SigningManager.isV4Enabled(mContext)) schemes.add("V4");
 
         signingSchemes = schemes.toString();
-        outputSize = options.outputFile.length();
+        checkStopped();
 
+        outputSize = options.outputFile.length();
         checkStopped();
 
         mergedModule.close();

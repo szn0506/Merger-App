@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.szn.merger.Helper.Merger;
 import com.szn.merger.PrefsManager;
+import com.szn.merger.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,6 +14,7 @@ public class ProcessingManager {
     private static final String KEY_OUTPUT_DIRECTORY_PATH = "output_directory_path"; //NON-NLS
     private static final String KEY_FORMAT_NAME = "format_name"; //NON-NLS
     private static final String KEY_COMPRESSION_LEVEL = "compression_level"; //NON-NLS
+    private static final String KEY_KEEP_ORIGINAL_NAME = "is_keep_original_file_name";
     static final String KEY_APPEND_PACKAGENAME = "is_append_package_name";
     private static final String KEY_APPEND_VERSIONNAME = "is_append_version_enabled"; //NON-NLS
     private static final String KEY_APPEND_VERSIONCODE = "is_append_version_code";
@@ -36,6 +38,13 @@ public class ProcessingManager {
                 .saveString(KEY_OUTPUT_DIRECTORY_PATH, value);
     }
 
+    public static String isExtractNativeLibs(Context context) {
+        return PrefsManager.getInstance(context).getString(KEY_EXTRACT_NATIVE_LIBS, "false"); //NON-NLS
+    }
+
+    public static void setExtractNativeLibs(Context context, boolean enabled) {
+        PrefsManager.getInstance(context).saveString(KEY_EXTRACT_NATIVE_LIBS, String.valueOf(enabled));
+    }
     public static String getFormatName(Context context) {
         return PrefsManager.getInstance(context)
                 .getString(KEY_FORMAT_NAME, "");
@@ -134,21 +143,23 @@ public class ProcessingManager {
     public static void setAppendSDKVersions(Context context, boolean enabled) {
         PrefsManager.getInstance(context).saveBoolean(KEY_APPEND_SDKVERSIONS, enabled);
     }
-    public static String isExtractNativeLibs(Context context) {
-        return PrefsManager.getInstance(context).getString(KEY_EXTRACT_NATIVE_LIBS, "false"); //NON-NLS
+
+    public static boolean isKeepOriginalNameEnabled(Context context) {
+        return PrefsManager.getInstance(context).getBoolean(KEY_KEEP_ORIGINAL_NAME, true);
     }
-    public static void setExtractNativeLibs(Context context, boolean enabled) {
-        PrefsManager.getInstance(context).saveString(KEY_EXTRACT_NATIVE_LIBS, String.valueOf(enabled));
+
+    public static void setKeepOriginalName(Context context, boolean enabled) {
+        PrefsManager.getInstance(context).saveBoolean(KEY_KEEP_ORIGINAL_NAME, enabled);
     }
     public static String getPrefix(Context context) {
-        return PrefsManager.getInstance(context).getString(KEY_PREFIX, "");
+        return PrefsManager.getInstance(context).getString(KEY_PREFIX, "") + "_";
     }
     public static void setPrefix(Context context, String prefix) {
         PrefsManager.getInstance(context).saveString(KEY_PREFIX, prefix);
     }
 
     public static String getSuffix(Context context) {
-        return PrefsManager.getInstance(context).getString(KEY_SUFFIX, "");
+        return "_" + PrefsManager.getInstance(context).getString(KEY_SUFFIX, "");
     }
 
     public static void setSuffix(Context context, String suffix) {
@@ -174,21 +185,22 @@ public class ProcessingManager {
         return isAppendLanguageEnabled(context) ? "_" + Merger.LANGUAGE : "";
     }
     public static String getSigningStatus(Context context) {
-        return isAppendSigningStatusEnabled(context) ? "_" + Merger.signed : "";
+        return isAppendSigningStatusEnabled(context) ? "_" + (Merger.signed ? R.string.signed : "") : "";
     }
     public static String getSigningSChemes(Context context) {
         return isAppendSigningSchemesEnabled(context) ? "_" + Merger.signingSchemes : "";
     }
 
     public static String getTimestamp(Context context) {
-        return isAppendTimestampEnabled(context) ? "_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date()) : ""; //NON-NLS
+        return isAppendTimestampEnabled(context) ? "_" + new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault()).format(new Date()) : ""; //NON-NLS
     }
     public static String getSDKVersions(Context context) {
         return isAppendSDKVersionsEnabled(context) ? "_" + Merger.sdkVersion : "";
     }
+
     public static String getFinalOutputName(Context context, String basename) {
         return getPrefix(context)
-                + basename
+                + (isKeepOriginalNameEnabled(context) ? basename : "")
                 + getSuffix(context)
                 + getPackageName(context)
                 + getVersionName(context)
@@ -199,7 +211,8 @@ public class ProcessingManager {
                 + getSigningStatus(context)
                 + getSigningSChemes(context)
                 + getTimestamp(context)
-                + getSDKVersions(context) + ".apk";
+                + getSDKVersions(context)
+                + ".apk";
     }
 
 }

@@ -1,10 +1,7 @@
 package com.szn.merger.Utils.Processing;
 
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -13,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -25,9 +23,9 @@ import java.util.Arrays;
 
 public class ProcessingActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;
-    MaterialCardView outputDir, prefixSuffix, compressionLevel, logType;
-    CustomSwitchItem extractNativeLibs, timestamp, version;
-    TextView currentPath, currentFormatName, currentCompressionLevel, currentLogType;
+    MaterialCardView outputDir, prefixSuffix, compressionLevel;
+    CustomSwitchItem extractNativeLibs;
+    TextView currentPath, currentFormatName, currentCompressionLevel;
 
 
     @Override
@@ -36,7 +34,6 @@ public class ProcessingActivity extends AppCompatActivity {
         ThemeManager.applyLanguage(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.processing_layout);
-
         initViews();
         loadState();
         setupListener();
@@ -47,51 +44,25 @@ public class ProcessingActivity extends AppCompatActivity {
         outputDir = findViewById(R.id.card_output_directory);
         prefixSuffix = findViewById(R.id.card_file_name_prefix_suffix);
         compressionLevel = findViewById(R.id.card_compression_level);
-        logType = findViewById(R.id.card_log_type);
-        timestamp = findViewById(R.id.switch_append_timestamp);
-        version = findViewById(R.id.switch_append_version_name);
         currentPath = findViewById(R.id.current_output_directory);
         currentFormatName = findViewById(R.id.current_file_name_prefix_suffix);
         currentCompressionLevel = findViewById(R.id.current_compression_level);
-        currentLogType = findViewById(R.id.current_log_type);
     }
 
     private void setupListener() {
         toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         extractNativeLibs.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setExtractNativeLibs(this, isChecked));
         outputDir.setOnClickListener(v -> showPathDirDialog());
-        prefixSuffix.setOnClickListener( v-> showFormatNameDialog());
-        timestamp.setOnCheckedChangeListener(( buttonView, isChecked) -> ProcessingManager.setAppendTimestampEnabled(this, isChecked));
-        version.setOnCheckedChangeListener(( buttonview, isChecked) -> ProcessingManager.setAppendVersionEnabled(this, isChecked));
-        compressionLevel.setOnClickListener( v -> showCompressionLevelDialog());
-        logType.setOnClickListener( v -> showLogTypeDropdown());
+        prefixSuffix.setOnClickListener( v-> showFormatNameBottomSheet());
+        compressionLevel.setOnClickListener(v -> showCompressionLevelDialog());
     }
 
     private void loadState() {
-        timestamp.setChecked(ProcessingManager.isAppendTimestampEnabled(this));
-        version.setChecked(ProcessingManager.isAppendVersionEnabled(this));
         currentPath.setText(ProcessingManager.getDirPath(this));
         String savedFormat = ProcessingManager.getFormatName(this);
         if (!savedFormat.isEmpty()) currentFormatName.setText(savedFormat + ".apk");
         else currentFormatName.setText("MyApp.apk");
         currentCompressionLevel.setText(String.valueOf(ProcessingManager.getCompressionLevel(this)));
-        currentLogType.setText(ProcessingManager.getLogType(this));
-    }
-    private void showLogTypeDropdown() {
-        View view = getLayoutInflater().inflate(R.layout.log_type_dropdown, null);
-        PopupWindow popupWindow = new PopupWindow(view, (int) (220 * getResources().getDisplayMetrics().density), ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.showAsDropDown(logType, 0, 4, Gravity.END);
-
-        view.findViewById(R.id.defaultLog).setOnClickListener(v -> {
-            currentLogType.setText(R.string.default_value);
-            ProcessingManager.saveLogType(this, getString(R.string.default_value));
-            popupWindow.dismiss();
-        });
-        view.findViewById(R.id.simpleLog).setOnClickListener(v -> {
-            currentLogType.setText(R.string.log_type_simple);
-            ProcessingManager.saveLogType(this, getString(R.string.log_type_simple));
-            popupWindow.dismiss();
-        });
     }
 
     private void showCompressionLevelDialog() {
@@ -157,18 +128,53 @@ public class ProcessingActivity extends AppCompatActivity {
         });
     }
 
-    private void showFormatNameDialog() {
+    private void showFormatNameBottomSheet() {
         View view = this.getLayoutInflater().inflate(R.layout.format_name_dialog, null);
         TextInputEditText prefix = view.findViewById(R.id.inputPrefix);
         TextInputEditText suffix = view.findViewById(R.id.inputSuffix);
         MaterialButton cancel = view.findViewById(R.id.buttonCancel);
         MaterialButton confirm = view.findViewById(R.id.buttonConfirm);
+        CustomSwitchItem keepOriginalName = view.findViewById(R.id.keepFileOriginalName),
+        packageName = view.findViewById(R.id.packageName),
+        versionName = view.findViewById(R.id.versionName),
+        versionCode = view.findViewById(R.id.versionCode),
+        ABI = view.findViewById(R.id.ABI),
+        DPI = view.findViewById(R.id.DPI),
+        LANGUAGE = view.findViewById(R.id.LANGUAGE),
+        signingStatus = view.findViewById(R.id.signingStatus),
+        signingSchemes = view.findViewById(R.id.signingSchemes),
+        timestamp = view.findViewById(R.id.timestamp),
+        sdkVersions = view.findViewById(R.id.sdkVersions);
 
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
+        // init
+        keepOriginalName.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setKeepOriginalName(this, isChecked));
+        packageName.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendPackageName(this, isChecked));
+        versionName.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendVersionName(this, isChecked));
+        versionCode.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendVersioncode(this, isChecked));
+        ABI.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendABI(this, isChecked));
+        DPI.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendDPI(this, isChecked));
+        LANGUAGE.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendLanguage(this, isChecked));
+        signingStatus.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendSigningStatus(this, isChecked));
+        signingSchemes.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendSigningSchemes(this, isChecked));
+        timestamp.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendTimestamp(this, isChecked));
+        sdkVersions.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendSDKVersions(this, isChecked));
 
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        // restore state
+        packageName.setChecked(ProcessingManager.isAppendPackageNameEnabled(this));
+        versionName.setChecked(ProcessingManager.isAppendVersionNameEnabled(this));
+        versionCode.setChecked(ProcessingManager.isAppendVersioncCodeEnabled(this));
+        ABI.setChecked(ProcessingManager.isAppendABIEnabled(this));
+        DPI.setChecked(ProcessingManager.isAppendDPIEnabled(this));
+        LANGUAGE.setChecked(ProcessingManager.isAppendLanguageEnabled(this));
+        signingStatus.setChecked(ProcessingManager.isAppendSigningStatusEnabled(this));
+        signingSchemes.setChecked(ProcessingManager.isAppendSigningSchemesEnabled(this));
+        timestamp.setChecked(ProcessingManager.isAppendTimestampEnabled(this));
+        sdkVersions.setChecked(ProcessingManager.isAppendSDKVersionsEnabled(this));
+
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        dialog.setContentView(view);
+        dialog.show();
+
         String savedPrefix = ProcessingManager.getPrefix(this);
         String savedSuffix = ProcessingManager.getSuffix(this);
 
@@ -189,21 +195,16 @@ public class ProcessingActivity extends AppCompatActivity {
             if (prefixText.equals("_")) prefixText = "";
             if (suffixText.equals("_")) suffixText = "";
 
+            ProcessingManager.setPrefix(this, prefixText);
+            ProcessingManager.setSuffix(this, suffixText);
+
             String basename = "MyApp";
-
-            if (!prefixText.isEmpty()) {
-                basename = prefixText + "_" + basename;
-            }
-
-            if (!suffixText.isEmpty()) {
-                basename = basename + "_" + suffixText;
-            }
 
             String result = basename + ".apk";
 
             ProcessingManager.saveFormatName(this, result);
 
-            currentFormatName.setText(result.isEmpty() ? "None" : result);
+            currentFormatName.setText(result);
 
             dialog.dismiss();
         });;
