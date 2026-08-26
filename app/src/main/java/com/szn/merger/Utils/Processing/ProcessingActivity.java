@@ -50,6 +50,7 @@ public class ProcessingActivity extends AppCompatActivity {
     }
 
     private void setupListener() {
+        currentFormatName.setText(ProcessingManager.getFormatName(this));
         toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         extractNativeLibs.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setExtractNativeLibs(this, isChecked));
         outputDir.setOnClickListener(v -> showPathDirDialog());
@@ -59,9 +60,7 @@ public class ProcessingActivity extends AppCompatActivity {
 
     private void loadState() {
         currentPath.setText(ProcessingManager.getDirPath(this));
-        String savedFormat = ProcessingManager.getFormatName(this);
-        if (!savedFormat.isEmpty()) currentFormatName.setText(savedFormat + ".apk");
-        else currentFormatName.setText("MyApp.apk");
+        currentFormatName.setText(ProcessingManager.getFormatName(this));
         currentCompressionLevel.setText(String.valueOf(ProcessingManager.getCompressionLevel(this)));
     }
 
@@ -145,6 +144,7 @@ public class ProcessingActivity extends AppCompatActivity {
         signingSchemes = view.findViewById(R.id.signingSchemes),
         timestamp = view.findViewById(R.id.timestamp),
         sdkVersions = view.findViewById(R.id.sdkVersions);
+        TextView previewText = view.findViewById(R.id.preview);
 
         // init
         keepOriginalName.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setKeepOriginalName(this, isChecked));
@@ -160,9 +160,10 @@ public class ProcessingActivity extends AppCompatActivity {
         sdkVersions.setOnCheckedChangeListener((buttonView, isChecked) -> ProcessingManager.setAppendSDKVersions(this, isChecked));
 
         // restore state
+        keepOriginalName.setChecked(ProcessingManager.isKeepOriginalNameEnabled(this));
         packageName.setChecked(ProcessingManager.isAppendPackageNameEnabled(this));
         versionName.setChecked(ProcessingManager.isAppendVersionNameEnabled(this));
-        versionCode.setChecked(ProcessingManager.isAppendVersioncCodeEnabled(this));
+        versionCode.setChecked(ProcessingManager.isAppendVersionCodeEnabled(this));
         ABI.setChecked(ProcessingManager.isAppendABIEnabled(this));
         DPI.setChecked(ProcessingManager.isAppendDPIEnabled(this));
         LANGUAGE.setChecked(ProcessingManager.isAppendLanguageEnabled(this));
@@ -171,42 +172,37 @@ public class ProcessingActivity extends AppCompatActivity {
         timestamp.setChecked(ProcessingManager.isAppendTimestampEnabled(this));
         sdkVersions.setChecked(ProcessingManager.isAppendSDKVersionsEnabled(this));
 
+        String defaultPreview[] = {"MyApp", ".apk"};
+        // set preview
+        StringBuilder preview = new StringBuilder();
+        preview.append(defaultPreview[0]);
+        preview.append(ProcessingManager.isAppendPackageNameEnabled(this) ? getString(R.string.preview_package_name) : "");
+        preview.append(ProcessingManager.isAppendVersionNameEnabled(this) ? getString(R.string.preview_version_name) : "");
+        preview.append(ProcessingManager.isAppendVersionCodeEnabled(this) ? getString(R.string.preview_version_code) : "");
+        preview.append(ProcessingManager.isAppendABIEnabled(this) ? getString(R.string.preview_abi) : "");
+        preview.append(ProcessingManager.isAppendDPIEnabled(this) ? getString(R.string.preview_dpi) : "");
+        preview.append(ProcessingManager.isAppendLanguageEnabled(this) ? getString(R.string.preview_language) : "");
+        preview.append(ProcessingManager.isAppendSigningStatusEnabled(this) ? getString(R.string.preview_signing_status) : "");
+        preview.append(ProcessingManager.isAppendSigningSchemesEnabled(this) ? getString(R.string.preview_signing_schemes) : "");
+        preview.append(ProcessingManager.isAppendTimestampEnabled(this) ? getString(R.string.preview_timestamp) : "");
+        preview.append(ProcessingManager.isAppendSDKVersionsEnabled(this) ? getString(R.string.preview_sdk_versions) : "");
+        preview.append(defaultPreview[1]);
+        previewText.setText(preview);
+
+        prefix.setText(ProcessingManager.getPrefix(this));
+        suffix.setText(ProcessingManager.getSuffix(this));
+
         BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(view);
         dialog.show();
 
-        String savedPrefix = ProcessingManager.getPrefix(this);
-        String savedSuffix = ProcessingManager.getSuffix(this);
-
-        if (savedPrefix != null && !savedPrefix.equals("_") && !savedPrefix.isEmpty()) {
-            prefix.setText(savedPrefix);
-        }
-
-        if (savedSuffix != null && !savedSuffix.equals("_") && !savedSuffix.isEmpty()) {
-            suffix.setText(savedSuffix.replace("_.apk", ""));
-        }
-        dialog.show();
-
         cancel.setOnClickListener( v -> dialog.dismiss());
         confirm.setOnClickListener(v -> {
-            String prefixText = prefix.getText().toString().trim();
-            String suffixText = suffix.getText().toString().trim();
-
-            if (prefixText.equals("_")) prefixText = "";
-            if (suffixText.equals("_")) suffixText = "";
-
-            ProcessingManager.setPrefix(this, prefixText);
-            ProcessingManager.setSuffix(this, suffixText);
-
-            String basename = "MyApp";
-
-            String result = basename + ".apk";
-
-            ProcessingManager.saveFormatName(this, result);
-
-            currentFormatName.setText(result);
-
+            ProcessingManager.setPrefix(this, prefix.getText().toString().trim());
+            ProcessingManager.setSuffix(this, suffix.getText().toString().trim());
+            ProcessingManager.saveFormatName(this, preview.toString());
+            currentFormatName.setText(preview);
             dialog.dismiss();
-        });;
+        });
     }
 }

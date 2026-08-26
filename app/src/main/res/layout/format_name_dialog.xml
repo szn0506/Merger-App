@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/bg_popup"
-        android:padding="20dp">
+        android:paddingVertical="25dp"
+        android:paddingHorizontal="20dp">
 
         <TextView
             android:id="@+id/title"

@@ -51,10 +51,6 @@ public class ProcessingManager {
     }
 
     public static void saveFormatName(Context context, String value) {
-        if (value.endsWith(".apk")) {
-            value = value.substring(0, value.length() - 4);
-        }
-
         PrefsManager.getInstance(context).saveString(KEY_FORMAT_NAME, value);
     }
 
@@ -77,7 +73,7 @@ public class ProcessingManager {
         PrefsManager.getInstance(context)
                 .saveBoolean(KEY_APPEND_VERSIONNAME, enabled);
     }
-    public static boolean isAppendVersioncCodeEnabled(Context context) {
+    public static boolean isAppendVersionCodeEnabled(Context context) {
         return PrefsManager.getInstance(context).getBoolean(KEY_APPEND_VERSIONCODE, false);
     }
     public static void setAppendVersioncode(Context context, boolean enabled) {
@@ -173,7 +169,7 @@ public class ProcessingManager {
         return isAppendVersionNameEnabled(context) ? "_" + Merger.versionName : "";
     }
     public static String getVersionCode(Context context) {
-        return isAppendVersioncCodeEnabled(context) ? "_" + Merger.versionCode : "";
+        return isAppendVersionCodeEnabled(context) ? "_" + Merger.versionCode : "";
     }
     public static String getDPI(Context context) {
         return isAppendDPIEnabled(context) ? "_" + Merger.DPI : "";

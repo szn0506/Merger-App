@@ -305,14 +305,13 @@ public class Merger extends CommandExecutor<MergerOptions> {
             if (str != null && !str.isEmpty()) return str;
         }
 
-        // 2. Jika bernilai REFERENCE (@string/app_name), Resolve lewat TableBlock (resources.arsc)
         if (apkModule.hasTableBlock()) {
             TableBlock tableBlock = apkModule.getTableBlock();
-            int resId = label.getData(); // Ambil Resource ID (misal 0x7f110000)
+            int resId = label.getData();
 
             ResourceEntry resourceEntry = tableBlock.getResource(resId);
             if (resourceEntry != null) {
-                Entry entry = resourceEntry.get(); // Ambil default entry
+                Entry entry = resourceEntry.get();
                 if (entry != null && entry.getResValue() != null) {
                     String appName = entry.getResValue().getValueAsString();
                     if (appName != null && !appName.isEmpty()) {
