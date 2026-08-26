@@ -20,7 +20,6 @@
         android:id="@+id/subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/desc_output_directory"
         android:textSize="14sp" />
 
@@ -28,8 +27,8 @@
         style="@style/Widget.Merger.TextInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/title_output_directory"
         app:boxBackgroundMode="outline"
+        android:layout_marginTop="10dp"
         app:endIconMode="clear_text">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -39,6 +38,38 @@
             android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        style="@style/Widget.Card.RoundedMiddle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:tint="?attr/colorOnSurface"
+                android:src="@drawable/ic_info" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:justificationMode="inter_word"
+                android:text="@string/path_info"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -54,6 +85,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/cancel_app"
             android:textSize="12sp"
+            app:cornerRadius="16dp"
             android:background="@android:color/transparent"
             app:layout_constraintEnd_toStartOf="@id/buttonConfirm"
             tools:ignore="MissingConstraints" />
@@ -65,6 +97,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/btn_save"
             android:textSize="12sp"
+            app:cornerRadius="16dp"
             android:layout_marginStart="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints" />

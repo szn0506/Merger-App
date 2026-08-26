@@ -2,6 +2,7 @@ package com.szn.merger.Utils.Processing;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -107,6 +108,10 @@ public class ProcessingActivity extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         input.setText(ProcessingManager.getDirPath(this));
         dialog.show();
+        dialog.getWindow().setLayout(
+                (int) (getResources().getDisplayMetrics().widthPixels * 0.92f),
+                WindowManager.LayoutParams.WRAP_CONTENT
+        );
 
         btnCancel.setOnClickListener(v -> dialog.dismiss());
         btnConfirm.setOnClickListener(v -> {
