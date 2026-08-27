@@ -104,7 +104,7 @@ public class ProcessingActivity extends AppCompatActivity {
         MaterialButton btnConfirm = view.findViewById(R.id.buttonConfirm);
         MaterialButton btnCancel = view.findViewById(R.id.buttonCancel);
         CustomSwitchItem saveToOriginalPath = view.findViewById(R.id.saveToOriginalPath);
-
+        input.setText(!ProcessingManager.isSaveToOriginalPathEnabled(this) ? ProcessingManager.getDirPath(this) : "");
         final boolean[] saveOriginal = {
                 ProcessingManager.isSaveToOriginalPathEnabled(this)
         };
@@ -130,6 +130,8 @@ public class ProcessingActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 0 && saveOriginal[0]) {
                     saveToOriginalPath.setChecked(false);
+                } else if (s.length() == 0) {
+                    saveToOriginalPath.setChecked(true);
                 }
             }
 
@@ -157,9 +159,11 @@ public class ProcessingActivity extends AppCompatActivity {
         btnConfirm.setOnClickListener(v -> {
             String path = input.getText().toString().trim();
 
-            if (!path.isEmpty()) {
+            if (!path.isEmpty() && !ProcessingManager.isSaveToOriginalPathEnabled(this)) {
                 ProcessingManager.saveDirPath(this, path);
                 currentPath.setText(path);
+            } else {
+                currentPath.setText(R.string.save_to_original_path_preview);
             }
 
             dialog.dismiss();
