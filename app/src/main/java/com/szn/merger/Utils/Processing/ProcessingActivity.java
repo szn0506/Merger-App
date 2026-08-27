@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.szn.merger.CustomSwitchItem;
 import com.szn.merger.R;
 import com.szn.merger.ThemeManager;
+import com.szn.merger.Utils.Adapter.FormatNameReorderAdapter;
 import com.szn.merger.Utils.RadioAdapter;
 
 import java.util.Arrays;
@@ -29,7 +30,7 @@ public class ProcessingActivity extends AppCompatActivity {
     MaterialCardView outputDir, prefixSuffix, compressionLevel;
     CustomSwitchItem extractNativeLibs;
     TextView currentPath, currentFormatName, currentCompressionLevel;
-
+    FormatNameReorderAdapter formatNameReorderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class ProcessingActivity extends AppCompatActivity {
 
     private void loadState() {
         currentPath.setText(ProcessingManager.isSaveToOriginalPathEnabled(this) ? getString(R.string.save_to_original_path_preview) : ProcessingManager.getDirPath(this));
-        currentFormatName.setText(getString(R.string.preview_format) + " " + ProcessingManager.getFormatName(this));
+        currentFormatName.setText(getString(R.string.preview_format) + ": " + ProcessingManager.getFormatName(this));
         currentCompressionLevel.setText(String.valueOf(ProcessingManager.getCompressionLevel(this)));
     }
 
@@ -189,73 +190,12 @@ public class ProcessingActivity extends AppCompatActivity {
         sdkVersions = view.findViewById(R.id.sdkVersions);
         TextView previewText = view.findViewById(R.id.preview);
 
-        // init
-        keepOriginalName.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            ProcessingManager.setKeepOriginalName(this, isChecked);
-            updateState(keepOriginalName);
-            previewText.setText(refreshFormatPreview());
-        });
-
-        packageName.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            ProcessingManager.setAppendPackageName(this, isChecked);
-            updateState(keepOriginalName);
-            previewText.setText(refreshFormatPreview());
-        });
-
-        versionName.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            ProcessingManager.setAppendVersionName(this, isChecked);
-            updateState(keepOriginalName);
-            previewText.setText(refreshFormatPreview());
-        });
-
-        versionCode.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            ProcessingManager.setAppendVersioncode(this, isChecked);
-            updateState(keepOriginalName);
-            previewText.setText(refreshFormatPreview());
-        });
-
-        ABI.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            ProcessingManager.setAppendABI(this, isChecked);
-            updateState(keepOriginalName);
-            previewText.setText(refreshFormatPreview());
-        });
-
-        DPI.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            ProcessingManager.setAppendDPI(this, isChecked);
-            updateState(keepOriginalName);
-            previewText.setText(refreshFormatPreview());
-        });
-
-        LANGUAGE.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            ProcessingManager.setAppendLanguage(this, isChecked);
-            updateState(keepOriginalName);
-            previewText.setText(refreshFormatPreview());
-        });
-
-        signingStatus.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            ProcessingManager.setAppendSigningStatus(this, isChecked);
-            updateState(keepOriginalName);
-            previewText.setText(refreshFormatPreview());
-        });
-
-        signingSchemes.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            ProcessingManager.setAppendSigningSchemes(this, isChecked);
-            updateState(keepOriginalName);
-            previewText.setText(refreshFormatPreview());
-        });
-
-        timestamp.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            ProcessingManager.setAppendTimestamp(this, isChecked);
-            updateState(keepOriginalName);
-            previewText.setText(refreshFormatPreview());
-        });
-
-        sdkVersions.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            ProcessingManager.setAppendSDKVersions(this, isChecked);
-            updateState(keepOriginalName);
-            previewText.setText(refreshFormatPreview());
-        });
-
+        RecyclerView recyclerView = view.findViewById(R.id.reorderList);
+        formatNameReorderAdapter = new FormatNameReorderAdapter(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(formatNameReorderAdapter);
+        formatNameReorderAdapter.attachDragSupport(recyclerView);
+        formatNameReorderAdapter.setOnOrderChangedListener(() -> previewText.setText(refreshFormatPreview()));
         // restore state
         keepOriginalName.setChecked(ProcessingManager.isKeepOriginalNameEnabled(this));
         packageName.setChecked(ProcessingManager.isAppendPackageNameEnabled(this));
@@ -271,6 +211,85 @@ public class ProcessingActivity extends AppCompatActivity {
 
         prefix.setText(ProcessingManager.getPrefix(this));
         suffix.setText(ProcessingManager.getSuffix(this));
+
+        previewText.setText(refreshFormatPreview());
+        // init
+        keepOriginalName.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setKeepOriginalName(this, isChecked);
+            updateState(keepOriginalName);
+            formatNameReorderAdapter.checkEnabledItems();
+            previewText.setText(refreshFormatPreview());
+        });
+
+        packageName.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendPackageName(this, isChecked);
+            updateState(keepOriginalName);
+            formatNameReorderAdapter.checkEnabledItems();
+            previewText.setText(refreshFormatPreview());
+        });
+
+        versionName.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendVersionName(this, isChecked);
+            updateState(keepOriginalName);
+            formatNameReorderAdapter.checkEnabledItems();
+            previewText.setText(refreshFormatPreview());
+        });
+
+        versionCode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendVersioncode(this, isChecked);
+            updateState(keepOriginalName);
+            formatNameReorderAdapter.checkEnabledItems();
+            previewText.setText(refreshFormatPreview());
+        });
+
+        ABI.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendABI(this, isChecked);
+            updateState(keepOriginalName);
+            formatNameReorderAdapter.checkEnabledItems();
+            previewText.setText(refreshFormatPreview());
+        });
+
+        DPI.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendDPI(this, isChecked);
+            updateState(keepOriginalName);
+            formatNameReorderAdapter.checkEnabledItems();
+            previewText.setText(refreshFormatPreview());
+        });
+
+        LANGUAGE.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendLanguage(this, isChecked);
+            updateState(keepOriginalName);
+            formatNameReorderAdapter.checkEnabledItems();
+            previewText.setText(refreshFormatPreview());
+        });
+
+        signingStatus.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendSigningStatus(this, isChecked);
+            updateState(keepOriginalName);
+            formatNameReorderAdapter.checkEnabledItems();
+            previewText.setText(refreshFormatPreview());
+        });
+
+        signingSchemes.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendSigningSchemes(this, isChecked);
+            updateState(keepOriginalName);
+            formatNameReorderAdapter.checkEnabledItems();
+            previewText.setText(refreshFormatPreview());
+        });
+
+        timestamp.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendTimestamp(this, isChecked);
+            updateState(keepOriginalName);
+            formatNameReorderAdapter.checkEnabledItems();
+            previewText.setText(refreshFormatPreview());
+        });
+
+        sdkVersions.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ProcessingManager.setAppendSDKVersions(this, isChecked);
+            updateState(keepOriginalName);
+            formatNameReorderAdapter.checkEnabledItems();
+            previewText.setText(refreshFormatPreview());
+        });
 
         prefix.addTextChangedListener(new TextWatcher() {
             @Override
@@ -338,23 +357,65 @@ public class ProcessingActivity extends AppCompatActivity {
             keepOriginalName.setChecked(true);
         }
     }
+
     String refreshFormatPreview() {
         String defaultPreview[] = {"MyApp", ".apk"};
         StringBuilder preview = new StringBuilder();
+
         preview.append(!ProcessingManager.getPrefix(this).isEmpty() ? ProcessingManager.getPrefix(this) + "_" : "");
+
         preview.append(ProcessingManager.isKeepOriginalNameEnabled(this) ? defaultPreview[0] : "");
-        preview.append(ProcessingManager.isAppendPackageNameEnabled(this) ? getString(R.string.preview_package_name) : "");
-        preview.append(ProcessingManager.isAppendVersionNameEnabled(this) ? getString(R.string.preview_version_name) : "");
-        preview.append(ProcessingManager.isAppendVersionCodeEnabled(this) ? getString(R.string.preview_version_code) : "");
-        preview.append(ProcessingManager.isAppendABIEnabled(this) ? getString(R.string.preview_abi) : "");
-        preview.append(ProcessingManager.isAppendDPIEnabled(this) ? getString(R.string.preview_dpi) : "");
-        preview.append(ProcessingManager.isAppendLanguageEnabled(this) ? getString(R.string.preview_language) : "");
-        preview.append(ProcessingManager.isAppendSigningStatusEnabled(this) ? getString(R.string.preview_signing_status) : "");
-        preview.append(ProcessingManager.isAppendSigningSchemesEnabled(this) ? getString(R.string.preview_signing_schemes) : "");
-        preview.append(ProcessingManager.isAppendTimestampEnabled(this) ? getString(R.string.preview_timestamp) : "");
-        preview.append(ProcessingManager.isAppendSDKVersionsEnabled(this) ? getString(R.string.preview_sdk_versions) : "");
+
+        for (FormatNameReorderAdapter.Item item : formatNameReorderAdapter.getItems()) {
+
+            switch (item.title) {
+
+                case "Package Name":
+                    preview.append(getString(R.string.preview_package_name));
+                    break;
+
+                case "Version Name":
+                    preview.append(getString(R.string.preview_version_name));
+                    break;
+
+                case "Version Code":
+                    preview.append(getString(R.string.preview_version_code));
+                    break;
+
+                case "ABI":
+                    preview.append(getString(R.string.preview_abi));
+                    break;
+
+                case "DPI":
+                    preview.append(getString(R.string.preview_dpi));
+                    break;
+
+                case "Language":
+                    preview.append(getString(R.string.preview_language));
+                    break;
+
+                case "Signing Status":
+                    preview.append(getString(R.string.preview_signing_status));
+                    break;
+
+                case "Signing Schemes":
+                    preview.append(getString(R.string.preview_signing_schemes));
+                    break;
+
+                case "Timestamp":
+                    preview.append(getString(R.string.preview_timestamp));
+                    break;
+
+                case "SDK Versions":
+                    preview.append(getString(R.string.preview_sdk_versions));
+                    break;
+            }
+        }
+
         preview.append(!ProcessingManager.getSuffix(this).isEmpty() ? "_" + ProcessingManager.getSuffix(this) : "");
+
         preview.append(defaultPreview[1]);
+
         return preview.toString();
     }
 }

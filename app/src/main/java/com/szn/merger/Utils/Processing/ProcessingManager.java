@@ -1,13 +1,17 @@
 package com.szn.merger.Utils.Processing;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.szn.merger.Helper.Merger;
 import com.szn.merger.PrefsManager;
 import com.szn.merger.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class ProcessingManager {
@@ -29,6 +33,19 @@ public class ProcessingManager {
     private static final String KEY_PREFIX = "prefix";
     private static final String KEY_SUFFIX = "suffix";
     private static final String KEY_SAVE_TO_ORIGINAL_PATH = "save_to_original_path";
+    private static final String KEY_FORMAT_ORDER = "format_name_order";
+    private static final List<String> DEFAULT_FORMAT_ORDER = Arrays.asList(
+            "packageName",
+            "versionName",
+            "versionCode",
+            "ABI",
+            "DPI",
+            "LANGUAGE",
+            "signingStatus",
+            "signingSchemes",
+            "timestamp",
+            "sdkVersions"
+    );
     public static String getDirPath(Context context) {
         return PrefsManager.getInstance(context)
                 .getString(KEY_OUTPUT_DIRECTORY_PATH, "/storage/emulated/0/Download"); //NON-NLS
@@ -148,6 +165,22 @@ public class ProcessingManager {
         PrefsManager.getInstance(context).saveBoolean(KEY_KEEP_ORIGINAL_NAME, enabled);
     }
 
+    public static List<String> getFormatOrder(Context context) {
+
+        String saved = PrefsManager.getInstance(context)
+                .getString(KEY_FORMAT_ORDER, "");
+
+        if (saved.isEmpty()) {
+            return new ArrayList<>(DEFAULT_FORMAT_ORDER);
+        }
+
+        return new ArrayList<>(Arrays.asList(saved.split(",")));
+    }
+
+    public static void setFormatOrder(Context context, List<String> order) {
+        PrefsManager.getInstance(context)
+                .saveString(KEY_FORMAT_ORDER, TextUtils.join(",", order));
+    }
     public static boolean isSaveToOriginalPathEnabled(Context context) {
         return PrefsManager.getInstance(context).getBoolean(KEY_SAVE_TO_ORIGINAL_PATH, true);
     }
@@ -191,7 +224,7 @@ public class ProcessingManager {
     public static String getSigningStatus(Context context) {
         return isAppendSigningStatusEnabled(context) ? "_" + (Merger.signed ? R.string.signed : R.string.not_signed) : "";
     }
-    public static String getSigningSChemes(Context context) {
+        public static String getSigningSchemes(Context context) {
         return isAppendSigningSchemesEnabled(context) ? "_" + Merger.signingSchemes : "";
     }
 
@@ -203,20 +236,63 @@ public class ProcessingManager {
     }
 
     public static String getFinalOutputName(Context context, String basename) {
-        return getPrefix(context) + "_"
-                + (isKeepOriginalNameEnabled(context) ? basename : "")
-                + "_" + getSuffix(context)
-                + getPackageName(context)
-                + getVersionName(context)
-                + getVersionCode(context)
-                + getABI(context)
-                + getDPI(context)
-                + getLanguage(context)
-                + getSigningStatus(context)
-                + getSigningSChemes(context)
-                + getTimestamp(context)
-                + getSDKVersions(context)
-                + ".apk";
+        StringBuilder result = new StringBuilder();
+
+        result.append(getPrefix(context))
+                .append("_");
+
+        if (isKeepOriginalNameEnabled(context)) {
+            result.append(basename);
+        }
+
+        result.append("_")
+                .append(getSuffix(context));
+
+        for (String item : getFormatOrder(context)) {
+            switch (item) {
+                case "Package Name":
+                    result.append(getPackageName(context));
+                    break;
+
+                case "Version Name":
+                    result.append(getVersionName(context));
+                    break;
+
+                case "Version Code":
+                    result.append(getVersionCode(context));
+                    break;
+
+                case "ABI":
+                    result.append(getABI(context));
+                    break;
+
+                case "DPI":
+                    result.append(getDPI(context));
+                    break;
+
+                case "Language":
+                    result.append(getLanguage(context));
+                    break;
+
+                case "Signing Status":
+                    result.append(getSigningStatus(context));
+                    break;
+
+                case "Signing Schemes":
+                    result.append(getSigningSchemes(context));
+                    break;
+
+                case "Timestamp":
+                    result.append(getTimestamp(context));
+                    break;
+
+                case "SDK Versions":
+                    result.append(getSDKVersions(context));
+                    break;
+            }
+        }
+
+        return result.append(".apk").toString();
     }
 
 }
