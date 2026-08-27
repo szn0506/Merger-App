@@ -272,14 +272,48 @@ public class ProcessingActivity extends AppCompatActivity {
         prefix.setText(ProcessingManager.getPrefix(this));
         suffix.setText(ProcessingManager.getSuffix(this));
 
+        prefix.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                ProcessingManager.setPrefix(ProcessingActivity.this, charSequence.toString());
+                previewText.setText(refreshFormatPreview());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        suffix.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                ProcessingManager.setSuffix(ProcessingActivity.this, charSequence.toString());
+                previewText.setText(refreshFormatPreview());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(view);
         dialog.show();
 
         cancel.setOnClickListener( v -> dialog.dismiss());
         confirm.setOnClickListener(v -> {
-                ProcessingManager.setPrefix(this, prefix.getText().toString().trim());
-                ProcessingManager.setSuffix(this, suffix.getText().toString().trim());
                 ProcessingManager.saveFormatName(this, refreshFormatPreview());
                 currentFormatName.setText((refreshFormatPreview()));
                 dialog.dismiss();
