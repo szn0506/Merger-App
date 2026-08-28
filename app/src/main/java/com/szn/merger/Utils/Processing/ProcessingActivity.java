@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -189,6 +190,7 @@ public class ProcessingActivity extends AppCompatActivity {
         timestamp = view.findViewById(R.id.timestamp),
         sdkVersions = view.findViewById(R.id.sdkVersions);
         TextView previewText = view.findViewById(R.id.preview);
+        ImageButton reset = view.findViewById(R.id.resetOrder);
 
         RecyclerView recyclerView = view.findViewById(R.id.reorderList);
         formatNameReorderAdapter = new FormatNameReorderAdapter(this);
@@ -326,6 +328,8 @@ public class ProcessingActivity extends AppCompatActivity {
 
             }
         });
+
+        reset.setOnClickListener(v -> formatNameReorderAdapter.resetOrder());
 
         BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(view);

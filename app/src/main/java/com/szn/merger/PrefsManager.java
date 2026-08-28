@@ -4,6 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class PrefsManager {
 
     private static PrefsManager instance;
@@ -48,6 +53,37 @@ public class PrefsManager {
 
     public boolean getBoolean(String key, boolean defaultValue) {
         return prefs.getBoolean(key, defaultValue);
+    }
+
+    public void saveStringList(String key, List<String> value) {
+        JSONArray array = new JSONArray();
+
+        for (String item : value) {
+            array.put(item);
+        }
+
+        prefs.edit().putString(key, array.toString()).apply();
+    }
+
+    public List<String> getStringList(String key, List<String> defaultValue) {
+        String saved = prefs.getString(key, null);
+
+        if (saved == null) {
+            return new ArrayList<>(defaultValue);
+        }
+
+        try {
+            JSONArray array = new JSONArray(saved);
+            List<String> result = new ArrayList<>();
+
+            for (int i = 0; i < array.length(); i++) {
+                result.add(array.getString(i));
+            }
+
+            return result;
+        } catch (Exception e) {
+            return new ArrayList<>(defaultValue);
+        }
     }
 
     // Removes a specific key

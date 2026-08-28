@@ -338,14 +338,30 @@
                 app:itemTitle="@string/append_sdk_versions" />
 
         </com.google.android.material.card.MaterialCardView>
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reorder"
-            android:textSize="16sp"
             android:layout_marginTop="16dp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Reorder"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/resetOrder"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_reset"
+                android:background="@null"
+                app:tint="?attr/colorOnSurface"/>
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"

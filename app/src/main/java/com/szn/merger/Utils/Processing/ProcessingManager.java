@@ -1,15 +1,13 @@
 package com.szn.merger.Utils.Processing;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.szn.merger.Helper.Merger;
 import com.szn.merger.PrefsManager;
 import com.szn.merger.R;
+import com.szn.merger.Utils.Adapter.FormatNameReorderAdapter;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -34,26 +32,12 @@ public class ProcessingManager {
     private static final String KEY_SUFFIX = "suffix";
     private static final String KEY_SAVE_TO_ORIGINAL_PATH = "save_to_original_path";
     private static final String KEY_FORMAT_ORDER = "format_name_order";
-    private static final List<String> DEFAULT_FORMAT_ORDER = Arrays.asList(
-            "packageName",
-            "versionName",
-            "versionCode",
-            "ABI",
-            "DPI",
-            "LANGUAGE",
-            "signingStatus",
-            "signingSchemes",
-            "timestamp",
-            "sdkVersions"
-    );
     public static String getDirPath(Context context) {
-        return PrefsManager.getInstance(context)
-                .getString(KEY_OUTPUT_DIRECTORY_PATH, "/storage/emulated/0/Download"); //NON-NLS
+        return PrefsManager.getInstance(context).getString(KEY_OUTPUT_DIRECTORY_PATH, ""); //NON-NLS
     }
 
     public static void saveDirPath(Context context, String value) {
-        PrefsManager.getInstance(context)
-                .saveString(KEY_OUTPUT_DIRECTORY_PATH, value);
+        PrefsManager.getInstance(context).saveString(KEY_OUTPUT_DIRECTORY_PATH, value);
     }
 
     public static String isExtractNativeLibs(Context context) {
@@ -166,21 +150,12 @@ public class ProcessingManager {
     }
 
     public static List<String> getFormatOrder(Context context) {
-
-        String saved = PrefsManager.getInstance(context)
-                .getString(KEY_FORMAT_ORDER, "");
-
-        if (saved.isEmpty()) {
-            return new ArrayList<>(DEFAULT_FORMAT_ORDER);
-        }
-
-        return new ArrayList<>(Arrays.asList(saved.split(",")));
+        return PrefsManager.getInstance(context).getStringList(KEY_FORMAT_ORDER, FormatNameReorderAdapter.DEFAULT_FORMAT_ORDER);
     }
-
     public static void setFormatOrder(Context context, List<String> order) {
-        PrefsManager.getInstance(context)
-                .saveString(KEY_FORMAT_ORDER, TextUtils.join(",", order));
+        PrefsManager.getInstance(context).saveStringList(KEY_FORMAT_ORDER, order);
     }
+
     public static boolean isSaveToOriginalPathEnabled(Context context) {
         return PrefsManager.getInstance(context).getBoolean(KEY_SAVE_TO_ORIGINAL_PATH, true);
     }
@@ -224,7 +199,7 @@ public class ProcessingManager {
     public static String getSigningStatus(Context context) {
         return isAppendSigningStatusEnabled(context) ? "_" + (Merger.signed ? R.string.signed : R.string.not_signed) : "";
     }
-        public static String getSigningSchemes(Context context) {
+    public static String getSigningSchemes(Context context) {
         return isAppendSigningSchemesEnabled(context) ? "_" + Merger.signingSchemes : "";
     }
 
@@ -241,12 +216,10 @@ public class ProcessingManager {
         result.append(getPrefix(context))
                 .append("_");
 
-        if (isKeepOriginalNameEnabled(context)) {
-            result.append(basename);
-        }
+        if (isKeepOriginalNameEnabled(context)) result.append(basename);
 
-        result.append("_")
-                .append(getSuffix(context));
+
+        result.append("_").append(getSuffix(context));
 
         for (String item : getFormatOrder(context)) {
             switch (item) {

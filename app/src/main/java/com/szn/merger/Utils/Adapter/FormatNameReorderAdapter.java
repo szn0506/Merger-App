@@ -16,11 +16,22 @@ import com.szn.merger.R;
 import com.szn.merger.Utils.Processing.ProcessingManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class FormatNameReorderAdapter
-        extends RecyclerView.Adapter<FormatNameReorderAdapter.ViewHolder> {
-
+public class FormatNameReorderAdapter extends RecyclerView.Adapter<FormatNameReorderAdapter.ViewHolder> {
+    public static final List<String> DEFAULT_FORMAT_ORDER = Arrays.asList(
+            "Package Name",
+            "Version Name",
+            "Version Code",
+            "ABI",
+            "DPI",
+            "Language",
+            "Signing Status",
+            "Signing Schemes",
+            "Timestamp",
+            "SDK Versions"
+    );
     public static class Item {
 
         public String title;
@@ -236,6 +247,28 @@ public class FormatNameReorderAdapter
         }
     }
 
+    public void resetOrder() {
+        List<Item> defaultItems = new ArrayList<>();
+
+        for (String title : DEFAULT_FORMAT_ORDER) {
+            for (Item item : items) {
+                if (item.title.equals(title)) {
+                    defaultItems.add(item);
+                    break;
+                }
+            }
+        }
+
+        items.clear();
+        items.addAll(defaultItems);
+
+        saveOrder(context);
+        notifyDataSetChanged();
+
+        if (onOrderChanged != null) {
+            onOrderChanged.run();
+        }
+    }
     private void saveOrder(Context context) {
         List<String> order = new ArrayList<>();
 
