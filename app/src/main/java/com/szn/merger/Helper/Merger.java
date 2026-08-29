@@ -27,7 +27,6 @@ import com.reandroid.apkeditor.merge.MergerOptions;
 import com.reandroid.app.AndroidManifest;
 import com.reandroid.archive.ArchiveEntry;
 import com.reandroid.archive.ArchiveFile;
-import com.reandroid.archive.InputSource;
 import com.reandroid.archive.ZipEntryMap;
 import com.reandroid.arsc.chunk.TableBlock;
 import com.reandroid.arsc.chunk.xml.AndroidManifestBlock;
@@ -36,7 +35,6 @@ import com.reandroid.arsc.chunk.xml.ResXmlElement;
 import com.reandroid.arsc.container.SpecTypePair;
 import com.reandroid.arsc.model.ResourceEntry;
 import com.reandroid.arsc.value.Entry;
-import com.reandroid.arsc.value.ResConfig;
 import com.reandroid.arsc.value.ResValue;
 import com.reandroid.arsc.value.ValueType;
 import com.reandroid.utils.HexUtil;
@@ -52,11 +50,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Merger extends CommandExecutor<MergerOptions> {
     public static String packageName;
     public static String versionName;
     public static String versionCode;
-
+    private final List<String> mergedFileName = new ArrayList<>();
     public static String DPI;
     public static String ABI;
     public static String LANGUAGE;
@@ -76,13 +77,20 @@ public class Merger extends CommandExecutor<MergerOptions> {
         super(options, "[MERGE] ");
         this.mContext = context;
     }
-
     @Override
     public void logMessage(String message) {
         super.logMessage(message);
+
+        String prefix = "Merging: ";
+        int index = message.indexOf(prefix);
+
+        if (index != -1) {
+            String fileName = message.substring(index + prefix.length()).trim();
+            mergedFileName.add(fileName);
+        }
+
         onLog(message);
     }
-
     public static void stopMerge() {
         stopped = true;
     }
@@ -166,13 +174,13 @@ public class Merger extends CommandExecutor<MergerOptions> {
         versionCode = mergedModule.getAndroidManifest().getVersionCode().toString();
         checkStopped();
 
-        DPI = getDPI(mergedModule);
+        DPI = getDPI();
         checkStopped();
 
-        ABI = getABI(mergedModule);
+        ABI = getABI();
         checkStopped();
 
-        LANGUAGE = getLanguage(mergedModule);
+        LANGUAGE = getLanguage();
         checkStopped();
 
         int minSdk = mergedModule.getAndroidManifest().getMinSdkVersion();
@@ -321,108 +329,63 @@ public class Merger extends CommandExecutor<MergerOptions> {
             }
         }
 
-        // Fallback jika tidak ketemu string-nya di arsc
         String fallback = label.getValueAsString();
         return fallback != null ? fallback : "Unknown";
     }
 
-    private String getABI(ApkModule apkModule) {
-        if (apkModule == null) return "";
+    private String getABI() {
+        StringJoiner result = new StringJoiner(", ");
 
-        StringBuilder result = new StringBuilder();
+        Pattern pattern = Pattern.compile(
+                ".*\\.(armeabi|armeabi-v7a|arm64_v8a|x86|x86_64|mips|mips64)$"
+        );
 
-        Iterator<InputSource> iterator =
-                apkModule.getZipEntryMap().iterator();
+        for (String name : mergedFileName) {
+            Matcher matcher = pattern.matcher(name);
 
-        while (iterator.hasNext()) {
-            InputSource input = iterator.next();
-            String name = input.getName();
-
-            if (!name.startsWith("lib/")) continue;
-
-            String[] parts = name.split("/");
-
-            if (parts.length < 3) continue;
-
-            String abi = parts[1];
-
-            if (result.indexOf(abi) == -1) {
-                if (result.length() > 0) {
-                    result.append(", ");
-                }
-
-                result.append(abi);
-            }
-        }
-
-        return result.toString();
-    }
-    private String getDPI(ApkModule apkModule) {
-        if (apkModule == null || !apkModule.hasTableBlock()) {
-            return "";
-        }
-
-        StringBuilder result = new StringBuilder();
-        TableBlock tableBlock = apkModule.getTableBlock();
-
-        Iterator<ResourceEntry> resources = tableBlock.getResources();
-
-        while (resources.hasNext()) {
-            ResourceEntry resource = resources.next();
-
-            for (Entry entry : resource) {
-                if (entry == null || entry.getResValue() == null) {
-                    continue;
-                }
-
-                ResConfig config = entry.getResConfig();
-                if (config == null) {
-                    continue;
-                }
-
-                ResConfig.Density density = config.getDensity();
-                if (density == null) {
-                    continue;
-                }
-
-                String value = density.toString();
-
-                if (result.indexOf(value) == -1) {
-                    if (result.length() > 0) {
-                        result.append(", ");
-                    }
-
-                    result.append(value);
-                }
+            if (matcher.matches()) {
+                result.add(matcher.group(1));
             }
         }
 
         return result.toString();
     }
 
-    private String getLanguage(ApkModule apkModule) {
-        if (!apkModule.hasTableBlock()) return "";
+    private String getDPI() {
+        StringJoiner result = new StringJoiner(", ");
 
-        StringBuilder result = new StringBuilder();
+        Pattern pattern = Pattern.compile(
+                ".*\\.(ldpi|mdpi|tvdpi|hdpi|xhdpi|400dpi|xxhdpi|560dpi|xxxhdpi)$"
+        );
 
-        Iterator<ResConfig> iterator =
-                apkModule.getTableBlock().getResConfigs();
+        for (String name : mergedFileName) {
+            Matcher matcher = pattern.matcher(name);
 
-        while (iterator.hasNext()) {
-            ResConfig config = iterator.next();
-            String language = config.getLanguage();
-
-            if (language != null && !language.isEmpty()) {
-                if (result.indexOf(language) == -1) {
-                    if (result.length() > 0) result.append(", ");
-                    result.append(language);
-                }
+            if (matcher.matches()) {
+                result.add(matcher.group(1));
             }
         }
 
         return result.toString();
     }
 
+    private String getLanguage() {
+        StringJoiner result = new StringJoiner(", ");
+
+        Pattern pattern = Pattern.compile(
+                ".*\\.(af|am|ar|as|az|be|bg|bn|bs|ca|cs|da|de|el|en|es|et|eu|fa|fi|fr|gl|gu|he|hi|hr|hu|hy|id|is|it|ja|ka|kk|km|kn|ko|ky|lo|lt|lv|mk|ml|mn|mr|ms|my|nb|ne|nl|or|pa|pl|pt|ro|ru|si|sk|sl|sq|sr|sv|sw|ta|te|th|tl|tr|uk|ur|uz|vi|zh|zu)$"
+        );
+
+        for (String name : mergedFileName) {
+            Matcher matcher = pattern.matcher(name);
+
+            if (matcher.matches()) {
+                result.add(matcher.group(1));
+            }
+        }
+
+        return result.toString();
+    }
     private int getResourceCount(ApkModule apkModule) {
         if (apkModule == null || !apkModule.hasTableBlock()) {
             return 0;
