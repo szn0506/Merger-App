@@ -13,7 +13,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class ProcessingManager {
-    private static final String KEY_OUTPUT_DIRECTORY_PATH = "output_directory_path"; //NON-NLS
+    private static final String KEY_OUTPUT_DIRECTORY_PATH = "output_directory_path";
+    private static final String KEY_OUTPUT_DIRECTORY_URI = "output_directory_uri";
+    private static final String KEY_USE_URI_DIRECTORY = "use_uri_directory";
     private static final String KEY_FORMAT_NAME = "format_name"; //NON-NLS
     private static final String KEY_COMPRESSION_LEVEL = "compression_level"; //NON-NLS
     private static final String KEY_KEEP_ORIGINAL_NAME = "is_keep_original_file_name";
@@ -32,12 +34,28 @@ public class ProcessingManager {
     private static final String KEY_SUFFIX = "suffix";
     private static final String KEY_SAVE_TO_ORIGINAL_PATH = "save_to_original_path";
     private static final String KEY_FORMAT_ORDER = "format_name_order";
+
     public static String getDirPath(Context context) {
         return PrefsManager.getInstance(context).getString(KEY_OUTPUT_DIRECTORY_PATH, ""); //NON-NLS
     }
 
     public static void saveDirPath(Context context, String value) {
         PrefsManager.getInstance(context).saveString(KEY_OUTPUT_DIRECTORY_PATH, value);
+    }
+
+    public static boolean isUsingUriDir(Context context) {
+        return PrefsManager.getInstance(context).getBoolean(KEY_USE_URI_DIRECTORY, false);
+    }
+
+    public static void setUsingUriDir(Context context, boolean value) {
+        PrefsManager.getInstance(context).saveBoolean(KEY_USE_URI_DIRECTORY, value);
+    }
+    public static String getDirUri(Context context) {
+        return PrefsManager.getInstance(context).getString(KEY_OUTPUT_DIRECTORY_URI, ""); //NON-NLS
+    }
+
+    public static void saveDirUri(Context context, String value) {
+        PrefsManager.getInstance(context).saveString(KEY_OUTPUT_DIRECTORY_URI, value);
     }
 
     public static String isExtractNativeLibs(Context context) {

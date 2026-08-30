@@ -2,9 +2,12 @@ package com.szn.merger;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.DocumentsContract;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -20,7 +23,10 @@ import com.szn.merger.Utils.Processing.ProcessingManager;
 import com.szn.merger.Utils.Utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class MergeTaskManager {
 
@@ -243,10 +249,63 @@ public class MergeTaskManager {
             inputFile = new File(path);
         }
 
-        String outputDir = ProcessingManager.isSaveToOriginalPathEnabled(activity) ? inputFile.getParent() : ProcessingManager.getDirPath(activity);
-        File tempOutput = new File(outputDir, ".temp_merged.apk");
+        File tempOutput;
+        // for uri
+        if (ProcessingManager.isUsingUriDir(activity)) {
+            tempOutput = new File(
+                    activity.getCacheDir(),
+                    ".temp_merged.apk"
+            );
+        } else {
+            // for path
+            String outputDir = ProcessingManager.isSaveToOriginalPathEnabled(activity)
+                    ? inputFile.getParent()
+                    : ProcessingManager.getDirPath(activity);
+
+            tempOutput = new File(outputDir, ".temp_merged.apk");
+        }
 
         runMerge(inputFile, tempOutput);
+    }
+
+    public static void copyToUri(
+            Context context,
+            File source,
+            Uri treeUri,
+            String fileName
+    ) throws IOException {
+
+        Uri parentUri = DocumentsContract.buildDocumentUriUsingTree(
+                treeUri,
+                DocumentsContract.getTreeDocumentId(treeUri)
+        );
+
+        Uri outputUri = DocumentsContract.createDocument(
+                context.getContentResolver(),
+                parentUri,
+                "application/vnd.android.package-archive",
+                fileName
+        );
+
+        if (outputUri == null) {
+            throw new IOException("Failed to create output file");
+        }
+
+        try (InputStream in = new FileInputStream(source);
+             OutputStream out = context.getContentResolver()
+                     .openOutputStream(outputUri)) {
+
+            if (out == null) {
+                throw new IOException("Failed to open output stream");
+            }
+
+            byte[] buffer = new byte[8192];
+            int len;
+
+            while ((len = in.read(buffer)) != -1) {
+                out.write(buffer, 0, len);
+            }
+        }
     }
 
     public static void stopMerge() {
@@ -328,13 +387,38 @@ public class MergeTaskManager {
 
                 String outputName = ProcessingManager.getFinalOutputName(activity, baseName);
 
-                finalOutput = new File(ProcessingManager.isSaveToOriginalPathEnabled(activity) ? input.getParent() : ProcessingManager.getDirPath(activity), outputName);
+                if (ProcessingManager.isUsingUriDir(activity)) {
 
-                if (finalOutput.exists() && !finalOutput.delete())
-                    throw new IOException("Failed to delete existing output: " + finalOutput);
+                    Uri treeUri = Uri.parse(ProcessingManager.getDirUri(activity));
 
-                if (!tempOutput.renameTo(finalOutput))
-                    throw new IOException("Failed to rename merged APK to: " + finalOutput.getAbsolutePath());
+                    copyToUri(
+                            activity,
+                            tempOutput,
+                            treeUri,
+                            outputName
+                    );
+
+                    finalOutput = tempOutput;
+
+                } else {
+
+                    File outputDir = new File(ProcessingManager.isSaveToOriginalPathEnabled(activity) ? input.getParent() : ProcessingManager.getDirPath(activity));
+
+                    finalOutput = new File(outputDir, outputName);
+
+                    if (finalOutput.exists() && !finalOutput.delete()) {
+                        throw new IOException(
+                                "Failed to delete existing output: " + finalOutput
+                        );
+                    }
+
+                    if (!tempOutput.renameTo(finalOutput)) {
+                        throw new IOException(
+                                "Failed to rename merged APK to: "
+                                        + finalOutput.getAbsolutePath()
+                        );
+                    }
+                }
 
                 merger.logSavedFile(finalOutput);
 
@@ -342,22 +426,21 @@ public class MergeTaskManager {
 
                 activity.runOnUiThread(() -> {
                     scrollCard.postDelayed(() -> {
-                        Utils.toast(activity, "Success: " + finalOutput.getName());
-                        AutoInstallManager.setupCall(activity, finalOutput, packageName);
+                        Utils.toast(activity, "Success: " + outputName);
+
+                        AutoInstallManager.setupCall(
+                                activity,
+                                finalOutput,
+                                packageName
+                        );
 
                         if (listener != null)
                             listener.onMergeCompleted();
+
                     }, 300);
                 });
-
-            } catch (Exception e) {
-                if (tempOutput.exists())
-                    tempOutput.delete();
-
-                activity.runOnUiThread(() -> {
-                    if (e.getMessage() != null && !"Merge stopped".equals(e.getMessage()))
-                        Utils.toast(activity, "Error: " + e.getMessage());
-                });
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }).start();
     }

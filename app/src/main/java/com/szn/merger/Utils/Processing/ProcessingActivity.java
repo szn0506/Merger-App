@@ -1,5 +1,7 @@
 package com.szn.merger.Utils.Processing;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,6 +10,8 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,12 +31,33 @@ import com.szn.merger.Utils.RadioAdapter;
 import java.util.Arrays;
 
 public class ProcessingActivity extends AppCompatActivity {
-    private MaterialToolbar toolbar;
+    MaterialToolbar toolbar;
     MaterialCardView outputDir, prefixSuffix, compressionLevel;
     CustomSwitchItem extractNativeLibs;
     TextView currentPath, currentFormatName, currentCompressionLevel;
     FormatNameReorderAdapter formatNameReorderAdapter;
+    private Uri folderUri;
+    private TextInputEditText pathInput;
+    private final ActivityResultLauncher<Intent> folderPicker =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == RESULT_OK
+                                && result.getData() != null) {
 
+                            Uri uri = result.getData().getData();
+
+                            if (uri != null) {
+                                int takeFlags = result.getData().getFlags()
+                                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+                                getContentResolver().takePersistableUriPermission(uri, takeFlags);
+
+                                folderUri = uri;
+                                pathInput.setText(uri.toString());
+                            }                        }
+                    });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeManager.applyTheme(this);
@@ -63,9 +88,22 @@ public class ProcessingActivity extends AppCompatActivity {
     }
 
     private void loadState() {
-        currentPath.setText(ProcessingManager.isSaveToOriginalPathEnabled(this) ? getString(R.string.save_to_original_path_preview) : ProcessingManager.getDirPath(this));
-        currentFormatName.setText(getString(R.string.preview_format) + ": " + ProcessingManager.getFormatName(this));
-        currentCompressionLevel.setText(String.valueOf(ProcessingManager.getCompressionLevel(this)));
+        if (ProcessingManager.isSaveToOriginalPathEnabled(this)) {
+            currentPath.setText(R.string.save_to_original_path_preview);
+        } else if (ProcessingManager.isUsingUriDir(this)) {
+            currentPath.setText(ProcessingManager.getDirUri(this));
+        } else {
+            currentPath.setText(ProcessingManager.getDirPath(this));
+        }
+
+        currentFormatName.setText(
+                getString(R.string.preview_format) + ": "
+                        + ProcessingManager.getFormatName(this)
+        );
+
+        currentCompressionLevel.setText(
+                String.valueOf(ProcessingManager.getCompressionLevel(this))
+        );
     }
 
     private void showCompressionLevelDialog() {
@@ -99,14 +137,61 @@ public class ProcessingActivity extends AppCompatActivity {
         });
     }
 
+    private void animateClearButton(ImageButton button, boolean show) {
+        if (show) {
+            button.setVisibility(View.VISIBLE);
+            button.setAlpha(0f);
+            button.setScaleX(0.8f);
+            button.setScaleY(0.8f);
+
+            button.animate()
+                    .alpha(1f)
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(150)
+                    .start();
+        } else {
+            button.animate()
+                    .alpha(0f)
+                    .scaleX(0.8f)
+                    .scaleY(0.8f)
+                    .setDuration(150)
+                    .withEndAction(() -> button.setVisibility(View.GONE))
+                    .start();
+        }
+    }
     private void showPathDirDialog() {
         View view = getLayoutInflater().inflate(R.layout.output_path_dialog, null);
 
         TextInputEditText input = view.findViewById(R.id.input);
+        pathInput = input;
+        ImageButton btnClear = view.findViewById(R.id.btnClear);
+        ImageButton btnFolder = view.findViewById(R.id.btnFolder);
+
+
+        btnFolder.setOnClickListener(v -> {;
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+
+            intent.addFlags(
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                            | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+            );
+
+            folderPicker.launch(intent);
+        });
+
+        btnClear.setOnClickListener(v -> input.setText(""));
         MaterialButton btnConfirm = view.findViewById(R.id.buttonConfirm);
         MaterialButton btnCancel = view.findViewById(R.id.buttonCancel);
         CustomSwitchItem saveToOriginalPath = view.findViewById(R.id.saveToOriginalPath);
-        input.setText(!ProcessingManager.isSaveToOriginalPathEnabled(this) ? ProcessingManager.getDirPath(this) : "");
+        if (ProcessingManager.isSaveToOriginalPathEnabled(this)) {
+            input.setText("");
+        } else if (ProcessingManager.isUsingUriDir(this)) {
+            input.setText(ProcessingManager.getDirUri(this));
+        } else {
+            input.setText(ProcessingManager.getDirPath(this));
+        };
         final boolean[] saveOriginal = {
                 ProcessingManager.isSaveToOriginalPathEnabled(this)
         };
@@ -122,7 +207,6 @@ public class ProcessingActivity extends AppCompatActivity {
                 input.setText("");
             }
         });
-
         input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -134,6 +218,10 @@ public class ProcessingActivity extends AppCompatActivity {
                     saveToOriginalPath.setChecked(false);
                 } else if (s.length() == 0) {
                     saveToOriginalPath.setChecked(true);
+                }
+                animateClearButton(btnClear, s.length() > 0);
+                if (folderUri != null && !s.toString().equals(folderUri.toString())) {
+                    folderUri = null;
                 }
             }
 
@@ -161,15 +249,19 @@ public class ProcessingActivity extends AppCompatActivity {
         btnConfirm.setOnClickListener(v -> {
             String path = input.getText().toString().trim();
 
-            if (!path.isEmpty() && !ProcessingManager.isSaveToOriginalPathEnabled(this)) {
-                ProcessingManager.saveDirPath(this, path);
-                currentPath.setText(path);
+            if (path.isEmpty()) return;
+
+            if (folderUri != null) {
+                ProcessingManager.saveDirUri(this, folderUri.toString());
+                ProcessingManager.setUsingUriDir(this, true);
             } else {
-                currentPath.setText(R.string.save_to_original_path_preview);
+                ProcessingManager.saveDirPath(this, path);
+                ProcessingManager.setUsingUriDir(this, false);
             }
 
+            currentPath.setText(path);
             dialog.dismiss();
-        });
+        });;
     }
 
     private void showFormatNameBottomSheet() {
