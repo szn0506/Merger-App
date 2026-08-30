@@ -22,6 +22,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.szn.merger.CustomSwitchItem;
 import com.szn.merger.R;
 import com.szn.merger.ThemeManager;
@@ -164,24 +165,25 @@ public class ProcessingActivity extends AppCompatActivity {
         View view = getLayoutInflater().inflate(R.layout.output_path_dialog, null);
 
         TextInputEditText input = view.findViewById(R.id.input);
+        TextInputLayout inputLayout = view.findViewById(R.id.inputLayout);
         pathInput = input;
-        ImageButton btnClear = view.findViewById(R.id.btnClear);
-        ImageButton btnFolder = view.findViewById(R.id.btnFolder);
+//        ImageButton btnClear = view.findViewById(R.id.btnClear);
+        //ImageButton btnFolder = view.findViewById(R.id.btnFolder);
 
 
-        btnFolder.setOnClickListener(v -> {;
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+//        btnFolder.setOnClickListener(v -> {;
+//            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+//
+//            intent.addFlags(
+//                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+//                            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+//                            | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+//            );
+//
+//            folderPicker.launch(intent);
+//        });
 
-            intent.addFlags(
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION
-                            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                            | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-            );
-
-            folderPicker.launch(intent);
-        });
-
-        btnClear.setOnClickListener(v -> input.setText(""));
+        //btnClear.setOnClickListener(v -> input.setText(""));
         MaterialButton btnConfirm = view.findViewById(R.id.buttonConfirm);
         MaterialButton btnCancel = view.findViewById(R.id.buttonCancel);
         CustomSwitchItem saveToOriginalPath = view.findViewById(R.id.saveToOriginalPath);
@@ -214,12 +216,15 @@ public class ProcessingActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0 && saveOriginal[0]) {
+
+                if (s.length() > 0) {
                     saveToOriginalPath.setChecked(false);
-                } else if (s.length() == 0) {
+                } else {
                     saveToOriginalPath.setChecked(true);
                 }
-                animateClearButton(btnClear, s.length() > 0);
+
+                updateEndIcon(inputLayout, input);
+
                 if (folderUri != null && !s.toString().equals(folderUri.toString())) {
                     folderUri = null;
                 }
@@ -229,6 +234,7 @@ public class ProcessingActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+        updateEndIcon(inputLayout, input);
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(view)
@@ -262,6 +268,33 @@ public class ProcessingActivity extends AppCompatActivity {
             currentPath.setText(path);
             dialog.dismiss();
         });;
+    }
+
+    private void updateEndIcon(
+            TextInputLayout inputLayout,
+            TextInputEditText input
+    ) {
+        if (input.length() > 0) {
+
+            inputLayout.setEndIconMode(TextInputLayout.END_ICON_CLEAR_TEXT);
+
+        } else {
+
+            inputLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+            inputLayout.setEndIconDrawable(R.drawable.ic_folder);
+
+            inputLayout.setEndIconOnClickListener(v -> {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+
+                intent.addFlags(
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                                | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                );
+
+                folderPicker.launch(intent);
+            });
+        }
     }
 
     private void showFormatNameBottomSheet() {

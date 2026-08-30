@@ -37,22 +37,25 @@
             app:itemTitle="@string/save_to_original_file_location"/>
     </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.Merger.TextInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:boxBackgroundMode="outline"
-        android:layout_marginTop="10dp"
-        app:endIconMode="clear_text">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayout"
+            style="@style/Widget.Merger.TextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/custom_directory_path"
-            android:singleLine="true" />
+            android:layout_marginTop="20dp"
+            app:boxBackgroundMode="outline"
+            app:tint="?attr/colorOnSurface">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/custom_directory_path"
+                android:singleLine="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
