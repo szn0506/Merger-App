@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -69,7 +69,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/signing_desc"
                 android:textSize="14sp"
-                android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"/>
 
             <com.google.android.material.card.MaterialCardView
@@ -93,11 +92,10 @@
                         android:src="@drawable/ic_sign" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="16dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -185,7 +183,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:nestedScrollingEnabled="false"
-                android:overScrollMode="never"/>
+                android:overScrollMode="never"
+                tools:listitem="@layout/item_keystore"
+                tools:itemCount="3"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"

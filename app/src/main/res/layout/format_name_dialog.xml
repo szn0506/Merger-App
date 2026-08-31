@@ -208,7 +208,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="App Information"
+                android:text="@string/app_information"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -261,7 +261,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Device Configuration"
+                android:text="@string/device_configuration"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -314,7 +314,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Signing"
+                android:text="@string/signing"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -352,7 +352,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Other"
+                android:text="@string/other"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -397,7 +397,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Reorder"
+                    android:text="@string/reorder"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
