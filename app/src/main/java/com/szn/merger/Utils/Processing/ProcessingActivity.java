@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -292,38 +293,51 @@ public class ProcessingActivity extends AppCompatActivity {
                                 | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
                 );
 
-                folderPicker.launch(intent);
+                    folderPicker.launch(intent);
             });
         }
     }
 
     private void showFormatNameBottomSheet() {
         View view = this.getLayoutInflater().inflate(R.layout.format_name_dialog, null);
+
         TextInputEditText prefix = view.findViewById(R.id.inputPrefix);
         TextInputEditText suffix = view.findViewById(R.id.inputSuffix);
-        MaterialButton cancel = view.findViewById(R.id.buttonCancel);
-        MaterialButton confirm = view.findViewById(R.id.buttonConfirm);
+
         CustomSwitchItem keepOriginalName = view.findViewById(R.id.keepFileOriginalName),
-        packageName = view.findViewById(R.id.packageName),
-        versionName = view.findViewById(R.id.versionName),
-        versionCode = view.findViewById(R.id.versionCode),
-        ABI = view.findViewById(R.id.ABI),
-        DPI = view.findViewById(R.id.DPI),
-        LANGUAGE = view.findViewById(R.id.LANGUAGE),
-        signingStatus = view.findViewById(R.id.signingStatus),
-        signingSchemes = view.findViewById(R.id.signingSchemes),
-        timestamp = view.findViewById(R.id.timestamp),
-        sdkVersions = view.findViewById(R.id.sdkVersions);
+                packageName = view.findViewById(R.id.packageName),
+                versionName = view.findViewById(R.id.versionName),
+                versionCode = view.findViewById(R.id.versionCode),
+                ABI = view.findViewById(R.id.ABI),
+                DPI = view.findViewById(R.id.DPI),
+                LANGUAGE = view.findViewById(R.id.LANGUAGE),
+                signingStatus = view.findViewById(R.id.signingStatus),
+                signingSchemes = view.findViewById(R.id.signingSchemes),
+                timestamp = view.findViewById(R.id.timestamp),
+                sdkVersions = view.findViewById(R.id.sdkVersions);
+
         TextView previewText = view.findViewById(R.id.preview);
-        ImageButton reset = view.findViewById(R.id.resetOrder);
+        ImageButton reset = view.findViewById(R.id.resetOrder),
+                close = view.findViewById(R.id.buttonClose);
 
         RecyclerView recyclerView = view.findViewById(R.id.reorderList);
         formatNameReorderAdapter = new FormatNameReorderAdapter(this);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(formatNameReorderAdapter);
         formatNameReorderAdapter.attachDragSupport(recyclerView);
-        formatNameReorderAdapter.setOnOrderChangedListener(() -> previewText.setText(refreshFormatPreview()));
-        // restore state
+
+        Runnable saveAndRefresh = () -> {
+            String format = refreshFormatPreview();
+            ProcessingManager.saveFormatName(this, format);
+            currentFormatName.setText(getString(R.string.preview_format) + ": " + format);
+            previewText.setText(format);
+        };
+
+        formatNameReorderAdapter.setOnOrderChangedListener(() -> {
+            saveAndRefresh.run();
+        });
+
         keepOriginalName.setChecked(ProcessingManager.isKeepOriginalNameEnabled(this));
         packageName.setChecked(ProcessingManager.isAppendPackageNameEnabled(this));
         versionName.setChecked(ProcessingManager.isAppendVersionNameEnabled(this));
@@ -340,132 +354,136 @@ public class ProcessingActivity extends AppCompatActivity {
         suffix.setText(ProcessingManager.getSuffix(this));
 
         previewText.setText(refreshFormatPreview());
-        // init
+
         keepOriginalName.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ProcessingManager.setKeepOriginalName(this, isChecked);
             updateState(keepOriginalName);
             formatNameReorderAdapter.checkEnabledItems();
-            previewText.setText(refreshFormatPreview());
+            saveAndRefresh.run();
         });
 
         packageName.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ProcessingManager.setAppendPackageName(this, isChecked);
             updateState(keepOriginalName);
             formatNameReorderAdapter.checkEnabledItems();
-            previewText.setText(refreshFormatPreview());
+            saveAndRefresh.run();
         });
 
         versionName.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ProcessingManager.setAppendVersionName(this, isChecked);
             updateState(keepOriginalName);
             formatNameReorderAdapter.checkEnabledItems();
-            previewText.setText(refreshFormatPreview());
+            saveAndRefresh.run();
         });
 
         versionCode.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ProcessingManager.setAppendVersioncode(this, isChecked);
             updateState(keepOriginalName);
             formatNameReorderAdapter.checkEnabledItems();
-            previewText.setText(refreshFormatPreview());
+            saveAndRefresh.run();
         });
 
         ABI.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ProcessingManager.setAppendABI(this, isChecked);
             updateState(keepOriginalName);
             formatNameReorderAdapter.checkEnabledItems();
-            previewText.setText(refreshFormatPreview());
+            saveAndRefresh.run();
         });
 
         DPI.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ProcessingManager.setAppendDPI(this, isChecked);
             updateState(keepOriginalName);
             formatNameReorderAdapter.checkEnabledItems();
-            previewText.setText(refreshFormatPreview());
+            saveAndRefresh.run();
         });
 
         LANGUAGE.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ProcessingManager.setAppendLanguage(this, isChecked);
             updateState(keepOriginalName);
             formatNameReorderAdapter.checkEnabledItems();
-            previewText.setText(refreshFormatPreview());
+            saveAndRefresh.run();
         });
 
         signingStatus.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ProcessingManager.setAppendSigningStatus(this, isChecked);
             updateState(keepOriginalName);
             formatNameReorderAdapter.checkEnabledItems();
-            previewText.setText(refreshFormatPreview());
+            saveAndRefresh.run();
         });
 
         signingSchemes.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ProcessingManager.setAppendSigningSchemes(this, isChecked);
             updateState(keepOriginalName);
             formatNameReorderAdapter.checkEnabledItems();
-            previewText.setText(refreshFormatPreview());
+            saveAndRefresh.run();
         });
 
         timestamp.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ProcessingManager.setAppendTimestamp(this, isChecked);
             updateState(keepOriginalName);
             formatNameReorderAdapter.checkEnabledItems();
-            previewText.setText(refreshFormatPreview());
+            saveAndRefresh.run();
         });
 
         sdkVersions.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ProcessingManager.setAppendSDKVersions(this, isChecked);
             updateState(keepOriginalName);
             formatNameReorderAdapter.checkEnabledItems();
-            previewText.setText(refreshFormatPreview());
+            saveAndRefresh.run();
         });
 
         prefix.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                ProcessingManager.setPrefix(ProcessingActivity.this, charSequence.toString());
-                previewText.setText(refreshFormatPreview());
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                ProcessingManager.setPrefix(ProcessingActivity.this, s.toString());
+                saveAndRefresh.run();
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-
+            public void afterTextChanged(Editable s) {
             }
         });
 
         suffix.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                ProcessingManager.setSuffix(ProcessingActivity.this, charSequence.toString());
-                previewText.setText(refreshFormatPreview());
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                ProcessingManager.setSuffix(ProcessingActivity.this, s.toString());
+                saveAndRefresh.run();
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-
+            public void afterTextChanged(Editable s) {
             }
         });
 
-        reset.setOnClickListener(v -> formatNameReorderAdapter.resetOrder());
+        reset.setOnClickListener(v -> {
+            formatNameReorderAdapter.resetOrder();
+            saveAndRefresh.run();
+        });
 
         BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(view);
         dialog.show();
+        close.setOnClickListener(v -> dialog.dismiss());
+        View bottomSheet = dialog.findViewById(
+                com.google.android.material.R.id.design_bottom_sheet
+        );
 
-        cancel.setOnClickListener( v -> dialog.dismiss());
-        confirm.setOnClickListener(v -> {
-                ProcessingManager.saveFormatName(this, refreshFormatPreview());
-                currentFormatName.setText((refreshFormatPreview()));
-                dialog.dismiss();
-        });
+        if (bottomSheet != null) {
+            BottomSheetBehavior<View> behavior =
+                    BottomSheetBehavior.from(bottomSheet);
+
+            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            behavior.setSkipCollapsed(true);
+        }
     }
     void updateState(CustomSwitchItem keepOriginalName) {
         boolean isAnyFeatureEnabled =
