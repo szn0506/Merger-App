@@ -108,9 +108,10 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/label_abi"
+                            android:maxLines="1"
                             android:textStyle="bold"
                             android:textSize="17sp"/>
                     </LinearLayout>
@@ -133,7 +134,10 @@
                                 android:id="@+id/ABImode_placeholder"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/mode_from_device"
+                                android:maxLines="1"
+                                android:maxWidth="100dp"
+                                android:ellipsize="end"
+                                android:text="@string/mode_disabled"
                                 android:textSize="14sp"/>
 
                             <ImageView
@@ -176,9 +180,10 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/label_dpi"
+                            android:maxLines="1"
                             android:textStyle="bold"
                             android:textSize="17sp"/>
                     </LinearLayout>
@@ -201,6 +206,9 @@
                                 android:id="@+id/DPImode_placeholder"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:maxWidth="100dp"
+                                android:ellipsize="end"
                                 android:textSize="14sp"
                                 android:text="@string/mode_from_device"/>
 
@@ -244,10 +252,11 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/label_language"
                             android:textStyle="bold"
+                            android:maxLines="1"
                             android:textSize="17sp"/>
                     </LinearLayout>
 
@@ -269,8 +278,11 @@
                                 android:id="@+id/LANGUAGEmode_placeholder"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/mode_from_device"
-                                android:textSize="14sp"/>
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:maxWidth="100dp"
+                                android:text="@string/mode_custom"
+                                android:textSize="14sp" />
 
                             <ImageView
                                 android:layout_width="20dp"

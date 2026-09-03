@@ -22,13 +22,31 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.ViewHo
 
     private final List<String> items;
     private final OnItemSelectedListener listener;
-
+    private final List<String> originalItems;
     private final Set<String> checkedItems = new HashSet<>();
 
     public CheckBoxAdapter(List<String> items, OnItemSelectedListener listener) {
         this.items = new ArrayList<>(items);
-
+        this.originalItems = new ArrayList<>(items);
         this.listener = listener;
+    }
+
+    public void filter(String query) {
+        items.clear();
+
+        if (query == null || query.trim().isEmpty()) {
+            items.addAll(originalItems);
+        } else {
+            String search = query.toLowerCase().trim();
+
+            for (String item : originalItems) {
+                if (item.toLowerCase().contains(search)) {
+                    items.add(item);
+                }
+            }
+        }
+
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -95,6 +113,17 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.ViewHo
         return checkedItems.size();
     }
 
+    public void setCheckedItems(List<String> values) {
+        checkedItems.clear();
+
+        for (String value : values) {
+            if (items.contains(value)) {
+                checkedItems.add(value);
+            }
+        }
+
+        notifyDataSetChanged();
+    }
     public void toggleSelectAll() {
         if (checkedItems.size() == items.size()) {
             checkedItems.clear();

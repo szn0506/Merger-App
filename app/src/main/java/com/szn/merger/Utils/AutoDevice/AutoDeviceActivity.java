@@ -28,7 +28,6 @@ import com.szn.merger.CustomSwitchItem;
 import com.szn.merger.R;
 import com.szn.merger.ThemeManager;
 import com.szn.merger.Utils.CheckBoxAdapter;
-import com.szn.merger.Utils.RadioAdapter;
 import com.szn.merger.Utils.Utils;
 
 import java.util.Arrays;
@@ -38,15 +37,15 @@ import java.util.concurrent.CountDownLatch;
 public class AutoDeviceActivity extends AppCompatActivity {
     BottomSheetDialog bottomSheetDialog;
     private RecyclerView recyclerCustom;
-    TextView title, ABIMode, DPIMode, LANGUAGEMode;
+    TextView title, ABIMode, DPIMode, LANGUAGEMode, customPlaceholder;
     EditText textOnSearch;
-    ImageButton backButton;
+    ImageButton backButton, nextButton;
     MaterialToolbar toolbar;
     View universalPage, customPage;
     public static int currentCaller;
+    private CheckBoxAdapter customAdapter;
     MaterialRadioButton disabledRadio, fromDeviceRadio, customRadio;
     CustomSwitchItem autoDetect, autoConfig;
-
     LinearLayout ABILinear, DPILinear, LANGUAGELinear;
     MaterialCardView gotoABI, gotoDPI, gotoLANGUAGE;
 
@@ -78,6 +77,7 @@ public class AutoDeviceActivity extends AppCompatActivity {
         LANGUAGEMode = findViewById(R.id.LANGUAGEmode_placeholder);
         toolbar = findViewById(R.id.toolbar);
     }
+
     private void loadState() {
         autoDetect.setChecked(isAutoDetectEnabled(this));
         autoConfig.setChecked(isAutoConfigEnabled(this));
@@ -101,6 +101,28 @@ public class AutoDeviceActivity extends AppCompatActivity {
 
             case AutoDeviceManager.MODE_FROM_DEVICE:
                 placeholder.setText(R.string.mode_from_device);
+                break;
+
+            case AutoDeviceManager.MODE_CUSTOM:
+                List<String> customModes =
+                        AutoDeviceManager.getCustomModes(this, caller);
+
+                if (customModes.isEmpty()) {
+                    AutoDeviceManager.saveMode(
+                            this,
+                            caller,
+                            AutoDeviceManager.MODE_DISABLED
+                    );
+
+                    placeholder.setText(R.string.mode_disabled);
+                } else {
+                    placeholder.setText(
+                            getString(
+                                    R.string.custom_mode,
+                                    android.text.TextUtils.join(", ", customModes)
+                            )
+                    );
+                }
                 break;
 
             default:
@@ -140,40 +162,70 @@ public class AutoDeviceActivity extends AppCompatActivity {
     }
 
     private void showUniversalBottomSheet() {
-        AutoDeviceManager.getMode(this, currentCaller);
         bottomSheetDialog = new BottomSheetDialog(this);
         View bottomSheetView = LayoutInflater.from(this).inflate(R.layout.auto_device_bottom_sheet, null);
         bottomSheetDialog.setContentView(bottomSheetView);
 
+        MaterialCardView disabledCard = bottomSheetView.findViewById(R.id.disabledCard),
+                fromDeviceCard = bottomSheetView.findViewById(R.id.fromDeviceCard),
+                customCard = bottomSheetView.findViewById(R.id.customCard);
+
         universalPage = bottomSheetView.findViewById(R.id.universalPage);
         customPage = bottomSheetView.findViewById(R.id.customPage);
+
         title = bottomSheetView.findViewById(R.id.text_placeholder);
         textOnSearch = bottomSheetView.findViewById(R.id.search_placeholder);
         backButton = bottomSheetView.findViewById(R.id.backButton);
-        customRadio = bottomSheetView.findViewById(R.id.radioCustom);
+        nextButton = bottomSheetView.findViewById(R.id.nextCustom);
+        nextButton.setOnClickListener(v -> customCard.performClick());
         recyclerCustom = bottomSheetView.findViewById(R.id.recyclerCustom);
+        customPlaceholder = bottomSheetView.findViewById(R.id.customSubtitle);
+        customRadio = bottomSheetView.findViewById(R.id.radioCustom);
         disabledRadio = bottomSheetView.findViewById(R.id.radioDisabled);
         fromDeviceRadio = bottomSheetView.findViewById(R.id.radioFromdevice);
 
+        customRadio.setOnClickListener(v -> customCard.performClick());
+        disabledRadio.setOnClickListener(v -> disabledCard.performClick());
+        fromDeviceRadio.setOnClickListener(v -> fromDeviceCard.performClick());
+
+
         restoreRadioState();
         bottomSheetDialog.show();
-        customRadio.setOnClickListener(v -> {
-            customRadio.setChecked(false);
-            showCustomPage();
-        });
 
-        disabledRadio.setOnClickListener(v -> {
+        disabledCard.setOnClickListener(v -> {
+            disabledRadio.setChecked(true);
+            fromDeviceRadio.setChecked(false);
+            customRadio.setChecked(false);
+
             selectMode(
                     AutoDeviceManager.MODE_DISABLED,
                     getString(R.string.mode_disabled)
             );
         });
 
-        fromDeviceRadio.setOnClickListener(v -> {
+        fromDeviceCard.setOnClickListener(v -> {
+            disabledRadio.setChecked(false);
+            fromDeviceRadio.setChecked(true);
+            customRadio.setChecked(false);
+
             selectMode(
                     AutoDeviceManager.MODE_FROM_DEVICE,
                     getString(R.string.mode_from_device)
             );
+        });
+        customCard.setOnClickListener(v -> {
+            showCustomPage();
+        });
+        bottomSheetDialog.setOnDismissListener(dialog -> {
+            if (customPage != null
+                    && customPage.getVisibility() == View.VISIBLE
+                    && customAdapter != null) {
+
+                List<String> customModes =
+                        customAdapter.getCheckedItems();
+
+                updateCustomUI(customModes);
+            }
         });
     }
 
@@ -237,56 +289,150 @@ public class AutoDeviceActivity extends AppCompatActivity {
             Thread.currentThread().interrupt();
         }
     }
+
+    private void updateCustomUI(List<String> customModes) {
+
+        if (customModes.isEmpty()) {
+            AutoDeviceManager.saveCustomModes(
+                    this,
+                    currentCaller,
+                    customModes
+            );
+
+            disabledRadio.setChecked(true);
+            fromDeviceRadio.setChecked(false);
+            customRadio.setChecked(false);
+
+            customPlaceholder.setText(R.string.choose_the_setting_manually);
+
+            AutoDeviceManager.saveMode(
+                    this,
+                    currentCaller,
+                    AutoDeviceManager.MODE_DISABLED
+            );
+
+            updateCurrentPlaceholder(
+                    getString(R.string.mode_disabled)
+            );
+
+            return;
+        }
+
+        AutoDeviceManager.saveCustomModes(
+                this,
+                currentCaller,
+                customModes
+        );
+
+        AutoDeviceManager.saveMode(
+                this,
+                currentCaller,
+                AutoDeviceManager.MODE_CUSTOM
+        );
+
+        String text = getString(
+                R.string.custom_mode,
+                android.text.TextUtils.join(", ", customModes)
+        );
+
+        disabledRadio.setChecked(false);
+        fromDeviceRadio.setChecked(false);
+        customRadio.setChecked(true);
+
+        customPlaceholder.setText(text);
+
+        updateCurrentPlaceholder(text);
+    }
+
     private void showCustomPage() {
         recyclerCustom.setLayoutManager(new LinearLayoutManager(this));
+
         universalPage.setVisibility(View.GONE);
         customPage.setVisibility(View.VISIBLE);
+
         String[] list;
 
         switch (currentCaller) {
             case AutoDeviceManager.ABI:
                 list = getResources().getStringArray(R.array.abi_list);
-                updateTextPlaceholder(title, textOnSearch, getString(R.string.label_abi));
+                updateTextPlaceholder(
+                        title,
+                        textOnSearch,
+                        getString(R.string.label_abi)
+                );
                 break;
+
             case AutoDeviceManager.DPI:
                 list = getResources().getStringArray(R.array.dpi_list);
-                updateTextPlaceholder(title, textOnSearch, getString(R.string.label_dpi));
+                updateTextPlaceholder(
+                        title,
+                        textOnSearch,
+                        getString(R.string.label_dpi)
+                );
                 break;
+
             case AutoDeviceManager.LANGUAGE:
                 list = getResources().getStringArray(R.array.language_list);
-                updateTextPlaceholder(title, textOnSearch, getString(R.string.label_language));
+                updateTextPlaceholder(
+                        title,
+                        textOnSearch,
+                        getString(R.string.label_language)
+                );
                 break;
+
             default:
                 list = new String[0];
+                break;
         }
 
-        RadioAdapter adapter = new RadioAdapter(Arrays.asList(list), (position, value) -> {
-            selectMode(value, getString(R.string.custom_mode, value));
-        });
+        final CheckBoxAdapter[] adapterRef = new CheckBoxAdapter[1];
 
-        String savedMode = AutoDeviceManager.getMode(this, currentCaller);
+        customAdapter = new CheckBoxAdapter(
+                Arrays.asList(list),
+                (position, value, selectedCount) -> {
 
-        if (!savedMode.equals(AutoDeviceManager.MODE_DISABLED)
-                && !savedMode.equals(AutoDeviceManager.MODE_FROM_DEVICE)) {
-            adapter.setSelectedValue(savedMode);
-        }
+                    List<String> customModes =
+                            adapterRef[0].getCheckedItems();
 
-        recyclerCustom.setAdapter(adapter);
-        Utils.animateTextChange(textOnSearch, recyclerCustom, 150, adapter::filter);
+                    AutoDeviceManager.saveCustomModes(
+                            this,
+                            currentCaller,
+                            customModes
+                    );
+                }
+        );
+        adapterRef[0] = customAdapter;
 
+        List<String> savedCustomModes =
+                AutoDeviceManager.getCustomModes(this, currentCaller);
+
+        customAdapter.setCheckedItems(savedCustomModes);
+
+        recyclerCustom.setAdapter(customAdapter);
+
+        Utils.animateTextChange(
+                textOnSearch,
+                recyclerCustom,
+                150,
+                customAdapter::filter
+        );
 
         backButton.setOnClickListener(v -> {
+
+            List<String> customModes = customAdapter.getCheckedItems();
+
+            updateCustomUI(customModes);
+
             universalPage.setVisibility(View.VISIBLE);
             customPage.setVisibility(View.GONE);
         });
     }
 
     private void restoreRadioState() {
-
         disabledRadio.setChecked(false);
         fromDeviceRadio.setChecked(false);
         customRadio.setChecked(false);
-        customRadio.setText(R.string.mode_custom);
+        customPlaceholder.setText(R.string.choose_the_setting_manually);
 
         String mode = AutoDeviceManager.getMode(this, currentCaller);
 
@@ -298,10 +444,19 @@ public class AutoDeviceActivity extends AppCompatActivity {
 
             fromDeviceRadio.setChecked(true);
 
-        } else if (!mode.isEmpty()) {
+        } else if (mode.equals(AutoDeviceManager.MODE_CUSTOM)) {
 
-            customRadio.setChecked(true);
-            customRadio.setText(getString(R.string.custom_mode, mode));
+            List<String> customModes = AutoDeviceManager.getCustomModes(this, currentCaller);
+
+            if (!customModes.isEmpty()) {
+                customRadio.setChecked(true);
+                customPlaceholder.setText(
+                        getString(
+                                R.string.custom_mode,
+                                android.text.TextUtils.join(", ", customModes)
+                        )
+                );
+            }
         }
     }
     private void selectMode(String value, String text) {
