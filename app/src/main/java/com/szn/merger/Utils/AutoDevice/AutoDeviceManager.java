@@ -21,7 +21,9 @@ public class AutoDeviceManager {
     private static final String KEY_ABI = "auto_device_abi";
     private static final String KEY_DPI = "auto_device_dpi";
     private static final String KEY_LANGUAGE = "auto_device_language";
-
+    private static final String KEY_FALLBACK_MODE = "fallback_mode";
+    public static final String FALLBACK_MODE_AVAILABLE = "available_splits";
+    public static final  String FALLBACK_MODE_DIALOG = "show_picker";
     private static final String KEY_ABI_CUSTOM = "auto_device_abi_custom";
     private static final String KEY_DPI_CUSTOM = "auto_device_dpi_custom";
     private static final String KEY_LANGUAGE_CUSTOM = "auto_device_language_custom";
@@ -67,7 +69,12 @@ public class AutoDeviceManager {
     public static String getMode(Context context, int caller) {
         return PrefsManager.getInstance(context).getString(getKey(caller), MODE_FROM_DEVICE);
     }
-
+    public static void saveFallbackMode(Context context, String value) {
+        PrefsManager.getInstance(context).saveString(KEY_FALLBACK_MODE, value);
+    }
+    public static String getFallbackMode(Context context) {
+        return PrefsManager.getInstance(context).getString(KEY_FALLBACK_MODE, FALLBACK_MODE_AVAILABLE);
+    }
     private static String getCustomKey(int caller) {
         switch (caller) {
             case ABI:

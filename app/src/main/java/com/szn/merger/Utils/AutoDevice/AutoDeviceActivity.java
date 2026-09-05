@@ -6,12 +6,17 @@ import static com.szn.merger.Utils.AutoDevice.AutoDeviceManager.listSplits;
 import static com.szn.merger.Utils.AutoDevice.AutoDeviceManager.selectedSplits;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -37,7 +42,7 @@ import java.util.concurrent.CountDownLatch;
 public class AutoDeviceActivity extends AppCompatActivity {
     BottomSheetDialog bottomSheetDialog;
     private RecyclerView recyclerCustom;
-    TextView title, ABIMode, DPIMode, LANGUAGEMode, customPlaceholder;
+    TextView title, ABIMode, DPIMode, LANGUAGEMode, customPlaceholder, currentFallbackOption;
     EditText textOnSearch;
     ImageButton backButton, nextButton;
     MaterialToolbar toolbar;
@@ -161,6 +166,26 @@ public class AutoDeviceActivity extends AppCompatActivity {
         });
     }
 
+    private void showFallbackPopup(View anchor) {
+        View view = this.getLayoutInflater().inflate(R.layout.fallback_dropdown, null);
+        View availableSplit = view.findViewById(R.id.availableSplit);
+        View splitPicker = view.findViewById(R.id.split_picker);
+        PopupWindow popupWindow = new PopupWindow(view, (int) (280 * this.getResources().getDisplayMetrics().density), ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setElevation(10 * this.getResources().getDisplayMetrics().density);
+        popupWindow.showAsDropDown(anchor, 0, 4, Gravity.END);
+        availableSplit.setOnClickListener(v -> {
+            AutoDeviceManager.saveFallbackMode(this, AutoDeviceManager.FALLBACK_MODE_AVAILABLE);
+            currentFallbackOption.setText(R.string.use_available_split);
+            popupWindow.dismiss();
+        });
+        splitPicker.setOnClickListener(v -> {
+            AutoDeviceManager.saveFallbackMode(this, AutoDeviceManager.FALLBACK_MODE_DIALOG);
+            currentFallbackOption.setText(R.string.show_split_selector);
+            popupWindow.dismiss();
+        });
+    }
     private void showUniversalBottomSheet() {
         bottomSheetDialog = new BottomSheetDialog(this);
         View bottomSheetView = LayoutInflater.from(this).inflate(R.layout.auto_device_bottom_sheet, null);
@@ -168,7 +193,10 @@ public class AutoDeviceActivity extends AppCompatActivity {
 
         MaterialCardView disabledCard = bottomSheetView.findViewById(R.id.disabledCard),
                 fromDeviceCard = bottomSheetView.findViewById(R.id.fromDeviceCard),
-                customCard = bottomSheetView.findViewById(R.id.customCard);
+                customCard = bottomSheetView.findViewById(R.id.customCard),
+                fallbackCard = bottomSheetView.findViewById(R.id.fallback);
+        currentFallbackOption = bottomSheetView.findViewById(R.id.currentFallbackOption);
+        fallbackCard.setOnClickListener(anchor -> showFallbackPopup(anchor));
 
         universalPage = bottomSheetView.findViewById(R.id.universalPage);
         customPage = bottomSheetView.findViewById(R.id.customPage);

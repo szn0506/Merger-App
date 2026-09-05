@@ -13,7 +13,7 @@
         android:paddingHorizontal="20dp"
         android:paddingVertical="16dp"
         android:visibility="visible"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <com.google.android.material.bottomsheet.BottomSheetDragHandleView
             android:id="@+id/handler"
@@ -201,7 +201,7 @@
         android:paddingHorizontal="20dp"
         android:paddingVertical="16dp"
         android:visibility="gone"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -259,6 +259,94 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/fallback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            style="@style/Widget.Card.RoundedMiddle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:tint="?attr/colorOnSurface"
+                    android:src="@drawable/ic_arrow_up_down" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fallback_option"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/currentFallbackOption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/choose_how_to_handle_unavailable_splits"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <ImageButton
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_back"
+                    android:background="@null"
+                    android:rotation="180"
+                    app:tint="?attr/colorOnSurface" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            style="@style/Widget.Card.RoundedMiddle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:tint="?attr/colorOnSurface"
+                    android:src="@drawable/ic_info" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:justificationMode="inter_word"
+                    android:text="@string/choose_whether_to_use_any_remaining_compatible_splits_as_a_fallback_or_show_the_split_selector_dialog"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerCustom"
             android:layout_width="match_parent"
@@ -267,7 +355,7 @@
             android:clipToPadding="false"
             android:paddingBottom="16dp"
             tools:listitem="@layout/item_checkbox"
-            tools:itemCount="5"/>
+            tools:itemCount="5" />
 
     </LinearLayout>
 
