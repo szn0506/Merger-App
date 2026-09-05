@@ -25,6 +25,7 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.ViewHo
     private final List<String> originalItems;
     private final Set<String> checkedItems = new HashSet<>();
     private final Set<String> disabledItems = new HashSet<>();
+    private long lastClickTime = 0;
 
     public CheckBoxAdapter(List<String> items, OnItemSelectedListener listener) {
         this.items = new ArrayList<>(items);
@@ -82,6 +83,15 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.ViewHo
             if (listener != null) {
                 listener.onItemSelected(position, value, checkedItems.size());
             }
+        });
+        holder.itemView.setOnClickListener(v -> {
+            long currentTime = System.currentTimeMillis();
+
+            if (currentTime - lastClickTime < 300) {
+                selectAll();
+            }
+
+            lastClickTime = currentTime;
         });
     }
 
