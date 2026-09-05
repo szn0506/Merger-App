@@ -147,10 +147,13 @@
     <string name="merge_details">Merge Details</string>
 
     <string-array name="abi_list">
+        <item>armeabi</item>
         <item>armeabi-v7a</item>
         <item>arm64-v8a</item>
         <item>x86</item>
         <item>x86_64</item>
+        <item>mips</item>
+        <item>mips64</item>
     </string-array>
 
     <string-array name="dpi_list">
@@ -166,81 +169,182 @@
     </string-array>
 
     <string-array name="language_list">
-        <item>af</item>
-        <item>am</item>
-        <item>ar</item>
-        <item>as</item>
-        <item>az</item>
-        <item>be</item>
-        <item>bg</item>
-        <item>bn</item>
-        <item>bs</item>
-        <item>ca</item>
-        <item>cs</item>
-        <item>da</item>
-        <item>de</item>
-        <item>el</item>
-        <item>en</item>
-        <item>es</item>
-        <item>et</item>
-        <item>eu</item>
-        <item>fa</item>
-        <item>fi</item>
-        <item>fr</item>
-        <item>gl</item>
-        <item>gu</item>
-        <item>he</item>
-        <item>hi</item>
-        <item>hr</item>
-        <item>hu</item>
-        <item>hy</item>
-        <item>id</item>
-        <item>is</item>
-        <item>it</item>
-        <item>ja</item>
-        <item>ka</item>
-        <item>kk</item>
-        <item>km</item>
-        <item>kn</item>
-        <item>ko</item>
-        <item>ky</item>
-        <item>lo</item>
-        <item>lt</item>
-        <item>lv</item>
-        <item>mk</item>
-        <item>ml</item>
-        <item>mn</item>
-        <item>mr</item>
-        <item>ms</item>
-        <item>my</item>
-        <item>nb</item>
-        <item>ne</item>
-        <item>nl</item>
-        <item>or</item>
-        <item>pa</item>
-        <item>pl</item>
-        <item>pt</item>
-        <item>ro</item>
-        <item>ru</item>
-        <item>si</item>
-        <item>sk</item>
-        <item>sl</item>
-        <item>sq</item>
-        <item>sr</item>
-        <item>sv</item>
-        <item>sw</item>
-        <item>ta</item>
-        <item>te</item>
-        <item>th</item>
-        <item>tl</item>
-        <item>tr</item>
-        <item>uk</item>
-        <item>ur</item>
-        <item>uz</item>
-        <item>vi</item>
-        <item>zh</item>
-        <item>zu</item>
+        <item>Abkhazian (ab)</item>
+        <item>Afar (aa)</item>
+        <item>Afrikaans (af)</item>
+        <item>Akan (ak)</item>
+        <item>Albanian (sq)</item>
+        <item>Amharic (am)</item>
+        <item>Arabic (ar)</item>
+        <item>Aragonese (an)</item>
+        <item>Armenian (hy)</item>
+        <item>Assamese (as)</item>
+        <item>Avaric (av)</item>
+        <item>Avestan (ae)</item>
+        <item>Aymara (ay)</item>
+        <item>Azerbaijani (az)</item>
+        <item>Bambara (bm)</item>
+        <item>Bashkir (ba)</item>
+        <item>Basque (eu)</item>
+        <item>Belarusian (be)</item>
+        <item>Bengali (bn)</item>
+        <item>Bihari languages (bh)</item>
+        <item>Bislama (bi)</item>
+        <item>Bosnian (bs)</item>
+        <item>Breton (br)</item>
+        <item>Bulgarian (bg)</item>
+        <item>Burmese (my)</item>
+        <item>Catalan (ca)</item>
+        <item>Chamorro (ch)</item>
+        <item>Chechen (ce)</item>
+        <item>Chinese (zh)</item>
+        <item>Church Slavic (cu)</item>
+        <item>Chuvash (cv)</item>
+        <item>Cornish (kw)</item>
+        <item>Corsican (co)</item>
+        <item>Cree (cr)</item>
+        <item>Croatian (hr)</item>
+        <item>Czech (cs)</item>
+        <item>Danish (da)</item>
+        <item>Divehi (dv)</item>
+        <item>Dutch (nl)</item>
+        <item>Dzongkha (dz)</item>
+        <item>English (en)</item>
+        <item>Esperanto (eo)</item>
+        <item>Estonian (et)</item>
+        <item>Ewe (ee)</item>
+        <item>Faroese (fo)</item>
+        <item>Fijian (fj)</item>
+        <item>Finnish (fi)</item>
+        <item>French (fr)</item>
+        <item>Fulah (ff)</item>
+        <item>Galician (gl)</item>
+        <item>Georgian (ka)</item>
+        <item>German (de)</item>
+        <item>Greek (el)</item>
+        <item>Guarani (gn)</item>
+        <item>Gujarati (gu)</item>
+        <item>Haitian (ht)</item>
+        <item>Hausa (ha)</item>
+        <item>Hebrew (he)</item>
+        <item>Herero (hz)</item>
+        <item>Hindi (hi)</item>
+        <item>Hiri Motu (ho)</item>
+        <item>Hungarian (hu)</item>
+        <item>Interlingua (ia)</item>
+        <item>Indonesian (id)</item>
+        <item>Interlingue (ie)</item>
+        <item>Irish (ga)</item>
+        <item>Igbo (ig)</item>
+        <item>Inupiaq (ik)</item>
+        <item>Ido (io)</item>
+        <item>Icelandic (is)</item>
+        <item>Italian (it)</item>
+        <item>Inuktitut (iu)</item>
+        <item>Japanese (ja)</item>
+        <item>Javanese (jv)</item>
+        <item>Kalaallisut (kl)</item>
+        <item>Kannada (kn)</item>
+        <item>Kanuri (kr)</item>
+        <item>Kashmiri (ks)</item>
+        <item>Kazakh (kk)</item>
+        <item>Central Khmer (km)</item>
+        <item>Kikuyu (ki)</item>
+        <item>Kinyarwanda (rw)</item>
+        <item>Kirghiz (ky)</item>
+        <item>Komi (kv)</item>
+        <item>Kongo (kg)</item>
+        <item>Korean (ko)</item>
+        <item>Kuanyama (kj)</item>
+        <item>Kurdish (ku)</item>
+        <item>Lao (lo)</item>
+        <item>Latin (la)</item>
+        <item>Latvian (lv)</item>
+        <item>Limburgan (li)</item>
+        <item>Lingala (ln)</item>
+        <item>Lithuanian (lt)</item>
+        <item>Luxembourgish (lb)</item>
+        <item>Luba-Katanga (lu)</item>
+        <item>Macedonian (mk)</item>
+        <item>Malagasy (mg)</item>
+        <item>Malay (ms)</item>
+        <item>Malayalam (ml)</item>
+        <item>Maltese (mt)</item>
+        <item>Manx (gv)</item>
+        <item>Maori (mi)</item>
+        <item>Marathi (mr)</item>
+        <item>Marshallese (mh)</item>
+        <item>Mongolian (mn)</item>
+        <item>Nauru (na)</item>
+        <item>Navajo (nv)</item>
+        <item>Ndonga (ng)</item>
+        <item>Nepali (ne)</item>
+        <item>North Ndebele (nd)</item>
+        <item>Norwegian Bokmål (nb)</item>
+        <item>Norwegian Nynorsk (nn)</item>
+        <item>Norwegian (no)</item>
+        <item>Occitan (oc)</item>
+        <item>Ojibwa (oj)</item>
+        <item>Oromo (om)</item>
+        <item>Oriya (or)</item>
+        <item>Ossetian (os)</item>
+        <item>Panjabi (pa)</item>
+        <item>Pali (pi)</item>
+        <item>Persian (fa)</item>
+        <item>Polish (pl)</item>
+        <item>Portuguese (pt)</item>
+        <item>Pushto (ps)</item>
+        <item>Quechua (qu)</item>
+        <item>Romansh (rm)</item>
+        <item>Romanian (ro)</item>
+        <item>Rundi (rn)</item>
+        <item>Russian (ru)</item>
+        <item>Sango (sg)</item>
+        <item>Sanskrit (sa)</item>
+        <item>Sinhala (si)</item>
+        <item>Slovak (sk)</item>
+        <item>Slovenian (sl)</item>
+        <item>Samoan (sm)</item>
+        <item>Shona (sn)</item>
+        <item>Somali (so)</item>
+        <item>Southern Sotho (st)</item>
+        <item>Spanish (es)</item>
+        <item>Serbian (sr)</item>
+        <item>Swati (ss)</item>
+        <item>Sundanese (su)</item>
+        <item>Swedish (sv)</item>
+        <item>Tahitian (ty)</item>
+        <item>Tamil (ta)</item>
+        <item>Tatar (tt)</item>
+        <item>Telugu (te)</item>
+        <item>Tajik (tg)</item>
+        <item>Tagalog (tl)</item>
+        <item>Thai (th)</item>
+        <item>Tibetan (bo)</item>
+        <item>Tigrinya (ti)</item>
+        <item>Tonga (to)</item>
+        <item>Tsonga (ts)</item>
+        <item>Turkish (tr)</item>
+        <item>Turkmen (tk)</item>
+        <item>Twi (tw)</item>
+        <item>Uighur (ug)</item>
+        <item>Ukrainian (uk)</item>
+        <item>Urdu (ur)</item>
+        <item>Uzbek (uz)</item>
+        <item>Venda (ve)</item>
+        <item>Vietnamese (vi)</item>
+        <item>Volapük (vo)</item>
+        <item>Walloon (wa)</item>
+        <item>Welsh (cy)</item>
+        <item>Western Frisian (fy)</item>
+        <item>Wolof (wo)</item>
+        <item>Xhosa (xh)</item>
+        <item>Yiddish (yi)</item>
+        <item>Yoruba (yo)</item>
+        <item>Zhuang (za)</item>
+        <item>Zulu (zu)</item>
     </string-array>
+
 
     <string-array name="languages">
         <item>System</item>
@@ -283,17 +387,16 @@
     </string-array>
 
     <string-array name="compression_levels">
-        <item>Level 1</item>
-        <item>Level 2</item>
-        <item>Level 3</item>
-        <item>Level 4</item>
-        <item>Level 5</item>
-        <item>Level 6</item>
-        <item>Level 7</item>
-        <item>Level 8</item>
-        <item>Level 9</item>
-    </string-array>
-    <string name="yes">Yes</string>
+        <item>Level 1 (Fastest)</item>
+        <item>Level 2 (Very Fast)</item>
+        <item>Level 3 (Fast)</item>
+        <item>Level 4 (Faster)</item>
+        <item>Level 5 (Balanced)</item>
+        <item>Level 6 (Recommended)</item>
+        <item>Level 7 (High Compression)</item>
+        <item>Level 8 (Higher Compression)</item>
+        <item>Level 9 (Maximum Compression)</item>
+    </string-array>    <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="unknown">Unknown</string>
     <string name="not_signed">Not Signed</string>
@@ -413,6 +516,9 @@
     <string name="other">Other</string>
     <string name="append_timestamp">Append Timestamp</string>
     <string name="append_sdk_versions">Append SDK Versions</string>
+    <string name="signing_status">Signing Status</string>
+    <string name="timestamp">Timestamp</string>
+    <string name="sdk_versions">SDK Versions</string>
     <string name="preview_format">Preview</string>
     <string name="preview_package_name">&lt;Package Name&gt;</string>
     <string name="preview_version_name">&lt;Version Name&gt;</string>
@@ -425,4 +531,15 @@
     <string name="preview_timestamp">&lt;Timestamp&gt;</string>
     <string name="preview_sdk_versions">&lt;SDK Versions&gt;</string>
     <string name="format_name_info">Keep Original File Name must be enabled if any other option is disabled.</string>
+    <string name="path_info">If Save to Original File Location is enabled, the output path is automatically set to the original file location. Entering a custom path automatically disables this option.</string>
+    <string name="save_to_original_file_location">Save to Original File Path</string>
+    <string name="save_to_original_path_preview">Same as original file location</string>
+    <string name="custom_directory_path">Custom Directory Path</string>
+    <string name="reorder">Reorder</string>
+    <string name="choose_the_setting_manually">Choose the setting manually</string>
+    <string name="fallback_option">Fallback Option</string>
+    <string name="choose_how_to_handle_unavailable_splits">Choose how to handle unavailable splits</string>
+    <string name="choose_whether_to_use_any_remaining_compatible_splits_as_a_fallback_or_show_the_split_selector_dialog">Choose whether to use any remaining compatible splits as a fallback or show the split selector dialog.</string>
+    <string name="use_available_split">Use Available Split</string>
+    <string name="show_split_selector">Show Split Selector</string>
 </resources>

@@ -35,6 +35,7 @@ import com.szn.merger.ThemeManager;
 import com.szn.merger.Utils.CheckBoxAdapter;
 import com.szn.merger.Utils.Utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -61,14 +62,13 @@ public class AutoDeviceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auto_device_layout);
 
-        initViews();      // Initialize all views from the layout
-        loadState();      // Restore saved switch states from SharedPreferences
-        setupListener();  // Register listeners to handle user interactions
-        updateState();    // Update the UI based on the current state
+        initViews();
+        loadState();
+        setupListener();
+        updateState();
     }
 
     private void initViews() {
-        // Bind all layout views to their corresponding variables
         autoDetect = findViewById(R.id.AutoDetect);
         autoConfig = findViewById(R.id.AutoConfig);
         ABILinear = findViewById(R.id.ABI);
@@ -86,20 +86,16 @@ public class AutoDeviceActivity extends AppCompatActivity {
     private void loadState() {
         autoDetect.setChecked(isAutoDetectEnabled(this));
         autoConfig.setChecked(isAutoConfigEnabled(this));
-        toolbar.setNavigationOnClickListener(v -> {
-            getOnBackPressedDispatcher().onBackPressed();
-        });
+        toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         restorePlaceholder(AutoDeviceManager.ABI, ABIMode);
         restorePlaceholder(AutoDeviceManager.DPI, DPIMode);
         restorePlaceholder(AutoDeviceManager.LANGUAGE, LANGUAGEMode);
     }
 
     private void restorePlaceholder(int caller, TextView placeholder) {
-
         String mode = AutoDeviceManager.getMode(this, caller);
 
         switch (mode) {
-
             case AutoDeviceManager.MODE_DISABLED:
                 placeholder.setText(R.string.mode_disabled);
                 break;
@@ -109,24 +105,13 @@ public class AutoDeviceActivity extends AppCompatActivity {
                 break;
 
             case AutoDeviceManager.MODE_CUSTOM:
-                List<String> customModes =
-                        AutoDeviceManager.getCustomModes(this, caller);
+                List<String> customModes = AutoDeviceManager.getCustomModes(this, caller);
 
                 if (customModes.isEmpty()) {
-                    AutoDeviceManager.saveMode(
-                            this,
-                            caller,
-                            AutoDeviceManager.MODE_DISABLED
-                    );
-
+                    AutoDeviceManager.saveMode(this, caller, AutoDeviceManager.MODE_DISABLED);
                     placeholder.setText(R.string.mode_disabled);
                 } else {
-                    placeholder.setText(
-                            getString(
-                                    R.string.custom_mode,
-                                    android.text.TextUtils.join(", ", customModes)
-                            )
-                    );
+                    placeholder.setText(getString(R.string.custom_mode, android.text.TextUtils.join(", ", customModes)));
                 }
                 break;
 
@@ -137,29 +122,30 @@ public class AutoDeviceActivity extends AppCompatActivity {
     }
 
     private void setupListener() {
-
-        // Listen for Auto Detect state changes
         autoDetect.setOnCheckedChangeListener((buttonView, isChecked) -> {
             AutoDeviceManager.setAutoDetectEnabled(this, isChecked);
-            updateState(); // Refresh the UI after the state changes
+            updateState();
         });
 
-        // Listen for Auto Config state changes
         autoConfig.setOnCheckedChangeListener((buttonView, isChecked) -> {
             AutoDeviceManager.setAutoConfigEnabled(this, isChecked);
             updateState();
         });
+
         ABILinear.setOnClickListener(v -> gotoABI.performClick());
         DPILinear.setOnClickListener(v -> gotoDPI.performClick());
         LANGUAGELinear.setOnClickListener(v -> gotoLANGUAGE.performClick());
+
         gotoABI.setOnClickListener(view -> {
             currentCaller = AutoDeviceManager.ABI;
             showUniversalBottomSheet();
         });
+
         gotoDPI.setOnClickListener(view -> {
             currentCaller = AutoDeviceManager.DPI;
             showUniversalBottomSheet();
         });
+
         gotoLANGUAGE.setOnClickListener(view -> {
             currentCaller = AutoDeviceManager.LANGUAGE;
             showUniversalBottomSheet();
@@ -167,25 +153,29 @@ public class AutoDeviceActivity extends AppCompatActivity {
     }
 
     private void showFallbackPopup(View anchor) {
-        View view = this.getLayoutInflater().inflate(R.layout.fallback_dropdown, null);
+        View view = getLayoutInflater().inflate(R.layout.fallback_dropdown, null);
         View availableSplit = view.findViewById(R.id.availableSplit);
         View splitPicker = view.findViewById(R.id.split_picker);
-        PopupWindow popupWindow = new PopupWindow(view, (int) (280 * this.getResources().getDisplayMetrics().density), ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        PopupWindow popupWindow = new PopupWindow(view, (int) (280 * getResources().getDisplayMetrics().density), ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         popupWindow.setOutsideTouchable(true);
-        popupWindow.setElevation(10 * this.getResources().getDisplayMetrics().density);
+        popupWindow.setElevation(10 * getResources().getDisplayMetrics().density);
         popupWindow.showAsDropDown(anchor, 0, 4, Gravity.END);
+
         availableSplit.setOnClickListener(v -> {
             AutoDeviceManager.saveFallbackMode(this, AutoDeviceManager.FALLBACK_MODE_AVAILABLE);
             currentFallbackOption.setText(R.string.use_available_split);
             popupWindow.dismiss();
         });
+
         splitPicker.setOnClickListener(v -> {
             AutoDeviceManager.saveFallbackMode(this, AutoDeviceManager.FALLBACK_MODE_DIALOG);
             currentFallbackOption.setText(R.string.show_split_selector);
             popupWindow.dismiss();
         });
     }
+
     private void showUniversalBottomSheet() {
         bottomSheetDialog = new BottomSheetDialog(this);
         View bottomSheetView = LayoutInflater.from(this).inflate(R.layout.auto_device_bottom_sheet, null);
@@ -195,6 +185,7 @@ public class AutoDeviceActivity extends AppCompatActivity {
                 fromDeviceCard = bottomSheetView.findViewById(R.id.fromDeviceCard),
                 customCard = bottomSheetView.findViewById(R.id.customCard),
                 fallbackCard = bottomSheetView.findViewById(R.id.fallback);
+
         currentFallbackOption = bottomSheetView.findViewById(R.id.currentFallbackOption);
         fallbackCard.setOnClickListener(anchor -> showFallbackPopup(anchor));
 
@@ -205,17 +196,16 @@ public class AutoDeviceActivity extends AppCompatActivity {
         textOnSearch = bottomSheetView.findViewById(R.id.search_placeholder);
         backButton = bottomSheetView.findViewById(R.id.backButton);
         nextButton = bottomSheetView.findViewById(R.id.nextCustom);
-        nextButton.setOnClickListener(v -> customCard.performClick());
         recyclerCustom = bottomSheetView.findViewById(R.id.recyclerCustom);
         customPlaceholder = bottomSheetView.findViewById(R.id.customSubtitle);
         customRadio = bottomSheetView.findViewById(R.id.radioCustom);
         disabledRadio = bottomSheetView.findViewById(R.id.radioDisabled);
         fromDeviceRadio = bottomSheetView.findViewById(R.id.radioFromdevice);
 
+        nextButton.setOnClickListener(v -> customCard.performClick());
         customRadio.setOnClickListener(v -> customCard.performClick());
         disabledRadio.setOnClickListener(v -> disabledCard.performClick());
         fromDeviceRadio.setOnClickListener(v -> fromDeviceCard.performClick());
-
 
         restoreRadioState();
         bottomSheetDialog.show();
@@ -224,34 +214,21 @@ public class AutoDeviceActivity extends AppCompatActivity {
             disabledRadio.setChecked(true);
             fromDeviceRadio.setChecked(false);
             customRadio.setChecked(false);
-
-            selectMode(
-                    AutoDeviceManager.MODE_DISABLED,
-                    getString(R.string.mode_disabled)
-            );
+            selectMode(AutoDeviceManager.MODE_DISABLED, getString(R.string.mode_disabled));
         });
 
         fromDeviceCard.setOnClickListener(v -> {
             disabledRadio.setChecked(false);
             fromDeviceRadio.setChecked(true);
             customRadio.setChecked(false);
+            selectMode(AutoDeviceManager.MODE_FROM_DEVICE, getString(R.string.mode_from_device));
+        });
 
-            selectMode(
-                    AutoDeviceManager.MODE_FROM_DEVICE,
-                    getString(R.string.mode_from_device)
-            );
-        });
-        customCard.setOnClickListener(v -> {
-            showCustomPage();
-        });
+        customCard.setOnClickListener(v -> showCustomPage());
+
         bottomSheetDialog.setOnDismissListener(dialog -> {
-            if (customPage != null
-                    && customPage.getVisibility() == View.VISIBLE
-                    && customAdapter != null) {
-
-                List<String> customModes =
-                        customAdapter.getCheckedItems();
-
+            if (customPage != null && customPage.getVisibility() == View.VISIBLE && customAdapter != null) {
+                List<String> customModes = getStorageValues(customAdapter.getCheckedItems());
                 updateCustomUI(customModes);
             }
         });
@@ -263,7 +240,6 @@ public class AutoDeviceActivity extends AppCompatActivity {
         CountDownLatch latch = new CountDownLatch(1);
 
         activity.runOnUiThread(() -> {
-
             View view = activity.getLayoutInflater().inflate(R.layout.dialog_select_split, null);
 
             RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
@@ -275,18 +251,10 @@ public class AutoDeviceActivity extends AppCompatActivity {
 
             int total = splits.size();
 
-            CheckBoxAdapter adapter = new CheckBoxAdapter(
-                    splits,
-                    (position, value, selectedCount1) -> {
-                        selectedCount.setText(
-                                activity.getString(
-                                        R.string.selected_count,
-                                        selectedCount1,
-                                        total
-                                )
-                        );
-                    }
-            );
+            CheckBoxAdapter adapter = new CheckBoxAdapter(splits, (position, value, selectedCount1) -> {
+                selectedCount.setText(activity.getString(R.string.selected_count, selectedCount1, total));
+            });
+
             adapter.setCheckedItems(AutoDeviceManager.BASE_FILTERS);
             adapter.setDisabled(AutoDeviceManager.BASE_FILTERS);
             selectedCount.setText(activity.getString(R.string.selected_count, adapter.getSelectedCount(), adapter.getItemCount()));
@@ -299,12 +267,14 @@ public class AutoDeviceActivity extends AppCompatActivity {
             button.setOnClickListener(v -> {
                 selectedSplits.clear();
                 selectedSplits.addAll(adapter.getCheckedItems());
-
                 dialog.dismiss();
                 latch.countDown();
             });
-            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
             dialog.show();
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            }
         });
 
         try {
@@ -315,62 +285,78 @@ public class AutoDeviceActivity extends AppCompatActivity {
     }
 
     private void updateCustomUI(List<String> customModes) {
-
         if (customModes.isEmpty()) {
-            AutoDeviceManager.saveCustomModes(
-                    this,
-                    currentCaller,
-                    customModes
-            );
+            AutoDeviceManager.saveCustomModes(this, currentCaller, customModes);
 
             disabledRadio.setChecked(true);
             fromDeviceRadio.setChecked(false);
             customRadio.setChecked(false);
-
             customPlaceholder.setText(R.string.choose_the_setting_manually);
 
-            AutoDeviceManager.saveMode(
-                    this,
-                    currentCaller,
-                    AutoDeviceManager.MODE_DISABLED
-            );
-
-            updateCurrentPlaceholder(
-                    getString(R.string.mode_disabled)
-            );
-
+            AutoDeviceManager.saveMode(this, currentCaller, AutoDeviceManager.MODE_DISABLED);
+            updateCurrentPlaceholder(getString(R.string.mode_disabled));
             return;
         }
 
-        AutoDeviceManager.saveCustomModes(
-                this,
-                currentCaller,
-                customModes
-        );
+        AutoDeviceManager.saveCustomModes(this, currentCaller, customModes);
+        AutoDeviceManager.saveMode(this, currentCaller, AutoDeviceManager.MODE_CUSTOM);
 
-        AutoDeviceManager.saveMode(
-                this,
-                currentCaller,
-                AutoDeviceManager.MODE_CUSTOM
-        );
-
-        String text = getString(
-                R.string.custom_mode,
-                android.text.TextUtils.join(", ", customModes)
-        );
+        String text = getString(R.string.custom_mode, android.text.TextUtils.join(", ", customModes));
 
         disabledRadio.setChecked(false);
         fromDeviceRadio.setChecked(false);
         customRadio.setChecked(true);
-
         customPlaceholder.setText(text);
-
         updateCurrentPlaceholder(text);
+    }
+
+    private List<String> getStorageValues(List<String> checkedItems) {
+        List<String> values = new ArrayList<>();
+
+        for (String item : checkedItems) {
+            if (currentCaller == AutoDeviceManager.LANGUAGE) {
+                int start = item.lastIndexOf('(');
+                int end = item.lastIndexOf(')');
+
+                if (start != -1 && end > start) {
+                    values.add(item.substring(start + 1, end));
+                }
+            } else {
+                values.add(item);
+            }
+        }
+
+        return values;
+    }
+
+    private List<String> getDisplayValues(List<String> savedValues, String[] displayList) {
+        if (currentCaller != AutoDeviceManager.LANGUAGE) {
+            return savedValues;
+        }
+
+        List<String> displayValues = new ArrayList<>();
+
+        for (String savedValue : savedValues) {
+            for (String displayValue : displayList) {
+                int start = displayValue.lastIndexOf('(');
+                int end = displayValue.lastIndexOf(')');
+
+                if (start != -1 && end > start) {
+                    String code = displayValue.substring(start + 1, end);
+
+                    if (code.equals(savedValue)) {
+                        displayValues.add(displayValue);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return displayValues;
     }
 
     private void showCustomPage() {
         recyclerCustom.setLayoutManager(new LinearLayoutManager(this));
-
         universalPage.setVisibility(View.GONE);
         customPage.setVisibility(View.VISIBLE);
 
@@ -379,29 +365,17 @@ public class AutoDeviceActivity extends AppCompatActivity {
         switch (currentCaller) {
             case AutoDeviceManager.ABI:
                 list = getResources().getStringArray(R.array.abi_list);
-                updateTextPlaceholder(
-                        title,
-                        textOnSearch,
-                        getString(R.string.label_abi)
-                );
+                updateTextPlaceholder(title, textOnSearch, getString(R.string.label_abi));
                 break;
 
             case AutoDeviceManager.DPI:
                 list = getResources().getStringArray(R.array.dpi_list);
-                updateTextPlaceholder(
-                        title,
-                        textOnSearch,
-                        getString(R.string.label_dpi)
-                );
+                updateTextPlaceholder(title, textOnSearch, getString(R.string.label_dpi));
                 break;
 
             case AutoDeviceManager.LANGUAGE:
                 list = getResources().getStringArray(R.array.language_list);
-                updateTextPlaceholder(
-                        title,
-                        textOnSearch,
-                        getString(R.string.label_language)
-                );
+                updateTextPlaceholder(title, textOnSearch, getString(R.string.label_language));
                 break;
 
             default:
@@ -411,42 +385,23 @@ public class AutoDeviceActivity extends AppCompatActivity {
 
         final CheckBoxAdapter[] adapterRef = new CheckBoxAdapter[1];
 
-        customAdapter = new CheckBoxAdapter(
-                Arrays.asList(list),
-                (position, value, selectedCount) -> {
+        customAdapter = new CheckBoxAdapter(Arrays.asList(list), (position, value, selectedCount) -> {
+            List<String> customModes = getStorageValues(adapterRef[0].getCheckedItems());
+            AutoDeviceManager.saveCustomModes(this, currentCaller, customModes);
+        });
 
-                    List<String> customModes =
-                            adapterRef[0].getCheckedItems();
-
-                    AutoDeviceManager.saveCustomModes(
-                            this,
-                            currentCaller,
-                            customModes
-                    );
-                }
-        );
         adapterRef[0] = customAdapter;
 
-        List<String> savedCustomModes =
-                AutoDeviceManager.getCustomModes(this, currentCaller);
-
-        customAdapter.setCheckedItems(savedCustomModes);
+        List<String> savedCustomModes = AutoDeviceManager.getCustomModes(this, currentCaller);
+        customAdapter.setCheckedItems(getDisplayValues(savedCustomModes, list));
 
         recyclerCustom.setAdapter(customAdapter);
 
-        Utils.animateTextChange(
-                textOnSearch,
-                recyclerCustom,
-                150,
-                customAdapter::filter
-        );
+        Utils.animateTextChange(textOnSearch, recyclerCustom, 150, customAdapter::filter);
 
         backButton.setOnClickListener(v -> {
-
-            List<String> customModes = customAdapter.getCheckedItems();
-
+            List<String> customModes = getStorageValues(customAdapter.getCheckedItems());
             updateCustomUI(customModes);
-
             universalPage.setVisibility(View.VISIBLE);
             customPage.setVisibility(View.GONE);
         });
@@ -461,28 +416,19 @@ public class AutoDeviceActivity extends AppCompatActivity {
         String mode = AutoDeviceManager.getMode(this, currentCaller);
 
         if (mode.equals(AutoDeviceManager.MODE_DISABLED)) {
-
             disabledRadio.setChecked(true);
-
         } else if (mode.equals(AutoDeviceManager.MODE_FROM_DEVICE)) {
-
             fromDeviceRadio.setChecked(true);
-
         } else if (mode.equals(AutoDeviceManager.MODE_CUSTOM)) {
-
             List<String> customModes = AutoDeviceManager.getCustomModes(this, currentCaller);
 
             if (!customModes.isEmpty()) {
                 customRadio.setChecked(true);
-                customPlaceholder.setText(
-                        getString(
-                                R.string.custom_mode,
-                                android.text.TextUtils.join(", ", customModes)
-                        )
-                );
+                customPlaceholder.setText(getString(R.string.custom_mode, android.text.TextUtils.join(", ", customModes)));
             }
         }
     }
+
     private void selectMode(String value, String text) {
         AutoDeviceManager.saveMode(this, currentCaller, value);
         updateCurrentPlaceholder(text);
@@ -504,14 +450,13 @@ public class AutoDeviceActivity extends AppCompatActivity {
                 break;
         }
     }
+
     private void updateTextPlaceholder(TextView title, EditText textOnSearch, String pickerOf) {
         title.setText(getString(R.string.select_picker, pickerOf));
         textOnSearch.setHint(getString(R.string.search_picker, pickerOf));
     }
 
-
     private void updateState() {
-
         boolean autoDetectEnabled = isAutoDetectEnabled(this);
         boolean autoConfigEnabled = isAutoConfigEnabled(this);
 
@@ -522,9 +467,11 @@ public class AutoDeviceActivity extends AppCompatActivity {
         ABILinear.setAlpha(ruleEnabled ? 1f : 0.5f);
         DPILinear.setAlpha(ruleEnabled ? 1f : 0.5f);
         LANGUAGELinear.setAlpha(ruleEnabled ? 1f : 0.5f);
+
         ABILinear.setClickable(ruleEnabled);
         DPILinear.setClickable(ruleEnabled);
         LANGUAGELinear.setClickable(ruleEnabled);
+
         ABILinear.setFocusable(ruleEnabled);
         DPILinear.setFocusable(ruleEnabled);
         LANGUAGELinear.setFocusable(ruleEnabled);
@@ -535,6 +482,5 @@ public class AutoDeviceActivity extends AppCompatActivity {
         gotoDPI.setFocusable(ruleEnabled);
         gotoLANGUAGE.setClickable(ruleEnabled);
         gotoLANGUAGE.setFocusable(ruleEnabled);
-
     }
 }

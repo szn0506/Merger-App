@@ -17,9 +17,35 @@ public class AutoDeviceManager {
     public static final int ABI = 0;
     public static final int DPI = 1;
     public static final int LANGUAGE = 2;
-    public static List<String> ARCH_FILTERS = Arrays.asList("v7a", "v8a", "x86_64", "x86", "arm"); //NON-NLS
-    public static List<String> DPI_FILTERS = Arrays.asList("ldpi", "mdpi", "tvdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi", "nodpi", "anydpi"); //NON-NLS
-    public static List<String> BASE_FILTERS = Arrays.asList("base", "master", "com"); //NON-NLS
+
+    public static final List<String> ARCH_FILTERS = Arrays.asList(
+            "armeabi",
+            "armeabi_v7a",
+            "arm64_v8a",
+            "x86",
+            "x86_64",
+            "mips",
+            "mips64"
+    ); //NON-NLS
+
+    public static final List<String> DPI_FILTERS = Arrays.asList(
+            "ldpi",
+            "mdpi",
+            "tvdpi",
+            "hdpi",
+            "xhdpi",
+            "xxhdpi",
+            "xxxhdpi",
+            "nodpi",
+            "anydpi"
+    ); //NON-NLS
+
+    public static final List<String> BASE_FILTERS = Arrays.asList(
+            "base",
+            "master",
+            "com"
+    ); //NON-NLS
+
     private static final String KEY_AUTO_DETECT = "is_auto_detect_enabled"; //NON-NLS
     private static final String KEY_AUTO_CONFIG = "is_auto_config_enabled"; //NON-NLS
     private static final String KEY_ABI = "auto_device_abi";
@@ -80,7 +106,10 @@ public class AutoDeviceManager {
     }
 
     public static String getFallbackMode(Context context) {
-        return PrefsManager.getInstance(context).getString(KEY_FALLBACK_MODE, FALLBACK_MODE_AVAILABLE);
+        return PrefsManager.getInstance(context).getString(
+                KEY_FALLBACK_MODE,
+                FALLBACK_MODE_AVAILABLE
+        );
     }
 
     private static String getCustomKey(int caller) {
@@ -97,11 +126,41 @@ public class AutoDeviceManager {
     }
 
     public static void saveCustomModes(Context context, int caller, List<String> values) {
-        PrefsManager.getInstance(context).saveStringList(getCustomKey(caller), values);
+        List<String> normalizedValues = new ArrayList<>();
+
+        for (String value : values) {
+            normalizedValues.add(normalize(value));
+        }
+
+        PrefsManager.getInstance(context).saveStringList(
+                getCustomKey(caller),
+                normalizedValues
+        );
     }
 
     public static List<String> getCustomModes(Context context, int caller) {
-        return PrefsManager.getInstance(context).getStringList(getCustomKey(caller), new ArrayList<>());
+        List<String> values = PrefsManager.getInstance(context).getStringList(
+                getCustomKey(caller),
+                new ArrayList<>()
+        );
+
+        List<String> normalizedValues = new ArrayList<>();
+
+        for (String value : values) {
+            normalizedValues.add(normalize(value));
+        }
+
+        return normalizedValues;
+    }
+
+    private static String normalize(String value) {
+        if (value == null) {
+            return "";
+        }
+
+        return value
+                .toLowerCase(Locale.ROOT)
+                .replace("-", "_");
     }
 
     private static boolean splitExists(String target, List<String> allEntries) {
@@ -109,11 +168,12 @@ public class AutoDeviceManager {
             return false;
         }
 
-        String normalizedTarget = target.toLowerCase(Locale.ROOT);
+        String normalizedTarget = normalize(target);
 
-        // Check whether the requested configuration exists anywhere in the archive.
         for (String entry : allEntries) {
-            if (entry.toLowerCase(Locale.ROOT).contains(normalizedTarget)) {
+            String normalizedEntry = normalize(entry);
+
+            if (normalizedEntry.contains(normalizedTarget)) {
                 return true;
             }
         }
@@ -124,7 +184,6 @@ public class AutoDeviceManager {
     public static List<String> listSplits(List<String> allEntries) {
         List<String> splits = new ArrayList<>();
 
-        // Only APK entries are shown in the manual split picker.
         for (String entry : allEntries) {
             if (entry.toLowerCase(Locale.ROOT).endsWith(".apk")) {
                 splits.add(entry);
@@ -135,16 +194,15 @@ public class AutoDeviceManager {
     }
 
     public static void prepare(Activity activity, List<String> allEntries) {
-        // Auto Detect OFF: do not apply any automatic split selection.
-        if (!isAutoDetectEnabled(activity)) return;
+        if (!isAutoDetectEnabled(activity)) {
+            return;
+        }
 
-        // Auto Config OFF: let the user manually choose the splits.
         if (!isAutoConfigEnabled(activity)) {
             AutoDeviceActivity.showSplitsPicker(activity, allEntries);
             return;
         }
 
-        // Auto Config ON: only custom modes need to be checked here.
         for (int caller : new int[]{ABI, DPI, LANGUAGE}) {
             if (!MODE_CUSTOM.equals(getMode(activity, caller))) {
                 continue;
@@ -152,14 +210,12 @@ public class AutoDeviceManager {
 
             List<String> customModes = getCustomModes(activity, caller);
 
-            // An empty custom list means there is no custom restriction.
             if (customModes.isEmpty()) {
                 continue;
             }
 
             boolean hasAvailableCustom = false;
 
-            // Check whether at least one of the selected custom values exists in the APK.
             for (String custom : customModes) {
                 if (splitExists(custom, allEntries)) {
                     hasAvailableCustom = true;
@@ -168,27 +224,25 @@ public class AutoDeviceManager {
             }
 
             if (!hasAvailableCustom) {
-                // None of the selected custom values exist.
-                // Either fall back to the picker or allow all available splits.
                 if (FALLBACK_MODE_DIALOG.equals(getFallbackMode(activity))) {
                     AutoDeviceActivity.showSplitsPicker(activity, allEntries);
                 }
+
                 return;
             }
         }
     }
 
     public static boolean shouldExtract(Context context, String entryName, List<String> allEntries) {
-        String name = entryName.toLowerCase(Locale.ROOT);
+        String name = normalize(entryName);
 
-        // When the picker has a selection, only the selected entries are extracted.
-        if (!selectedSplits.isEmpty() && !selectedSplits.contains(name)) {
+        if (!selectedSplits.isEmpty()
+                && !selectedSplits.contains(name)) {
             return false;
         }
 
         boolean featureDisabled = !isAutoDetectEnabled(context);
 
-        // Get the device configuration used for automatic matching.
         String targetABIDevice = getArchCPU();
         String targetDPIDevice = getScreenDPIBucket(context);
         String targetLANGUAGEDevice = getDefaultLanguage();
@@ -200,49 +254,69 @@ public class AutoDeviceManager {
                 && ARCH_FILTERS.stream().noneMatch(name::contains)
                 && DPI_FILTERS.stream().noneMatch(name::contains);
 
-        // Base APKs and disabled Auto Detect are always extracted.
         if (isBaseApk || featureDisabled) {
             return true;
         }
 
         if (isABIFile) {
-            return searchMatchSplit(context, ABI, targetABIDevice, name, allEntries);
+            return searchMatchSplit(
+                    context,
+                    ABI,
+                    targetABIDevice,
+                    name,
+                    allEntries
+            );
         }
 
         if (isDpiFile) {
-            return searchMatchSplit(context, DPI, targetDPIDevice, name, allEntries);
+            return searchMatchSplit(
+                    context,
+                    DPI,
+                    targetDPIDevice,
+                    name,
+                    allEntries
+            );
         }
 
         if (isLanguageFile) {
-            return searchMatchSplit(context, LANGUAGE, targetLANGUAGEDevice, name, allEntries);
+            return searchMatchSplit(
+                    context,
+                    LANGUAGE,
+                    targetLANGUAGEDevice,
+                    name,
+                    allEntries
+            );
         }
 
-        // Unknown/unclassified entries are kept.
         return true;
     }
 
-    private static boolean searchMatchSplit(Context context, int caller, String device, String name, List<String> allEntries) {
+    private static boolean searchMatchSplit(
+            Context context,
+            int caller,
+            String device,
+            String name,
+            List<String> allEntries
+    ) {
         String mode = getMode(context, caller);
 
-        // Disabled mode does not filter this configuration type.
         if (MODE_DISABLED.equals(mode)) {
             return true;
         }
 
         if (MODE_FROM_DEVICE.equals(mode)) {
-            // If the device configuration does not exist, keep all available splits.
-            if (!splitExists(device, allEntries)) {
+            String normalizedDevice = normalize(device);
+
+            if (!splitExists(normalizedDevice, allEntries)) {
                 return true;
             }
 
-            // Keep only the split matching the device configuration.
-            return name.contains(device.toLowerCase(Locale.ROOT));
+            return name.contains(normalizedDevice);
         }
 
         if (MODE_CUSTOM.equals(mode)) {
             List<String> customModes = getCustomModes(context, caller);
 
-            // No custom selection means there is no restriction.
             if (customModes.isEmpty()) {
                 return true;
             }
@@ -250,12 +324,11 @@ public class AutoDeviceManager {
             boolean hasAvailableCustom = false;
 
             for (String custom : customModes) {
-                String target = custom.toLowerCase(Locale.ROOT);
+                String target = normalize(custom);
 
                 if (splitExists(target, allEntries)) {
                     hasAvailableCustom = true;
 
-                    // Keep every available split selected by the user.
                     if (name.contains(target)) {
                         return true;
                     }
@@ -263,14 +336,11 @@ public class AutoDeviceManager {
             }
 
             if (!hasAvailableCustom) {
-                // None of the selected custom configurations exist.
-                // "available_splits" keeps all available splits; "show_picker"
-                // is handled once in prepare() before extraction starts.
-                return FALLBACK_MODE_AVAILABLE.equals(getFallbackMode(context));
+                return FALLBACK_MODE_AVAILABLE.equals(
+                        getFallbackMode(context)
+                );
             }
 
-            // At least one custom configuration exists, so unselected
-            // configurations of this type are excluded.
             return false;
         }
 
@@ -281,15 +351,16 @@ public class AutoDeviceManager {
         String[] supported = Build.SUPPORTED_ABIS;
 
         if (supported != null && supported.length > 0) {
-            // Replace hyphen (-) with underscore (_) when reading the system ABI.
-            return supported[0].replace("-", "_");
+            return normalize(supported[0]);
         }
 
         return "unknown";
     }
 
     public static String getScreenDPIBucket(Context context) {
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        DisplayMetrics displayMetrics =
+                context.getResources().getDisplayMetrics();
+
         int densityDPI = displayMetrics.densityDpi; //NON-NLS
 
         switch (densityDPI) {
@@ -313,6 +384,6 @@ public class AutoDeviceManager {
     }
 
     public static String getDefaultLanguage() {
-        return Locale.getDefault().getLanguage();
+        return normalize(Locale.getDefault().getLanguage());
     }
 }
