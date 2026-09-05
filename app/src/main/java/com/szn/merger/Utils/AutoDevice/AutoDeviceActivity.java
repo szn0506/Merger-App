@@ -287,6 +287,8 @@ public class AutoDeviceActivity extends AppCompatActivity {
                         );
                     }
             );
+            adapter.setCheckedItems(AutoDeviceManager.BASE_FILTERS);
+            adapter.setDisabled(AutoDeviceManager.BASE_FILTERS);
             selectedCount.setText(activity.getString(R.string.selected_count, adapter.getSelectedCount(), adapter.getItemCount()));
 
             selectAll.setOnClickListener(view1 -> adapter.toggleSelectAll());

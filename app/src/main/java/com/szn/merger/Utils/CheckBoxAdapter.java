@@ -24,6 +24,7 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.ViewHo
     private final OnItemSelectedListener listener;
     private final List<String> originalItems;
     private final Set<String> checkedItems = new HashSet<>();
+    private final Set<String> disabledItems = new HashSet<>();
 
     public CheckBoxAdapter(List<String> items, OnItemSelectedListener listener) {
         this.items = new ArrayList<>(items);
@@ -66,7 +67,7 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.ViewHo
         String value = items.get(position);
 
         holder.checkBox.setText(value);
-
+        holder.checkBox.setEnabled(!disabledItems.contains(value));
         holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setChecked(checkedItems.contains(value));
 
@@ -82,6 +83,12 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.ViewHo
                 listener.onItemSelected(position, value, checkedItems.size());
             }
         });
+    }
+
+    public void setDisabled(List<String> values) {
+        disabledItems.clear();
+        disabledItems.addAll(values);
+        notifyDataSetChanged();
     }
 
     public List<String> getCheckedItems() {

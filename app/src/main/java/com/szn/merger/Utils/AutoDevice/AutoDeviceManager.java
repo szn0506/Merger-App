@@ -17,7 +17,9 @@ public class AutoDeviceManager {
     public static final int ABI = 0;
     public static final int DPI = 1;
     public static final int LANGUAGE = 2;
-
+    public static List<String> ARCH_FILTERS = Arrays.asList("v7a", "v8a", "x86_64", "x86", "arm"); //NON-NLS
+    public static List<String> DPI_FILTERS = Arrays.asList("ldpi", "mdpi", "tvdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi", "nodpi", "anydpi"); //NON-NLS
+    public static List<String> BASE_FILTERS = Arrays.asList("base", "master", "com"); //NON-NLS
     private static final String KEY_AUTO_DETECT = "is_auto_detect_enabled"; //NON-NLS
     private static final String KEY_AUTO_CONFIG = "is_auto_config_enabled"; //NON-NLS
     private static final String KEY_ABI = "auto_device_abi";
@@ -183,10 +185,6 @@ public class AutoDeviceManager {
         if (!selectedSplits.isEmpty() && !selectedSplits.contains(name)) {
             return false;
         }
-
-        List<String> ARCH_FILTERS = Arrays.asList("v7a", "v8a", "x86_64", "x86", "arm"); //NON-NLS
-        List<String> DPI_FILTERS = Arrays.asList("ldpi", "mdpi", "tvdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi", "nodpi", "anydpi"); //NON-NLS
-        List<String> BASE_FILTERS = Arrays.asList("base", "master", "com"); //NON-NLS
 
         boolean featureDisabled = !isAutoDetectEnabled(context);
 
