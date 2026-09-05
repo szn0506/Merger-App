@@ -259,10 +259,6 @@ public class AutoDeviceActivity extends AppCompatActivity {
 
     public static void showSplitsPicker(Activity activity, List<String> allEntries) {
         AutoDeviceManager.selectedSplits.clear();
-
-        if ((!isAutoDetectEnabled(activity) || isAutoConfigEnabled(activity))) {
-            return;
-        }
         List<String> splits = listSplits(allEntries);
         CountDownLatch latch = new CountDownLatch(1);
 
@@ -296,9 +292,7 @@ public class AutoDeviceActivity extends AppCompatActivity {
             selectAll.setOnClickListener(view1 -> adapter.toggleSelectAll());
             recyclerView.setAdapter(adapter);
 
-            AlertDialog dialog = new AlertDialog.Builder(activity)
-                    .setView(view)
-                    .create();
+            AlertDialog dialog = new AlertDialog.Builder(activity).setView(view).create();
 
             button.setOnClickListener(v -> {
                 selectedSplits.clear();
