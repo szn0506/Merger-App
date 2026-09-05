@@ -15,12 +15,7 @@ import java.io.File;
 import java.security.MessageDigest;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 public class ApkInfo {
 
@@ -77,6 +72,9 @@ public class ApkInfo {
     }
 
     // === MERGE PROCESS INFO ===
+    public static String getABI() {
+        return Merger.ABI;
+    }
 
     public static String getDPI() {
         return Merger.DPI;
@@ -394,40 +392,6 @@ public class ApkInfo {
                 SIGNATURE_INFO.getSignerCertificates().get(0);
 
         return cert.getNotAfter().toString();
-    }
-
-    // === APK NATIVE LIBRARIES ===
-
-    public static String getABI() {
-        try (ZipFile zip = new ZipFile(OUTPUT)) {
-
-            Set<String> abi = new LinkedHashSet<>();
-
-            Enumeration<? extends ZipEntry> entries =
-                    zip.entries();
-
-            while (entries.hasMoreElements()) {
-
-                String name =
-                        entries.nextElement().getName();
-
-                if (name.startsWith("lib/")) { //NON-NLS
-
-                    String[] parts = name.split("/");
-
-                    if (parts.length >= 3) {
-                        abi.add(parts[1]);
-                    }
-                }
-            }
-
-            return abi.isEmpty()
-                    ? getString(R.string.unknown)
-                    : String.join(", ", abi);
-
-        } catch (Exception e) {
-            return getString(R.string.unknown);
-        }
     }
 
     // === APPLICATION FLAGS ===
