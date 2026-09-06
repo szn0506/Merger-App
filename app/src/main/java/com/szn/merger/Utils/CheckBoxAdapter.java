@@ -26,6 +26,7 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.ViewHo
     private final Set<String> checkedItems = new HashSet<>();
     private final Set<String> disabledItems = new HashSet<>();
     private long lastClickTime = 0;
+    private int lastClickPosition = -1;
 
     public CheckBoxAdapter(List<String> items, OnItemSelectedListener listener) {
         this.items = new ArrayList<>(items);
@@ -87,20 +88,17 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.ViewHo
         holder.itemView.setOnClickListener(v -> {
             long currentTime = System.currentTimeMillis();
 
-            if (currentTime - lastClickTime < 300) {
-                selectAll();
+            if (lastClickPosition == position && currentTime - lastClickTime < 300) {
+                toggleSelectAll();
+                lastClickTime = 0;
+                lastClickPosition = -1;
+                return;
             }
 
             lastClickTime = currentTime;
+            lastClickPosition = position;
         });
     }
-
-    public void setDisabled(List<String> values) {
-        disabledItems.clear();
-        disabledItems.addAll(values);
-        notifyDataSetChanged();
-    }
-
     public List<String> getCheckedItems() {
         return new ArrayList<>(checkedItems);
     }
@@ -133,17 +131,41 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.ViewHo
     public void setCheckedItems(List<String> values) {
         checkedItems.clear();
 
-        for (String value : values) {
-            if (items.contains(value)) {
-                checkedItems.add(value);
+        for (String item : items) {
+            String lowerItem = item.toLowerCase();
+
+            for (String value : values) {
+                if (lowerItem.contains(value.toLowerCase())) {
+                    checkedItems.add(item);
+                    break;
+                }
             }
         }
 
         notifyDataSetChanged();
     }
+
+    public void setDisabled(List<String> values) {
+        disabledItems.clear();
+
+        for (String item : items) {
+            String lowerItem = item.toLowerCase();
+
+            for (String value : values) {
+                if (lowerItem.contains(value.toLowerCase())) {
+                    disabledItems.add(item);
+                    break;
+                }
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
     public void toggleSelectAll() {
         if (checkedItems.size() == items.size()) {
             checkedItems.clear();
+            checkedItems.addAll(disabledItems);
         } else {
             checkedItems.clear();
             checkedItems.addAll(items);
