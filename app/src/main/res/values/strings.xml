@@ -542,4 +542,5 @@
     <string name="choose_whether_to_use_any_remaining_compatible_splits_as_a_fallback_or_show_the_split_selector_dialog">Choose whether to use any remaining compatible splits as a fallback or show the split selector dialog.</string>
     <string name="use_available_split">Use Available Split</string>
     <string name="show_split_selector">Show Split Selector</string>
+    <string name="deselect_all">Deselect All</string>
 </resources>

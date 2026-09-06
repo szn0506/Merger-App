@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -259,7 +260,10 @@ public class AutoDeviceActivity extends AppCompatActivity {
             adapter.setDisabled(AutoDeviceManager.BASE_FILTERS);
             selectedCount.setText(activity.getString(R.string.selected_count, adapter.getSelectedCount(), adapter.getItemCount()));
 
-            selectAll.setOnClickListener(view1 -> adapter.toggleSelectAll());
+            selectAll.setOnClickListener(view1 -> {
+                adapter.toggleSelectAll();
+                selectAll.setText(R.string.deselect_all);
+            });
             recyclerView.setAdapter(adapter);
 
             AlertDialog dialog = new AlertDialog.Builder(activity).setView(view).create();
@@ -272,8 +276,18 @@ public class AutoDeviceActivity extends AppCompatActivity {
             });
 
             dialog.show();
+
             if (dialog.getWindow() != null) {
                 dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+                DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
+                int dialogWidth = (int) (metrics.widthPixels * 0.92f);
+                int dialogHeight = (int) (metrics.heightPixels * 0.8f);
+
+                dialog.getWindow().setLayout(
+                        dialogWidth,
+                        dialogHeight
+                );
             }
         });
 
