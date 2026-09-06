@@ -543,4 +543,12 @@
     <string name="use_available_split">Use Available Split</string>
     <string name="show_split_selector">Show Split Selector</string>
     <string name="deselect_all">Deselect All</string>
+    <string name="missing_abi">Missing ABI</string>
+    <string name="missing_dpi">Missing DPI</string>
+    <string name="missing_language">Missing Language</string>
+    <string name="missing_split">Missing Split</string>
+    <string name="no_matching_abi_was_found_select_a_split_instead">No matching ABI was found, select a split instead.</string>
+    <string name="no_matching_dpi_was_found_select_a_split_instead">No matching DPI was found, select a split instead.</string>
+    <string name="no_matching_language_was_found_select_a_split_instead">No matching Language was found, select a split instead.</string>
+    <string name="select_at_least_one_file">Select at least one file</string>
 </resources>

@@ -14,12 +14,15 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -166,7 +169,7 @@ public class AutoDeviceActivity extends AppCompatActivity {
         popupWindow.showAsDropDown(anchor, 0, 4, Gravity.END);
 
         availableSplit.setOnClickListener(v -> {
-            AutoDeviceManager.saveFallbackMode(this, AutoDeviceManager.FALLBACK_MODE_AVAILABLE);
+            AutoDeviceManager.saveFallbackMode(this, currentCaller, AutoDeviceManager.FALLBACK_MODE_AVAILABLE);
             currentFallbackOption.setText(R.string.use_available_split);
             availableSplitsCheck.setVisibility(View.VISIBLE);
             dialogSelectorCheck.setVisibility(View.GONE);
@@ -174,7 +177,7 @@ public class AutoDeviceActivity extends AppCompatActivity {
         });
 
         splitPicker.setOnClickListener(v -> {
-            AutoDeviceManager.saveFallbackMode(this, AutoDeviceManager.FALLBACK_MODE_DIALOG);
+            AutoDeviceManager.saveFallbackMode(this, currentCaller, AutoDeviceManager.FALLBACK_MODE_DIALOG);
             currentFallbackOption.setText(R.string.show_split_selector);
             dialogSelectorCheck.setVisibility(View.VISIBLE);
             availableSplitsCheck.setVisibility(View.GONE);
@@ -240,6 +243,149 @@ public class AutoDeviceActivity extends AppCompatActivity {
         });
     }
 
+    private static String getMissingTitle(Activity activity, int caller) {
+        switch (caller) {
+            case AutoDeviceManager.ABI:
+                return activity.getString(R.string.missing_abi);
+
+            case AutoDeviceManager.DPI:
+                return activity.getString(R.string.missing_dpi);
+
+            case AutoDeviceManager.LANGUAGE:
+                return activity.getString(R.string.missing_language);
+
+            default:
+                return activity.getString(R.string.missing_split);
+        }
+    }
+
+    private static String getMissingSubtitle(Activity activity, int caller) {
+        switch (caller) {
+            case AutoDeviceManager.ABI:
+                return activity.getString(R.string.no_matching_abi_was_found_select_a_split_instead);
+
+            case AutoDeviceManager.DPI:
+                return activity.getString(R.string.no_matching_dpi_was_found_select_a_split_instead);
+
+            case AutoDeviceManager.LANGUAGE:
+                return activity.getString(R.string.no_matching_language_was_found_select_a_split_instead);
+
+            default:
+                return activity.getString(R.string.missing_split);
+        }
+    }
+    public static void showMissingSplitsPicker(Activity activity, List<String> allEntries, int caller) {
+        List<String> splits = listSplits(allEntries);
+        List<String> filteredSplits = new ArrayList<>();
+
+        for (String split : splits) {
+            String name = AutoDeviceManager.normalize(split);
+            boolean match = false;
+
+            switch (caller) {
+                case AutoDeviceManager.ABI:
+                    match = AutoDeviceManager.ARCH_FILTERS.stream().anyMatch(name::contains);
+                    break;
+
+                case AutoDeviceManager.DPI:
+                    match = AutoDeviceManager.DPI_FILTERS.stream().anyMatch(name::contains);
+                    break;
+
+                case AutoDeviceManager.LANGUAGE:
+                    match = name.contains("config") && AutoDeviceManager.ARCH_FILTERS.stream().noneMatch(name::contains) && AutoDeviceManager.DPI_FILTERS.stream().noneMatch(name::contains);
+                    break;
+            }
+
+            if (match) {
+                filteredSplits.add(split);
+            }
+        }
+
+        CountDownLatch latch = new CountDownLatch(1);
+
+        activity.runOnUiThread(() -> {
+            View view = activity.getLayoutInflater().inflate(R.layout.dialog_select_split, null);
+            TextView dialogTitle = view.findViewById(R.id.selectSplitsTitle),
+                    dialogSubtitle = view.findViewById(R.id.selectSplitsSubtitle),
+                    selectedCount = view.findViewById(R.id.selected);
+            RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+            MaterialButton button = view.findViewById(R.id.btnOk),
+                    selectAll= view.findViewById(R.id.selectAll);
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+            dialogTitle.setText(getMissingTitle(activity, caller));
+            dialogSubtitle.setText(getMissingSubtitle(activity, caller));
+            int total = filteredSplits.size();
+
+            CheckBoxAdapter adapter = new CheckBoxAdapter(
+                    filteredSplits,
+                    (position, value, count) -> {
+                        selectedCount.setText(
+                                activity.getString(
+                                        R.string.selected_count,
+                                        count,
+                                        total
+                                )
+                        );
+                    }
+            );
+
+            selectedCount.setText(
+                    activity.getString(
+                            R.string.selected_count,
+                            adapter.getSelectedCount(),
+                            total
+                    )
+            );
+
+            selectAll.setOnClickListener(v -> {
+                adapter.toggleSelectAll();
+                selectAll.setText(R.string.deselect_all);
+            });
+
+            recyclerView.setAdapter(adapter);
+
+            AlertDialog dialog = new AlertDialog.Builder(activity).setView(view).create();
+
+            button.setOnClickListener(v -> {
+                List<String> items = adapter.getCheckedItems();
+                if (items == null || items.isEmpty()) {
+                    Toast.makeText(activity, R.string.select_at_least_one_file, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                for (String item : items) {
+                    AutoDeviceManager.missingSelectedSplits.add(AutoDeviceManager.normalize(item));
+                }
+
+                dialog.dismiss();
+                latch.countDown();
+            });
+
+            dialog.show();
+
+            if (dialog.getWindow() != null) {
+                Window window = dialog.getWindow();
+
+                window.setBackgroundDrawableResource(android.R.color.transparent);
+
+                DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
+                int dialogWidth = (int) (metrics.widthPixels * 0.92f);
+                int dialogHeight;
+                if (total <= 8) dialogHeight = WindowManager.LayoutParams.WRAP_CONTENT;
+                    else dialogHeight = (int) (metrics.heightPixels * 0.8f);
+
+                window.setLayout(dialogWidth, dialogHeight);
+            }
+        });
+
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     public static void showSplitsPicker(Activity activity, List<String> allEntries) {
         AutoDeviceManager.selectedSplits.clear();
         List<String> splits = listSplits(allEntries);
@@ -274,8 +420,13 @@ public class AutoDeviceActivity extends AppCompatActivity {
             AlertDialog dialog = new AlertDialog.Builder(activity).setView(view).create();
 
             button.setOnClickListener(v -> {
+                List<String> items = adapter.getCheckedItems();
+                if (items == null || items.isEmpty()) {
+                    Toast.makeText(activity, R.string.select_at_least_one_file, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 selectedSplits.clear();
-                selectedSplits.addAll(adapter.getCheckedItems());
+                selectedSplits.addAll(items);
                 dialog.dismiss();
                 latch.countDown();
             });
@@ -287,7 +438,9 @@ public class AutoDeviceActivity extends AppCompatActivity {
 
                 DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
                 int dialogWidth = (int) (metrics.widthPixels * 0.92f);
-                int dialogHeight = (int) (metrics.heightPixels * 0.8f);
+                int dialogHeight;
+                if (total <= 8) dialogHeight = WindowManager.LayoutParams.WRAP_CONTENT;
+                else dialogHeight = (int) (metrics.heightPixels * 0.8f);
 
                 dialog.getWindow().setLayout(
                         dialogWidth,
@@ -378,7 +531,7 @@ public class AutoDeviceActivity extends AppCompatActivity {
         fallbackDialog = getLayoutInflater().inflate(R.layout.fallback_dropdown, null);
         availableSplitsCheck = fallbackDialog.findViewById(R.id.check_available_splits);
         dialogSelectorCheck = fallbackDialog.findViewById(R.id.check_split_selector);
-        boolean isUseAvailableSplits = AutoDeviceManager.getFallbackMode(this).equals(AutoDeviceManager.FALLBACK_MODE_AVAILABLE);
+        boolean isUseAvailableSplits = AutoDeviceManager.getFallbackMode(this, currentCaller).equals(AutoDeviceManager.FALLBACK_MODE_AVAILABLE);
         if (isUseAvailableSplits) {
             currentFallbackOption.setText(R.string.use_available_split);
             availableSplitsCheck.setVisibility(View.VISIBLE);
@@ -388,7 +541,6 @@ public class AutoDeviceActivity extends AppCompatActivity {
             dialogSelectorCheck.setVisibility(View.VISIBLE);
             availableSplitsCheck.setVisibility(View.GONE);
         }
-        currentFallbackOption.setText(AutoDeviceManager.getFallbackMode(this).equals(AutoDeviceManager.FALLBACK_MODE_AVAILABLE) ? R.string.use_available_split : R.string.show_split_selector);
 
         recyclerCustom.setLayoutManager(new LinearLayoutManager(this));
         universalPage.setVisibility(View.GONE);
@@ -449,17 +601,21 @@ public class AutoDeviceActivity extends AppCompatActivity {
 
         String mode = AutoDeviceManager.getMode(this, currentCaller);
 
-        if (mode.equals(AutoDeviceManager.MODE_DISABLED)) {
-            disabledRadio.setChecked(true);
-        } else if (mode.equals(AutoDeviceManager.MODE_FROM_DEVICE)) {
-            fromDeviceRadio.setChecked(true);
-        } else if (mode.equals(AutoDeviceManager.MODE_CUSTOM)) {
-            List<String> customModes = AutoDeviceManager.getCustomModes(this, currentCaller);
+        switch (mode) {
+            case AutoDeviceManager.MODE_DISABLED:
+                disabledRadio.setChecked(true);
+                break;
+            case AutoDeviceManager.MODE_FROM_DEVICE:
+                fromDeviceRadio.setChecked(true);
+                break;
+            case AutoDeviceManager.MODE_CUSTOM:
+                List<String> customModes = AutoDeviceManager.getCustomModes(this, currentCaller);
 
-            if (!customModes.isEmpty()) {
-                customRadio.setChecked(true);
-                customPlaceholder.setText(getString(R.string.custom_mode, android.text.TextUtils.join(", ", customModes)));
-            }
+                if (!customModes.isEmpty()) {
+                    customRadio.setChecked(true);
+                    customPlaceholder.setText(getString(R.string.custom_mode, android.text.TextUtils.join(", ", customModes)));
+                }
+                break;
         }
     }
 

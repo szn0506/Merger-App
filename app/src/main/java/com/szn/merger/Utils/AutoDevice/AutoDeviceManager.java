@@ -14,6 +14,7 @@ import java.util.Locale;
 
 public class AutoDeviceManager {
     public static final List<String> selectedSplits = new ArrayList<>();
+    public static final List<String> missingSelectedSplits = new ArrayList<>();
     public static final int ABI = 0;
     public static final int DPI = 1;
     public static final int LANGUAGE = 2;
@@ -51,15 +52,14 @@ public class AutoDeviceManager {
     private static final String KEY_ABI = "auto_device_abi";
     private static final String KEY_DPI = "auto_device_dpi";
     private static final String KEY_LANGUAGE = "auto_device_language";
-    private static final String KEY_FALLBACK_MODE = "fallback_mode";
-
+    private static final String KEY_ABI_FALLBACK = "auto_device_abi_fallback";
+    private static final String KEY_DPI_FALLBACK = "auto_device_dpi_fallback";
+    private static final String KEY_LANGUAGE_FALLBACK = "auto_device_language_fallback";
     public static final String FALLBACK_MODE_AVAILABLE = "available_splits";
     public static final String FALLBACK_MODE_DIALOG = "show_picker";
-
     private static final String KEY_ABI_CUSTOM = "auto_device_abi_custom";
     private static final String KEY_DPI_CUSTOM = "auto_device_dpi_custom";
     private static final String KEY_LANGUAGE_CUSTOM = "auto_device_language_custom";
-
     public static final String MODE_DISABLED = "disabled"; //NON-NLS
     public static final String MODE_FROM_DEVICE = "fromDevice"; //NON-NLS
     public static final String MODE_CUSTOM = "custom"; //NON-NLS
@@ -93,6 +93,21 @@ public class AutoDeviceManager {
         }
     }
 
+    private static String getFallbackKey(int caller) {
+        switch (caller) {
+            case ABI:
+                return KEY_ABI_FALLBACK;
+
+            case DPI:
+                return KEY_DPI_FALLBACK;
+
+            case LANGUAGE:
+                return KEY_LANGUAGE_FALLBACK;
+
+            default:
+                throw new IllegalArgumentException("Unknown Caller");
+        }
+    }
     public static void saveMode(Context context, int caller, String value) {
         PrefsManager.getInstance(context).saveString(getKey(caller), value);
     }
@@ -101,12 +116,18 @@ public class AutoDeviceManager {
         return PrefsManager.getInstance(context).getString(getKey(caller), MODE_FROM_DEVICE);
     }
 
-    public static void saveFallbackMode(Context context, String value) {
-        PrefsManager.getInstance(context).saveString(KEY_FALLBACK_MODE, value);
+    public static void saveFallbackMode(Context context, int caller, String value) {
+        PrefsManager.getInstance(context).saveString(
+                getFallbackKey(caller),
+                value
+        );
     }
 
-    public static String getFallbackMode(Context context) {
-        return PrefsManager.getInstance(context).getString(KEY_FALLBACK_MODE, FALLBACK_MODE_AVAILABLE);
+    public static String getFallbackMode(Context context, int caller) {
+        return PrefsManager.getInstance(context).getString(
+                getFallbackKey(caller),
+                FALLBACK_MODE_AVAILABLE
+        );
     }
 
     private static String getCustomKey(int caller) {
@@ -150,7 +171,7 @@ public class AutoDeviceManager {
         return normalizedValues;
     }
 
-    private static String normalize(String value) {
+    public static String normalize(String value) {
         if (value == null) {
             return "";
         }
@@ -200,6 +221,8 @@ public class AutoDeviceManager {
             return;
         }
 
+        missingSelectedSplits.clear();
+
         for (int caller : new int[]{ABI, DPI, LANGUAGE}) {
             if (!MODE_CUSTOM.equals(getMode(activity, caller))) {
                 continue;
@@ -220,12 +243,14 @@ public class AutoDeviceManager {
                 }
             }
 
-            if (!hasAvailableCustom) {
-                if (FALLBACK_MODE_DIALOG.equals(getFallbackMode(activity))) {
-                    AutoDeviceActivity.showSplitsPicker(activity, allEntries);
-                }
+            if (!hasAvailableCustom
+                    && FALLBACK_MODE_DIALOG.equals(getFallbackMode(activity, caller))) {
 
-                return;
+                AutoDeviceActivity.showMissingSplitsPicker(
+                        activity,
+                        allEntries,
+                        caller
+                );
             }
         }
     }
@@ -233,8 +258,11 @@ public class AutoDeviceManager {
     public static boolean shouldExtract(Context context, String entryName, List<String> allEntries) {
         String name = normalize(entryName);
 
-        if (!selectedSplits.isEmpty()
-                && !selectedSplits.contains(name)) {
+        if (missingSelectedSplits.contains(name)) {
+            return true;
+        }
+
+        if (!selectedSplits.isEmpty() && !selectedSplits.contains(name)) {
             return false;
         }
 
@@ -334,10 +362,9 @@ public class AutoDeviceManager {
 
             if (!hasAvailableCustom) {
                 return FALLBACK_MODE_AVAILABLE.equals(
-                        getFallbackMode(context)
+                        getFallbackMode(context, caller)
                 );
             }
-
             return false;
         }
 
