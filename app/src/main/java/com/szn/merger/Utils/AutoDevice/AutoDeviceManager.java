@@ -106,10 +106,7 @@ public class AutoDeviceManager {
     }
 
     public static String getFallbackMode(Context context) {
-        return PrefsManager.getInstance(context).getString(
-                KEY_FALLBACK_MODE,
-                FALLBACK_MODE_AVAILABLE
-        );
+        return PrefsManager.getInstance(context).getString(KEY_FALLBACK_MODE, FALLBACK_MODE_AVAILABLE);
     }
 
     private static String getCustomKey(int caller) {

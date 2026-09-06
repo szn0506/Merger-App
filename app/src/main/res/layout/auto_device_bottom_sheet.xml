@@ -350,10 +350,12 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerCustom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_marginTop="16dp"
-            android:clipToPadding="false"
             android:paddingBottom="16dp"
+            android:fadingEdgeLength="30dp"
+            android:requiresFadingEdge="vertical"
             tools:listitem="@layout/item_checkbox"
             tools:itemCount="5" />
 

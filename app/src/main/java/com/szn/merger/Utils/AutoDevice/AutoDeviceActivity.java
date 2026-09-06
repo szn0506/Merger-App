@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -44,11 +45,12 @@ import java.util.concurrent.CountDownLatch;
 public class AutoDeviceActivity extends AppCompatActivity {
     BottomSheetDialog bottomSheetDialog;
     private RecyclerView recyclerCustom;
+    ImageView availableSplitsCheck, dialogSelectorCheck;
     TextView title, ABIMode, DPIMode, LANGUAGEMode, customPlaceholder, currentFallbackOption;
     EditText textOnSearch;
     ImageButton backButton, nextButton;
     MaterialToolbar toolbar;
-    View universalPage, customPage;
+    View universalPage, customPage, fallbackDialog;
     public static int currentCaller;
     private CheckBoxAdapter customAdapter;
     MaterialRadioButton disabledRadio, fromDeviceRadio, customRadio;
@@ -154,11 +156,10 @@ public class AutoDeviceActivity extends AppCompatActivity {
     }
 
     private void showFallbackPopup(View anchor) {
-        View view = getLayoutInflater().inflate(R.layout.fallback_dropdown, null);
-        View availableSplit = view.findViewById(R.id.availableSplit);
-        View splitPicker = view.findViewById(R.id.split_picker);
+        View availableSplit = fallbackDialog.findViewById(R.id.availableSplit);
+        View splitPicker = fallbackDialog.findViewById(R.id.split_picker);
 
-        PopupWindow popupWindow = new PopupWindow(view, (int) (280 * getResources().getDisplayMetrics().density), ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        PopupWindow popupWindow = new PopupWindow(fallbackDialog, (int) (280 * getResources().getDisplayMetrics().density), ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         popupWindow.setOutsideTouchable(true);
         popupWindow.setElevation(10 * getResources().getDisplayMetrics().density);
@@ -167,12 +168,16 @@ public class AutoDeviceActivity extends AppCompatActivity {
         availableSplit.setOnClickListener(v -> {
             AutoDeviceManager.saveFallbackMode(this, AutoDeviceManager.FALLBACK_MODE_AVAILABLE);
             currentFallbackOption.setText(R.string.use_available_split);
+            availableSplitsCheck.setVisibility(View.VISIBLE);
+            dialogSelectorCheck.setVisibility(View.GONE);
             popupWindow.dismiss();
         });
 
         splitPicker.setOnClickListener(v -> {
             AutoDeviceManager.saveFallbackMode(this, AutoDeviceManager.FALLBACK_MODE_DIALOG);
             currentFallbackOption.setText(R.string.show_split_selector);
+            dialogSelectorCheck.setVisibility(View.VISIBLE);
+            availableSplitsCheck.setVisibility(View.GONE);
             popupWindow.dismiss();
         });
     }
@@ -370,6 +375,21 @@ public class AutoDeviceActivity extends AppCompatActivity {
     }
 
     private void showCustomPage() {
+        fallbackDialog = getLayoutInflater().inflate(R.layout.fallback_dropdown, null);
+        availableSplitsCheck = fallbackDialog.findViewById(R.id.check_available_splits);
+        dialogSelectorCheck = fallbackDialog.findViewById(R.id.check_split_selector);
+        boolean isUseAvailableSplits = AutoDeviceManager.getFallbackMode(this).equals(AutoDeviceManager.FALLBACK_MODE_AVAILABLE);
+        if (isUseAvailableSplits) {
+            currentFallbackOption.setText(R.string.use_available_split);
+            availableSplitsCheck.setVisibility(View.VISIBLE);
+            dialogSelectorCheck.setVisibility(View.GONE);
+        } else {
+            currentFallbackOption.setText(R.string.show_split_selector);
+            dialogSelectorCheck.setVisibility(View.VISIBLE);
+            availableSplitsCheck.setVisibility(View.GONE);
+        }
+        currentFallbackOption.setText(AutoDeviceManager.getFallbackMode(this).equals(AutoDeviceManager.FALLBACK_MODE_AVAILABLE) ? R.string.use_available_split : R.string.show_split_selector);
+
         recyclerCustom.setLayoutManager(new LinearLayoutManager(this));
         universalPage.setVisibility(View.GONE);
         customPage.setVisibility(View.VISIBLE);
