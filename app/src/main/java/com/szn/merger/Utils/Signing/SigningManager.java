@@ -16,18 +16,16 @@ import java.util.Collections;
 
 public class SigningManager {
     private static File ksFile;
-
     private static String DEFAULT_ALIAS = "androiddebugkey"; //NON-NLS
     private static final String KEYSTORE_TYPE = "PKCS12";
     private static final char[] PASSWORD = "android".toCharArray(); //NON-NLS
-
     public static final String KEY_AUTO_SIGN = "auto_sign"; //NON-NLS
     public static final String KEYSTORE_FILE = "debug.keystore";
-
     public static final String KEY_V1 = "v1"; //NON-NLS
     public static final String KEY_V2 = "v2"; //NON-NLS
     public static final String KEY_V3 = "v3"; //NON-NLS
     public static final String KEY_V4 = "v4"; //NON-NLS
+    public static final String KEY_V3_1 = "v3.1"; //NON-NLS
 
     public static boolean isSignEnabled(Context context) {
         return PrefsManager.getInstance(context)
@@ -65,18 +63,23 @@ public class SigningManager {
     }
 
     public static void setV3Enabled(Context context, boolean enabled) {
-        PrefsManager.getInstance(context)
-                .saveBoolean(KEY_V3, enabled);
+        PrefsManager.getInstance(context).saveBoolean(KEY_V3, enabled);
     }
 
     public static boolean isV4Enabled(Context context) {
-        return PrefsManager.getInstance(context)
-                .getBoolean(KEY_V4, false);
+        return PrefsManager.getInstance(context).getBoolean(KEY_V4, false);
     }
 
     public static void setV4Enabled(Context context, boolean enabled) {
-        PrefsManager.getInstance(context)
-                .saveBoolean(KEY_V4, enabled);
+        PrefsManager.getInstance(context).saveBoolean(KEY_V4, enabled);
+    }
+
+    public static boolean isV3_1Enabled(Context context) {
+        return PrefsManager.getInstance(context).getBoolean(KEY_V3_1, false);
+    }
+
+    public static void setV3_1Enabled(Context context, boolean enabled) {
+        PrefsManager.getInstance(context).saveBoolean(KEY_V3_1, enabled);
     }
 
     public static void getKeystoreFile(Context context) {
@@ -158,7 +161,6 @@ public class SigningManager {
                 tempSigned.renameTo(mergedApk);
             }
 
-            // 3. BALIKIN FILE YANG SAMA PERSIS DENGAN PARAMETER!
             return mergedApk;
 
         } catch (Exception e) {

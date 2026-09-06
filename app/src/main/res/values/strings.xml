@@ -66,14 +66,21 @@
     <string name="desc_signing_schemes">V1, V2, V3, V4</string>
 
     <string name="desc_signing_schemes_dialog">Choose which signature schemes to generate.</string>
-    <string name="scheme_v1_title">V1 (JAR Signature)</string>
-    <string name="scheme_v1_desc">Compatible with Android 1.6 and above.</string>
-    <string name="scheme_v2_title">V2 (APK Signature Scheme v2)</string>
-    <string name="scheme_v2_desc">Required for Android 7.0 and above.</string>
-    <string name="scheme_v3_title">V3 (APK Signature Scheme v3)</string>
-    <string name="scheme_v3_desc">Supports signing certificate rotation.</string>
-    <string name="scheme_v4_title">V4 (APK Signature Scheme v4)</string>
-    <string name="scheme_v4_desc">Optimized for incremental installation.</string>
+
+    <string name="scheme_v1_title">APK Signature Scheme v1</string>
+    <string name="scheme_v1_desc">JAR-based signing supported on Android 1.0+</string>
+
+    <string name="scheme_v2_title">APK Signature Scheme v2</string>
+    <string name="scheme_v2_desc">Whole-file signing supported on Android 7.0+</string>
+
+    <string name="scheme_v3_title">APK Signature Scheme v3</string>
+    <string name="scheme_v3_desc">Key rotation support available on Android 9.0+</string>
+
+    <string name="scheme_v31_title">APK Signature Scheme v3.1</string>
+    <string name="scheme_v31_desc">Enhanced key rotation supported on Android 13+</string>
+
+    <string name="scheme_v4_title">APK Signature Scheme v4</string>
+    <string name="scheme_v4_desc">Incremental installation supported on Android 11+</string>
 
     <string name="title_keystore">Keystore</string>
     <string name="desc_keystore">Generate a new keystore or import an existing one.</string>

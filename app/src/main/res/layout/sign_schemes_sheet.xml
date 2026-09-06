@@ -36,6 +36,7 @@
 
         <!-- V1 -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/V1Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -81,6 +82,7 @@
 
         <!-- V2 -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/V2Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -126,6 +128,7 @@
 
         <!-- V3 -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/V3Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -169,8 +172,54 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- V3.1 -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/V3.1Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardCornerRadius="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/scheme_v31_title"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/scheme_v31_desc"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkV4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
         <!-- V4 -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/V4Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -206,7 +255,7 @@
                 </LinearLayout>
 
                 <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/checkV4"
+                    android:id="@+id/checkV3_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

@@ -25,11 +25,13 @@ import com.szn.merger.CustomSwitchItem;
 import com.szn.merger.R;
 import com.szn.merger.ThemeManager;
 
+import java.util.StringJoiner;
+
 public class SigningActivity extends AppCompatActivity {
     private CustomSwitchItem signSwitch;
     TextInputEditText keystoreName, alias, password, confirmPassword, importPassword;
-    private MaterialCardView signSchemes, importCard;
-    private static MaterialCheckBox V1, V2, V3, V4;
+    private MaterialCardView signSchemes;
+    private static MaterialCheckBox V1, V2, V3, V4, V3_1;
     private TextView currentSchemes;
     private MaterialToolbar toolbar;
     private RecyclerView keystoreRecycler;
@@ -306,9 +308,9 @@ public class SigningActivity extends AppCompatActivity {
         bottomSheetDialog.show();
 
         importPassword = bottomSheetDialog.findViewById(R.id.password);
-        importCard = bottomSheetDialog.findViewById(R.id.importKeystore);
+        MaterialCardView importCard = bottomSheetDialog.findViewById(R.id.importKeystore);
         MaterialButton importBtn = bottomSheetDialog.findViewById(R.id.btnImport);
-        importCard.setOnClickListener( v -> openSAF());
+        importCard.setOnClickListener(v -> openSAF());
 
         importBtn.setOnClickListener(v -> {
             importPass = importPassword.getText().toString().trim();
@@ -328,11 +330,25 @@ public class SigningActivity extends AppCompatActivity {
         V2 = bottomSheetView.findViewById(R.id.checkV2);
         V3 = bottomSheetView.findViewById(R.id.checkV3);
         V4 = bottomSheetView.findViewById(R.id.checkV4);
+        V3_1 = bottomSheetView.findViewById(R.id.checkV3_1);
         MaterialButton doneButton = bottomSheetView.findViewById(R.id.doneButton);
         restoreState();
+        MaterialCardView V1Card = bottomSheetView.findViewById(R.id.V1Card),
+                V2Card = bottomSheetView.findViewById(R.id.V2Card),
+                V3Card = bottomSheetView.findViewById(R.id.V3Card),
+                V4Card = bottomSheetView.findViewById(R.id.V4Card),
+                V3_1Card = bottomSheetView.findViewById(R.id.V3_1Card);
 
-        V1.setOnCheckedChangeListener((buttonView, isChecked) ->
-                SigningManager.setV1Enabled(this, isChecked));
+        V1Card.setOnClickListener(v -> V1.performClick());
+        V2Card.setOnClickListener(v -> V2.performClick());
+        V3Card.setOnClickListener(v -> V3.performClick());
+        V4Card.setOnClickListener(v -> V4.performClick());
+        V3_1Card.setOnClickListener(v -> V3_1.performClick());
+
+        V1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SigningManager.setV1Enabled(this, isChecked);
+            updatePlaceholder();
+        });
 
         V2.setOnCheckedChangeListener((buttonView, isChecked) ->
                 SigningManager.setV2Enabled(this, isChecked));
@@ -342,6 +358,8 @@ public class SigningActivity extends AppCompatActivity {
 
         V4.setOnCheckedChangeListener((buttonView, isChecked) ->
                 SigningManager.setV4Enabled(this, isChecked));
+        V3_1.setOnCheckedChangeListener((buttonView, isChecked) ->
+                SigningManager.setV3_1Enabled(this, isChecked));
         doneButton.setOnClickListener(v -> {
             updatePlaceholder();
             bottomSheetDialog.dismiss();
@@ -352,23 +370,17 @@ public class SigningActivity extends AppCompatActivity {
         V2.setChecked(SigningManager.isV2Enabled(this));
         V3.setChecked(SigningManager.isV3Enabled(this));
         V4.setChecked(SigningManager.isV4Enabled(this));
+        V3_1.setChecked(SigningManager.isV3_1Enabled(this));
     }
-    private void updatePlaceholder() {
-        StringBuilder schemes = new StringBuilder();
 
-        if (SigningManager.isV1Enabled(this)) schemes.append("V1");
-        if (SigningManager.isV2Enabled(this)) {
-            if (schemes.length() > 0) schemes.append(", ");
-            schemes.append("V2");
-        }
-        if (SigningManager.isV3Enabled(this)) {
-            if (schemes.length() > 0) schemes.append(", ");
-            schemes.append("V3");
-        }
-        if (SigningManager.isV4Enabled(this)) {
-            if (schemes.length() > 0) schemes.append(", ");
-            schemes.append("V4");
-        }
+    private void updatePlaceholder() {
+        StringJoiner schemes = new StringJoiner(", ");
+
+        if (SigningManager.isV1Enabled(this)) schemes.add("V1");
+        if (SigningManager.isV2Enabled(this)) schemes.add("V2");
+        if (SigningManager.isV3Enabled(this)) schemes.add("V3");
+        if (SigningManager.isV3_1Enabled(this)) schemes.add("V3.1");
+        if (SigningManager.isV4Enabled(this)) schemes.add("V4");
 
         currentSchemes.setText(schemes.length() > 0 ? schemes.toString() : "None");
     }
